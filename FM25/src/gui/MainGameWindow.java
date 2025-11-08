@@ -90,7 +90,7 @@ public class MainGameWindow extends JFrame {
 
         btnClasificacion.addActionListener(e -> new ClassificationWindow(this));
         btnMercado.addActionListener(e -> {
-            market1 mw = new market1(this, equipo);
+            MarketWindow mw = new MarketWindow(this, equipo);
             
             mw.addWindowListener(new java.awt.event.WindowAdapter() {
                 @Override public void windowClosed(java.awt.event.WindowEvent e) {
