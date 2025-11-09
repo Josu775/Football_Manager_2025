@@ -24,7 +24,7 @@ public class WelcomeWindow extends JFrame {
         p.add(title, BorderLayout.NORTH);
 
        
-        JLabel subtitle = new JLabel("<html><div style='text-align:center;'>Entrena un equipo.<br><b>Alcanza la gloria</b></div></html>", SwingConstants.CENTER);
+        JLabel subtitle = new JLabel("Entrena un equipo. Alcanza la gloria", SwingConstants.CENTER);
         subtitle.setFont(new Font("Arial", Font.PLAIN, 14));
         subtitle.setHorizontalAlignment(SwingConstants.CENTER);
 
