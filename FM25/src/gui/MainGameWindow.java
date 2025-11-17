@@ -6,6 +6,7 @@ import domain.LeagueData;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.List;
 
 public class MainGameWindow extends JFrame {
@@ -91,9 +92,9 @@ public class MainGameWindow extends JFrame {
         btnClasificacion.addActionListener(e -> new ClassificationWindow(this));
         btnMercado.addActionListener(e -> {
             MarketWindow mw = new MarketWindow(this, equipo);
-            
             mw.addWindowListener(new java.awt.event.WindowAdapter() {
-                @Override public void windowClosed(java.awt.event.WindowEvent e) {
+                @Override
+                public void windowClosed(java.awt.event.WindowEvent e) {
                     lblBudget.setText("Presupuesto: " + LeagueData.formatMoney(equipo.getBudget()));
                     lblAvgRating.setText("Media once: " + calcularMediaOnce(equipo.getOnceTitular()) + " / 99");
                 }
@@ -105,6 +106,17 @@ public class MainGameWindow extends JFrame {
         btnAtras.addActionListener(e -> {
             dispose();
             new WelcomeWindow().setVisible(true);
+        });
+
+        JRootPane root = getRootPane();
+        InputMap im = root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap am = root.getActionMap();
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "volver");
+        am.put("volver", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnAtras.doClick();
+            }
         });
     }
 
@@ -121,7 +133,7 @@ public class MainGameWindow extends JFrame {
         area.setText(sb.toString());
     }
 
-    private int calcularMediaOnce(java.util.List<domain.Jugador> once) {
+    private int calcularMediaOnce(List<domain.Jugador> once) {
         if (once == null || once.isEmpty()) return 0;
         int sum = 0;
         for (domain.Jugador j : once) sum += j.getValoracion();

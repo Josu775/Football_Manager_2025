@@ -7,15 +7,11 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * MarketWindow: quita los números de los nombres, formato de dinero correcto y botones funcionales.
- */
 public class MarketWindow extends JFrame {
 
     private static final Random RNG = new Random();
@@ -67,6 +63,36 @@ public class MarketWindow extends JFrame {
         add(south, BorderLayout.SOUTH);
 
         btnClose.addActionListener(e -> dispose());
+
+        JRootPane root = getRootPane();
+        InputMap im = root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap am = root.getActionMap();
+
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "cerrar");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "fichar");
+
+        am.put("cerrar", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnClose.doClick();
+            }
+        });
+        am.put("fichar", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int row = table.getSelectedRow();
+                if (row >= 0) {
+                    int col = 6;
+                    if (!table.isEditing()) {
+                        table.editCellAt(row, col);
+                    }
+                    Component editor = table.getEditorComponent();
+                    if (editor instanceof JButton b) {
+                        b.doClick();
+                    }
+                }
+            }
+        });
     }
 
     private static String formatMoney(double amount) {
@@ -102,7 +128,7 @@ public class MarketWindow extends JFrame {
         };
 
         for (int i = 0; i < n; i++) {
-            String name = names[RNG.nextInt(names.length)]; 
+            String name = names[RNG.nextInt(names.length)];
             String origen = (RNG.nextDouble() < 0.6)
                     ? laLiga[RNG.nextInt(laLiga.length)]
                     : foreignClubs[RNG.nextInt(foreignClubs.length)];

@@ -6,6 +6,7 @@ import domain.GameSession;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.List;
 
 public class TeamSelectionWindow extends JFrame {
@@ -61,13 +62,15 @@ public class TeamSelectionWindow extends JFrame {
                 sb.append("Valoración: ").append(String.format("%.1f / 5.0", sel.getValoracion())).append("\n");
                 sb.append("Presupuesto: ").append(LeagueData.formatMoney(sel.getBudget())).append("\n\n");
                 sb.append("Once titular:\n");
-                int i=1;
+                int i = 1;
                 for (var j : sel.getOnceTitular()) {
                     sb.append(i++).append(". ").append(j.getNombre()).append(" - ").append(j.getPosicion())
                             .append(" (").append(j.getEdad()).append(" años) ").append(j.getValoracion()).append(" / 99").append("\n");
                 }
                 detalleText.setText(sb.toString());
-            } else detalleText.setText("");
+            } else {
+                detalleText.setText("");
+            }
         });
 
         btnAtras.addActionListener(e -> {
@@ -84,6 +87,16 @@ public class TeamSelectionWindow extends JFrame {
             GameSession session = new GameSession(seleccionado);
             new MainGameWindow(this, session);
             dispose();
+        });
+
+        list.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_ENTER -> btnElegir.doClick();
+                    case KeyEvent.VK_ESCAPE -> btnAtras.doClick();
+                }
+            }
         });
     }
 }

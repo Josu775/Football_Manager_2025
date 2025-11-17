@@ -5,14 +5,12 @@ import domain.LeagueData;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * CalendarWindow interactivo: muestra jornada actual con rival, estadio, hora, local/visitante y botones siguiente/anterior.
- */
 public class CalendarWindow extends JFrame {
 
     private final Equipo equipo;
@@ -55,6 +53,33 @@ public class CalendarWindow extends JFrame {
         btnNext.addActionListener(e -> {
             jornadaActual = (jornadaActual == 38) ? 1 : jornadaActual + 1;
             actualizarVista();
+        });
+
+        JRootPane root = getRootPane();
+        InputMap im = root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap am = root.getActionMap();
+
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "prev");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "next");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "cerrar");
+
+        am.put("prev", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnPrev.doClick();
+            }
+        });
+        am.put("next", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnNext.doClick();
+            }
+        });
+        am.put("cerrar", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
         });
 
         actualizarVista();

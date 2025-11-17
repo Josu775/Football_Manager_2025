@@ -6,6 +6,7 @@ import domain.Jugador;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.*;
 
 public class SquadTacticsWindow extends JFrame {
 
@@ -34,9 +35,9 @@ public class SquadTacticsWindow extends JFrame {
             @Override public boolean isCellEditable(int r, int c) { return false; }
         };
         JTable table = new JTable(model);
-        for (int i=0; i<equipo.getOnceTitular().size(); i++) {
+        for (int i = 0; i < equipo.getOnceTitular().size(); i++) {
             Jugador j = equipo.getOnceTitular().get(i);
-            model.addRow(new Object[]{i+1, j.getNombre(), j.getPosicion(), j.getEdad(), j.getValoracion()});
+            model.addRow(new Object[]{i + 1, j.getNombre(), j.getPosicion(), j.getEdad(), j.getValoracion()});
         }
         add(new JScrollPane(table), BorderLayout.CENTER);
 
@@ -55,5 +56,25 @@ public class SquadTacticsWindow extends JFrame {
         });
 
         btnClose.addActionListener(e -> dispose());
+
+        JRootPane root = getRootPane();
+        InputMap im = root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap am = root.getActionMap();
+
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "aplicar");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "cerrar");
+
+        am.put("aplicar", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnApply.doClick();
+            }
+        });
+        am.put("cerrar", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btnClose.doClick();
+            }
+        });
     }
 }
