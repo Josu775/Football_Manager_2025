@@ -4,11 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * LeagueData con 20 equipos y presupuestos más altos.
- * Incluye método público formatMoney(...) para mostrar K/M/B€ con coma decimal.
- * Genera jugadores con valoración 60..99 en función de teamVal.
- */
 public class LeagueData {
 
     private static final Random RNG = new Random();
@@ -16,7 +11,6 @@ public class LeagueData {
     public static List<Equipo> getLaLiga20() {
         List<Equipo> lista = new ArrayList<>();
 
-        
         lista.add(createEquipo("Real Madrid", "Madrid", "Santiago Bernabéu", "4-3-3", 5.0, 1_000_000_000));
         lista.add(createEquipo("FC Barcelona", "Barcelona", "Camp Nou", "4-3-3", 4.9, 950_000_000));
         lista.add(createEquipo("Atlético de Madrid", "Madrid", "Cívitas Metropolitano", "4-4-2", 4.6, 600_000_000));
@@ -30,15 +24,20 @@ public class LeagueData {
         lista.add(createEquipo("CA Osasuna", "Pamplona", "El Sadar", "4-2-3-1", 3.3, 85_000_000));
         lista.add(createEquipo("RC Celta", "Vigo", "Balaídos", "4-3-3", 3.3, 80_000_000));
         lista.add(createEquipo("Getafe CF", "Getafe", "Coliseum Alfonso Pérez", "4-4-2", 3.2, 70_000_000));
-        lista.add(createEquipo("Granada CF", "Granada", "Nuevo Los Cármenes", "4-2-3-1", 3.1, 65_000_000));
+
+        // ✔ Sustituimos GRANADA CF → REAL OVIEDO
+        lista.add(createEquipo("Real Oviedo", "Oviedo", "Carlos Tartiere", "4-4-2", 3.1, 65_000_000));
+
         lista.add(createEquipo("Rayo Vallecano", "Madrid", "Vallecas", "4-2-3-1", 3.0, 60_000_000));
         lista.add(createEquipo("Deportivo Alavés", "Vitoria-Gasteiz", "Mendizorrotza", "4-4-2", 2.9, 55_000_000));
-        lista.add(createEquipo("Cádiz CF", "Cádiz", "Nuevo Mirandilla", "4-4-2", 2.8, 50_000_000));
+
+        // ✔ Sustituimos CÁDIZ CF → LEVANTE UD
+        lista.add(createEquipo("Levante UD", "Valencia", "Ciutat de València", "4-3-3", 3.0, 50_000_000));
+
         lista.add(createEquipo("Elche CF", "Elche", "Martínez Valero", "4-4-2", 2.7, 45_000_000));
         lista.add(createEquipo("RCD Espanyol", "Barcelona", "RCDE Stadium", "4-3-3", 3.2, 75_000_000));
         lista.add(createEquipo("Girona FC", "Girona", "Montilivi", "4-3-3", 3.4, 100_000_000));
 
-        
         for (Equipo e : lista) {
             List<Jugador> once = new ArrayList<>();
             once.add(new Jugador(randomNombre(), "POR", randomEdad(24,34), randomValor(e.getValoracion())));
@@ -56,7 +55,6 @@ public class LeagueData {
 
     private static int randomEdad(int a, int b) { return a + RNG.nextInt(b - a + 1); }
 
-    
     private static int playerBaseFromTeamVal(double teamVal) {
         double base = 3.63636 * teamVal + 65.8182;
         return (int) Math.round(base);
@@ -64,7 +62,7 @@ public class LeagueData {
 
     private static int randomValor(double teamVal) {
         int base = playerBaseFromTeamVal(teamVal);
-        int variation = RNG.nextInt(13) - 6; 
+        int variation = RNG.nextInt(13) - 6;
         int val = base + variation;
         if (val < 60) val = 60;
         if (val > 99) val = 99;
@@ -78,9 +76,6 @@ public class LeagueData {
         return fn[RNG.nextInt(fn.length)] + " " + ln[RNG.nextInt(ln.length)];
     }
 
-    /**
-     * Método público para formatear dinero: 120M€, 1,8M€, 950K€, etc.
-     */
     public static String formatMoney(double amount) {
         if (amount >= 1_000_000_000) {
             double v = amount / 1_000_000_000.0;
