@@ -64,7 +64,7 @@ public class TeamSelectionWindow extends JFrame {
         HISTORIA.put("RCD Espanyol", "T'estimo, Espanyol.");
         HISTORIA.put("Girona FC", "Girona, cantem tots junts.");
         HISTORIA.put("Real Oviedo", "Me he cortado, y mi sangre sale azul.");
-        HISTORIA.put("Levante UD", "Macho Llevant.");
+        HISTORIA.put("Levante UD", "Força granota.");
     }
 
     private static final Map<String, String> OBJETIVO = new HashMap<>();
