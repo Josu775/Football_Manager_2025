@@ -102,7 +102,7 @@ public class TeamSelectionWindow extends JFrame {
         REPUTACION.put("Athletic Club", "Alta");
         REPUTACION.put("Real Betis", "Media");
         REPUTACION.put("Valencia CF", "Media");
-        REPUTACION.put("Girona FC", "Media");
+        REPUTACION.put("Girona FC", "Baja");
         REPUTACION.put("RCD Mallorca", "Baja");
         REPUTACION.put("CA Osasuna", "Baja");
         REPUTACION.put("RC Celta", "Baja");
