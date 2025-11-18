@@ -45,7 +45,7 @@ public class TeamSelectionWindow extends JFrame {
 
     private static final Map<String, String> HISTORIA = new HashMap<>();
     static {
-        HISTORIA.put("Real Madrid", "Historia que tu hiciste, historia por hacer.");
+        HISTORIA.put("Real Madrid", "Historia que tú hiciste, historia por hacer.");
         HISTORIA.put("FC Barcelona", "Més que un club.");
         HISTORIA.put("Atlético de Madrid", "Coraje y corazón.");
         HISTORIA.put("Sevilla FC", "Orgullo de sevillanía.");
