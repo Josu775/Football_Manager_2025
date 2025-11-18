@@ -23,7 +23,7 @@ public class TeamSelectionWindow extends JFrame {
     static {
         ESCUDOS.put("Real Madrid", "realmadrid.png");
         ESCUDOS.put("FC Barcelona", "barcelona.png");
-        ESCUDOS.put("Atlético de Madrid", "atlmadrid.png");
+        ESCUDOS.put("Atletico de Madrid", "atlmadrid.png");
         ESCUDOS.put("Sevilla FC", "sevilla.png");
         ESCUDOS.put("Real Sociedad", "realsociedad.png");
         ESCUDOS.put("Villarreal CF", "villarreal.png");
