@@ -60,7 +60,7 @@ public class TeamSelectionWindow extends JFrame {
         HISTORIA.put("Getafe CF", "Esto es fúutbol, papá.");
         HISTORIA.put("Rayo Vallecano", "La vida pirata la vida mejor.");
         HISTORIA.put("Deportivo Alavés", "Babazorro, alta la frente.");
-        HISTORIA.put("Elche CF", "Fuerza franjiverde.");
+        HISTORIA.put("Elche CF", "Valentía franjiverde.");
         HISTORIA.put("RCD Espanyol", "T'estimo, Espanyol.");
         HISTORIA.put("Girona FC", "Girona, cantem tots junts.");
         HISTORIA.put("Real Oviedo", "Me he cortado, y mi sangre sale azul.");
