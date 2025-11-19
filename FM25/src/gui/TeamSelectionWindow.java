@@ -23,7 +23,7 @@ public class TeamSelectionWindow extends JFrame {
     static {
         ESCUDOS.put("Real Madrid", "realmadrid.png");
         ESCUDOS.put("FC Barcelona", "barcelona.png");
-        ESCUDOS.put("Atletico de Madrid", "atlmadrid.png");
+        ESCUDOS.put("Atlético de Madrid", "atlmadrid.png");
         ESCUDOS.put("Sevilla FC", "sevilla.png");
         ESCUDOS.put("Real Sociedad", "realsociedad.png");
         ESCUDOS.put("Villarreal CF", "villarreal.png");
@@ -57,7 +57,7 @@ public class TeamSelectionWindow extends JFrame {
         HISTORIA.put("RCD Mallorca", "Ca nostra, ca teva.");
         HISTORIA.put("CA Osasuna", "Osasuna nunca se rinde.");
         HISTORIA.put("RC Celta", "Afouteza, corazón, orgullo e tradición.");
-        HISTORIA.put("Getafe CF", "Esto es fútbol,, papá.");
+        HISTORIA.put("Getafe CF", "Esto es fútbol, papá.");
         HISTORIA.put("Rayo Vallecano", "La vida pirata la vida mejor.");
         HISTORIA.put("Deportivo Alavés", "Babazorro, alta la frente.");
         HISTORIA.put("Elche CF", "Valentía franjiverde.");
