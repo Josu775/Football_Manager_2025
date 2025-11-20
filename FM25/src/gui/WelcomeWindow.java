@@ -6,7 +6,12 @@ import java.awt.event.*;
 
 public class WelcomeWindow extends JFrame {
 
-    public WelcomeWindow() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public WelcomeWindow() {
         setTitle("Football Manager");
         setSize(900, 500); 
         setLocationRelativeTo(null);
@@ -61,13 +66,23 @@ public class WelcomeWindow extends JFrame {
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "salir");
 
         am.put("nueva", new AbstractAction() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
                 btnNueva.doClick();
             }
         });
         am.put("salir", new AbstractAction() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
                 btnSalir.doClick();
             }
@@ -83,7 +98,11 @@ public class WelcomeWindow extends JFrame {
 
     // ========== PANEL QUE PINTA EL FONDO ==========
     class BackgroundPanel extends JPanel {
-        private Image background;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private Image background;
 
         public BackgroundPanel(String imagePath) {
             background = new ImageIcon(imagePath).getImage();

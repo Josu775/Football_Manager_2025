@@ -13,7 +13,11 @@ import java.util.Random;
 
 public class CalendarWindow extends JFrame {
 
-    private final Equipo equipo;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final Equipo equipo;
     private final List<MatchInfo> jornadas;
     private int jornadaActual = 1;
     private JLabel lblInfo;
@@ -64,19 +68,34 @@ public class CalendarWindow extends JFrame {
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "cerrar");
 
         am.put("prev", new AbstractAction() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
                 btnPrev.doClick();
             }
         });
         am.put("next", new AbstractAction() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
                 btnNext.doClick();
             }
         });
         am.put("cerrar", new AbstractAction() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
@@ -116,14 +135,21 @@ public class CalendarWindow extends JFrame {
     }
 
     private static class MatchInfo {
-        int jornada;
+        private int jornada;
         String rival;
         String estadio;
         String hora;
         int posicion;
         boolean local;
         MatchInfo(int j, String r, String e, String h, int p, boolean l) {
-            jornada = j; rival = r; estadio = e; hora = h; posicion = p; local = l;
+            setJornada(j); rival = r; estadio = e; hora = h; posicion = p; local = l;
         }
+		@SuppressWarnings("unused")
+		public int getJornada() {
+			return jornada;
+		}
+		public void setJornada(int jornada) {
+			this.jornada = jornada;
+		}
     }
 }

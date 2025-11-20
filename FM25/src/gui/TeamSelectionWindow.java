@@ -12,7 +12,11 @@ import java.util.Map;
 
 public class TeamSelectionWindow extends JFrame {
 
-    private JList<Equipo> list;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JList<Equipo> list;
     private JLabel lblEscudo;
     private JLabel lblTituloEquipo;
     private JTextArea detalleTextLeft;   // Información general
@@ -217,7 +221,12 @@ public class TeamSelectionWindow extends JFrame {
 
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "elegir");
         am.put("elegir", new AbstractAction() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
                 btnElegir.doClick();
             }
@@ -225,7 +234,12 @@ public class TeamSelectionWindow extends JFrame {
 
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "atras");
         am.put("atras", new AbstractAction() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
                 btnAtras.doClick();
             }
@@ -313,7 +327,12 @@ public class TeamSelectionWindow extends JFrame {
     }
 
     class HighRowRenderer extends DefaultListCellRenderer {
-        @Override
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		@Override
         public Component getListCellRendererComponent(
                 JList<?> list, Object value, int index,
                 boolean isSelected, boolean cellHasFocus) {

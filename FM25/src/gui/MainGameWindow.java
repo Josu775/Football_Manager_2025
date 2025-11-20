@@ -11,7 +11,11 @@ import java.util.List;
 
 public class MainGameWindow extends JFrame {
 
-    private GameSession session;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private GameSession session;
     private Equipo equipo;
     private JLabel lblTeamName;
     private JLabel lblFormation;
@@ -113,7 +117,12 @@ public class MainGameWindow extends JFrame {
         ActionMap am = root.getActionMap();
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "volver");
         am.put("volver", new AbstractAction() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
                 btnAtras.doClick();
             }

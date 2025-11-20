@@ -12,7 +12,12 @@ import java.util.List;
 
 public class ClassificationWindow extends JFrame {
 
-    public ClassificationWindow(JFrame parent) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public ClassificationWindow(JFrame parent) {
         super("Clasificación - Liga (prototipo)");
         setSize(600, 500);
         setLocationRelativeTo(parent);
@@ -26,7 +31,12 @@ public class ClassificationWindow extends JFrame {
 
         String[] cols = {"Pos", "Equipo", "Puntos", "GF", "PJ"};
         DefaultTableModel model = new DefaultTableModel(cols, 0) {
-            @Override public boolean isCellEditable(int r, int c) { return false; }
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override public boolean isCellEditable(int r, int c) { return false; }
         };
         int pos = 1;
         for (Equipo e : equipos) {
@@ -77,13 +87,23 @@ public class ClassificationWindow extends JFrame {
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "cerrar");
 
         am.put("detalle", new AbstractAction() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
                 showSelected.run();
             }
         });
         am.put("cerrar", new AbstractAction() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }

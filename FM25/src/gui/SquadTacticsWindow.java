@@ -10,7 +10,12 @@ import java.awt.event.*;
 
 public class SquadTacticsWindow extends JFrame {
 
-    public SquadTacticsWindow(JFrame parent, Equipo equipo) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public SquadTacticsWindow(JFrame parent, Equipo equipo) {
         super("Plantilla y Tácticas - " + equipo.getNombre());
         setSize(760, 520);
         setLocationRelativeTo(parent);
@@ -32,7 +37,12 @@ public class SquadTacticsWindow extends JFrame {
 
         String[] cols = {"#", "Nombre", "Posición", "Edad", "Valoración"};
         DefaultTableModel model = new DefaultTableModel(cols, 0) {
-            @Override public boolean isCellEditable(int r, int c) { return false; }
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override public boolean isCellEditable(int r, int c) { return false; }
         };
         JTable table = new JTable(model);
         for (int i = 0; i < equipo.getOnceTitular().size(); i++) {
@@ -65,13 +75,23 @@ public class SquadTacticsWindow extends JFrame {
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "cerrar");
 
         am.put("aplicar", new AbstractAction() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
                 btnApply.doClick();
             }
         });
         am.put("cerrar", new AbstractAction() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
                 btnClose.doClick();
             }

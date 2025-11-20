@@ -14,7 +14,11 @@ import java.util.Random;
 
 public class MarketWindow extends JFrame {
 
-    private static final Random RNG = new Random();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private static final Random RNG = new Random();
     private final List<Offer> offers = new ArrayList<>();
 
     public MarketWindow(JFrame parent, Equipo targetTeam) {
@@ -28,7 +32,12 @@ public class MarketWindow extends JFrame {
     private void init(Equipo targetTeam) {
         String[] cols = {"Nombre", "Club origen", "Posición", "Edad", "Valoración", "Precio", "Acción"};
         DefaultTableModel model = new DefaultTableModel(cols, 0) {
-            @Override public boolean isCellEditable(int r, int c) { return c == 6; }
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override public boolean isCellEditable(int r, int c) { return c == 6; }
         };
 
         JTable table = new JTable(model);
@@ -72,13 +81,23 @@ public class MarketWindow extends JFrame {
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "fichar");
 
         am.put("cerrar", new AbstractAction() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
                 btnClose.doClick();
             }
         });
         am.put("fichar", new AbstractAction() {
-            @Override
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
             public void actionPerformed(ActionEvent e) {
                 int row = table.getSelectedRow();
                 if (row >= 0) {
@@ -151,7 +170,11 @@ public class MarketWindow extends JFrame {
     }
 
     private static class ButtonRenderer extends JButton implements javax.swing.table.TableCellRenderer {
-        public ButtonRenderer() { setOpaque(true); setBackground(new Color(230, 240, 255)); }
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		public ButtonRenderer() { setOpaque(true); setBackground(new Color(230, 240, 255)); }
         @Override public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             setText((value == null) ? "" : value.toString());
             setForeground(Color.BLACK);
@@ -160,7 +183,11 @@ public class MarketWindow extends JFrame {
     }
 
     private static class ButtonEditor extends AbstractCellEditor implements javax.swing.table.TableCellEditor, ActionListener {
-        private final JButton button = new JButton();
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private final JButton button = new JButton();
         private final JTable table;
         private final DefaultTableModel model;
         private final List<Offer> offers;
