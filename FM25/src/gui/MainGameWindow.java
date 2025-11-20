@@ -56,7 +56,7 @@ public class MainGameWindow extends JFrame {
         leftMenu.add(lblRating);
         leftMenu.add(Box.createVerticalStrut(5));
 
-        lblAvgRating = new JLabel("Media del once: " + calcularMediaOnce(equipo.getOnceTitular()) + " / 99");
+        lblAvgRating = new JLabel("Media once: " + calcularMediaOnce(equipo.getOnceTitular()) + " / 99");
         lblAvgRating.setAlignmentX(Component.CENTER_ALIGNMENT);
         leftMenu.add(lblAvgRating);
         leftMenu.add(Box.createVerticalStrut(5));

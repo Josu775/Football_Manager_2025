@@ -1,0 +1,494 @@
+equipo,nombre,posicion
+Athletic Club de Bilbao,Unai Simón,Porteros
+Athletic Club de Bilbao,Álex Padilla,Porteros
+Athletic Club de Bilbao,Dani Vivian,Defensas
+Athletic Club de Bilbao,Aitor Paredes,Defensas
+Athletic Club de Bilbao,Yeray Álvarez,Defensas
+Athletic Club de Bilbao,Iñigo Lekue,Defensas
+Athletic Club de Bilbao,Yuri Berchiche,Defensas
+Athletic Club de Bilbao,Andoni Gorosabel,Defensas
+Athletic Club de Bilbao,Jesús Areso,Defensas
+Athletic Club de Bilbao,Aymeric Laporte,Defensas
+Athletic Club de Bilbao,Mikel Vesga,Centrocampistas
+Athletic Club de Bilbao,Oihan Sancet,Centrocampistas
+Athletic Club de Bilbao,Iñigo Ruiz de Galarreta,Centrocampistas
+Athletic Club de Bilbao,Beñat Prados,Centrocampistas
+Athletic Club de Bilbao,Unai Gómez,Centrocampistas
+Athletic Club de Bilbao,Mikel Jauregizar,Centrocampistas
+Athletic Club de Bilbao,Robert Navarro,Centrocampistas
+Athletic Club de Bilbao,Iñaki Williams,Delanteros
+Athletic Club de Bilbao,Nico Williams,Delanteros
+Athletic Club de Bilbao,Gorka Guruzeta,Delanteros
+Athletic Club de Bilbao,Maroan Sannadi,Delanteros
+Athletic Club de Bilbao,Urko Izeta,Delanteros
+
+Club Atlético de Madrid,Jan Oblak,Porteros
+Club Atlético de Madrid,Juan Musso,Porteros
+Club Atlético de Madrid,José María Giménez,Defensas
+Club Atlético de Madrid,Nahuel Molina,Defensas
+Club Atlético de Madrid,Javi Galán,Defensas
+Club Atlético de Madrid,Robin Le Normand,Defensas
+Club Atlético de Madrid,Clément Lenglet,Defensas
+Club Atlético de Madrid,Matteo Ruggeri,Defensas
+Club Atlético de Madrid,Marc Pubill,Defensas
+Club Atlético de Madrid,Dávid Hancko,Defensas
+Club Atlético de Madrid,Koke,Centrocampistas
+Club Atlético de Madrid,Marcos Llorente,Centrocampistas
+Club Atlético de Madrid,Pablo Barrios,Centrocampistas
+Club Atlético de Madrid,Javi Serrano,Centrocampistas
+Club Atlético de Madrid,Conor Gallagher,Centrocampistas
+Club Atlético de Madrid,Álex Baena,Centrocampistas
+Club Atlético de Madrid,Thiago Almada,Centrocampistas
+Club Atlético de Madrid,Johnny Cardoso,Centrocampistas
+Club Atlético de Madrid,Giacomo Raspadori,Centrocampistas
+Club Atlético de Madrid,Antoine Griezmann,Delanteros
+Club Atlético de Madrid,Giuliano Simeone,Delanteros
+Club Atlético de Madrid,Borja Garcés,Delanteros
+Club Atlético de Madrid,Alexander Sørloth,Delanteros
+Club Atlético de Madrid,Julián Álvarez,Delanteros
+Club Atlético de Madrid,Carlos Martín,Delanteros
+Club Atlético de Madrid,Nico González,Delanteros
+
+Club Atlético Osasuna,Sergio Herrera,Porteros
+Club Atlético Osasuna,Aitor Fernández,Porteros
+Club Atlético Osasuna,Juan Cruz,Defensas
+Club Atlético Osasuna,Alejandro Catena,Defensas
+Club Atlético Osasuna,Jorge Herrando,Defensas
+Club Atlético Osasuna,Diego Moreno,Defensas
+Club Atlético Osasuna,Abel Bretones,Defensas
+Club Atlético Osasuna,Enzo Boyomo,Defensas
+Club Atlético Osasuna,Valentin Rosier,Defensas
+Club Atlético Osasuna,Lucas Torró,Centrocampistas
+Club Atlético Osasuna,Jon Moncayola,Centrocampistas
+Club Atlético Osasuna,Aimar Oroz,Centrocampistas
+Club Atlético Osasuna,Moi Gómez,Centrocampistas
+Club Atlético Osasuna,Iker Muñoz,Centrocampistas
+Club Atlético Osasuna,Benito,Centrocampistas
+Club Atlético Osasuna,Víctor Muñoz,Centrocampistas
+Club Atlético Osasuna,Kike Barja,Delanteros
+Club Atlético Osasuna,Rubén García,Delanteros
+Club Atlético Osasuna,Ante Budimir,Delanteros
+Club Atlético Osasuna,Raúl García,Delanteros
+Club Atlético Osasuna,Ander Yoldi,Delanteros
+Club Atlético Osasuna,Sheraldo Becker,Delanteros
+
+Deportivo Alavés,Antonio Sivera,Porteros
+Deportivo Alavés,Raúl Fernández,Porteros
+Deportivo Alavés,Nahuel Tenaglia,Defensas
+Deportivo Alavés,Moussa Diarra,Defensas
+Deportivo Alavés,Facundo Garcés,Defensas
+Deportivo Alavés,Iurie Iovu,Defensas
+Deportivo Alavés,Victor Parada,Defensas
+Deportivo Alavés,Nikola Maras,Defensas
+Deportivo Alavés,Jonny Otto,Defensas
+Deportivo Alavés,Youssef Enríquez,Defensas
+Deportivo Alavés,Jon Pacheco,Defensas
+Deportivo Alavés,Ander Guevara,Centrocampistas
+Deportivo Alavés,Antonio Blanco,Centrocampistas
+Deportivo Alavés,Jon Guridi,Centrocampistas
+Deportivo Alavés,Carlos Benavidez,Centrocampistas
+Deportivo Alavés,Pablo Ibáñez,Centrocampistas
+Deportivo Alavés,Calebe,Centrocampistas
+Deportivo Alavés,Carles Aleñá,Centrocampistas
+Deportivo Alavés,Denis Suárez,Centrocampistas
+Deportivo Alavés,Carlos Vicente,Delanteros
+Deportivo Alavés,Toni Martínez,Delanteros
+Deportivo Alavés,Abde Rebbach,Delanteros
+Deportivo Alavés,Mariano Díaz,Delanteros
+Deportivo Alavés,Lucas Boyé,Delanteros
+
+Elche Club de Fútbol,Matías Dituro,Porteros
+Elche Club de Fútbol,Axel Werner,Porteros
+Elche Club de Fútbol,Alejandro Iturbe,Porteros
+Elche Club de Fútbol,Iñaki Peña,Porteros
+Elche Club de Fútbol,John Donald,Defensas
+Elche Club de Fútbol,Pedro Bigas,Defensas
+Elche Club de Fútbol,Álvaro Núñez,Defensas
+Elche Club de Fútbol,Bambo Diaby,Defensas
+Elche Club de Fútbol,Léo Pétrot,Defensas
+Elche Club de Fútbol,Víctor Chust,Defensas
+Elche Club de Fútbol,Héctor Fort,Defensas
+Elche Club de Fútbol,Adrià Pedrosa,Defensas
+Elche Club de Fútbol,Aleix Febas,Centrocampistas
+Elche Club de Fútbol,Rodrigo Mendoza,Centrocampistas
+Elche Club de Fútbol,Marc Aguado,Centrocampistas
+Elche Club de Fútbol,Nico Fernández,Centrocampistas
+Elche Club de Fútbol,Martim Neto,Centrocampistas
+Elche Club de Fútbol,Federico Redondo,Centrocampistas
+Elche Club de Fútbol,Josan,Delanteros
+Elche Club de Fútbol,Adam Boayar,Delanteros
+Elche Club de Fútbol,Yago Santiago,Delanteros
+Elche Club de Fútbol,Germán Valera,Delanteros
+Elche Club de Fútbol,Álvaro Rodríguez,Delanteros
+Elche Club de Fútbol,Rafa Mir,Delanteros
+Elche Club de Fútbol,André Silva,Delanteros
+Elche Club de Fútbol,Grady Diangana,Delanteros
+
+Fútbol Club Barcelona,Marc-André ter Stegen,Porteros
+Fútbol Club Barcelona,Wojciech Szczęsny,Porteros
+Fútbol Club Barcelona,Joan García,Porteros
+Fútbol Club Barcelona,Álex Balde,Defensas
+Fútbol Club Barcelona,Ronald Araújo,Defensas
+Fútbol Club Barcelona,Andreas Christensen,Defensas
+Fútbol Club Barcelona,Jules Koundé,Defensas
+Fútbol Club Barcelona,Pau Cubarsí,Defensas
+Fútbol Club Barcelona,Eric García,Defensas
+Fútbol Club Barcelona,Gavi,Centrocampistas
+Fútbol Club Barcelona,Pedri,Centrocampistas
+Fútbol Club Barcelona,Fermín López,Centrocampistas
+Fútbol Club Barcelona,Frenkie de Jong,Centrocampistas
+Fútbol Club Barcelona,Marc Casadó,Centrocampistas
+Fútbol Club Barcelona,Ferrán Torres,Delanteros
+Fútbol Club Barcelona,Robert Lewandowski,Delanteros
+Fútbol Club Barcelona,Raphinha,Delanteros
+Fútbol Club Barcelona,Lamine Yamal,Delanteros
+Fútbol Club Barcelona,Dani Olmo,Delanteros
+Fútbol Club Barcelona,Marcus Rashford,Delanteros
+
+Getafe Club de Fútbol,David Soria,Porteros
+Getafe Club de Fútbol,Jiri Letacek,Porteros
+Getafe Club de Fútbol,Djené,Defensas
+Getafe Club de Fútbol,Domingos Duarte,Defensas
+Getafe Club de Fútbol,Juan Iglesias,Defensas
+Getafe Club de Fútbol,Diego Rico,Defensas
+Getafe Club de Fútbol,Kiko Femenía,Defensas
+Getafe Club de Fútbol,Davinchi,Defensas
+Getafe Club de Fútbol,Abdel Abqar,Defensas
+Getafe Club de Fútbol,Allan Nyom,Defensas
+Getafe Club de Fútbol,Luis Milla,Centrocampistas
+Getafe Club de Fútbol,Mauro Arambarri,Centrocampistas
+Getafe Club de Fútbol,Javi Muñoz,Centrocampistas
+Getafe Club de Fútbol,Yvan Neyou,Centrocampistas
+Getafe Club de Fútbol,Mario Martín,Centrocampistas
+Getafe Club de Fútbol,Borja Mayoral,Delanteros
+Getafe Club de Fútbol,Juanmi,Delanteros
+Getafe Club de Fútbol,Álex Sancris,Delanteros
+Getafe Club de Fútbol,Adrián Liso,Delanteros
+Getafe Club de Fútbol,Abu Kamara,Delanteros
+
+Girona Futbol Club,Juan Carlos,Porteros
+Girona Futbol Club,Paulo Gazzaniga,Porteros
+Girona Futbol Club,Vladyslav Krapyvtsov,Porteros
+Girona Futbol Club,Dominik Livakovic,Porteros
+Girona Futbol Club,Arnau Martínez,Defensas
+Girona Futbol Club,David López,Defensas
+Girona Futbol Club,Daley Blind,Defensas
+Girona Futbol Club,Alejandro Francés,Defensas
+Girona Futbol Club,Hugo Rincón,Defensas
+Girona Futbol Club,Vitor Reis,Defensas
+Girona Futbol Club,Álex Moreno,Defensas
+Girona Futbol Club,Jhon Solís,Centrocampistas
+Girona Futbol Club,Iván Martín,Centrocampistas
+Girona Futbol Club,Donny van de Beek,Centrocampistas
+Girona Futbol Club,Thomas Lemar,Centrocampistas
+Girona Futbol Club,Axel Witsel,Centrocampistas
+Girona Futbol Club,Azzedine Ounahi,Centrocampistas
+Girona Futbol Club,Cristhian Stuani,Delanteros
+Girona Futbol Club,Viktor Tsygankov,Delanteros
+Girona Futbol Club,Portu,Delanteros
+Girona Futbol Club,Abel Ruiz,Delanteros
+Girona Futbol Club,Yáser Asprilla,Delanteros
+Girona Futbol Club,Joel Roca,Delanteros
+Girona Futbol Club,Bryan Gil,Delanteros
+Girona Futbol Club,Vladyslav Vanat,Delanteros
+
+Levante Unión Deportiva,Pablo Campos,Porteros
+Levante Unión Deportiva,Mathew Ryan,Porteros
+Levante Unión Deportiva,Adrián de la Fuente,Defensas
+Levante Unión Deportiva,Jorge Cabello,Defensas
+Levante Unión Deportiva,Unai Elgezabal,Defensas
+Levante Unión Deportiva,Diego Pampín,Defensas
+Levante Unión Deportiva,Alan Matturro,Defensas
+Levante Unión Deportiva,Víctor García,Defensas
+Levante Unión Deportiva,Jeremy Toljan,Defensas
+Levante Unión Deportiva,Matías Moreno,Defensas
+Levante Unión Deportiva,Manu Sánchez,Defensas
+Levante Unión Deportiva,Pablo Martínez,Centrocampistas
+Levante Unión Deportiva,Oriol Rey,Centrocampistas
+Levante Unión Deportiva,Carlos Álvarez,Centrocampistas
+Levante Unión Deportiva,Kervin Arriaga,Centrocampistas
+Levante Unión Deportiva,Jon Ander Olasagasti,Centrocampistas
+Levante Unión Deportiva,Unai Vencedor,Centrocampistas
+Levante Unión Deportiva,Roger Brugué,Delanteros
+Levante Unión Deportiva,Iván Romero,Delanteros
+Levante Unión Deportiva,José Luis Morales,Delanteros
+Levante Unión Deportiva,Goduine Koyalipou,Delanteros
+Levante Unión Deportiva,Iker Losada,Delanteros
+Levante Unión Deportiva,Karl Etta Eyong,Delanteros
+
+Rayo Vallecano de Madrid,Dani Cárdenas,Porteros
+Rayo Vallecano de Madrid,Augusto Batalla,Porteros
+Rayo Vallecano de Madrid,Andrei Ratiu,Defensas
+Rayo Vallecano de Madrid,Pep Chavarría,Defensas
+Rayo Vallecano de Madrid,Alfonso Espino,Defensas
+Rayo Vallecano de Madrid,Abdul Mumin,Defensas
+Rayo Vallecano de Madrid,Iván Balliu,Defensas
+Rayo Vallecano de Madrid,Florian Lejeune,Defensas
+Rayo Vallecano de Madrid,Luiz Felipe,Defensas
+Rayo Vallecano de Madrid,Jozhua Vertrouwd,Defensas
+Rayo Vallecano de Madrid,Nobel Mendy,Defensas
+Rayo Vallecano de Madrid,Óscar Trejo,Centrocampistas
+Rayo Vallecano de Madrid,Randy Nteka,Centrocampistas
+Rayo Vallecano de Madrid,Pathé Ciss,Centrocampistas
+Rayo Vallecano de Madrid,Óscar Valentín,Centrocampistas
+Rayo Vallecano de Madrid,Unai López,Centrocampistas
+Rayo Vallecano de Madrid,Pedro Díaz,Centrocampistas
+Rayo Vallecano de Madrid,Gerard Gumbau,Centrocampistas
+Rayo Vallecano de Madrid,Isi Palazón,Delanteros
+Rayo Vallecano de Madrid,Álvaro García,Delanteros
+Rayo Vallecano de Madrid,Jorge de Frutos,Delanteros
+Rayo Vallecano de Madrid,Sergio Camello,Delanteros
+Rayo Vallecano de Madrid,Fran Pérez,Delanteros
+Rayo Vallecano de Madrid,Alemão,Delanteros
+
+RCD Espanyol,Marko Dmitrovic,Porteros
+RCD Espanyol,Ángel Fortuño,Porteros
+RCD Espanyol,Rubén Sánchez,Defensas
+RCD Espanyol,Fernando Calero,Defensas
+RCD Espanyol,Leandro Cabrera,Defensas
+RCD Espanyol,José Salinas,Defensas
+RCD Espanyol,Miguel Rubio,Defensas
+RCD Espanyol,Carlos Romero,Defensas
+RCD Espanyol,Omar El Hilali,Defensas
+RCD Espanyol,Clemens Riedel,Defensas
+RCD Espanyol,Pol Lozano,Centrocampistas
+RCD Espanyol,Edu Expósito,Centrocampistas
+RCD Espanyol,Javi Hernández,Centrocampistas
+RCD Espanyol,Ramón Terrats,Centrocampistas
+RCD Espanyol,Charles Pickel,Centrocampistas
+RCD Espanyol,Urko González de Zárate,Centrocampistas
+RCD Espanyol,Javi Puado,Delanteros
+RCD Espanyol,Pere Milla,Delanteros
+RCD Espanyol,Jofre Carreras,Delanteros
+RCD Espanyol,Antoniu Roca,Delanteros
+RCD Espanyol,Kike García,Delanteros
+RCD Espanyol,Roberto Fernández,Delanteros
+RCD Espanyol,Tyrhys Dolan,Delanteros
+RCD Espanyol,Luca Koleosho,Delanteros
+
+Real Betis Balompié,Adrián,Porteros
+Real Betis Balompié,Álvaro Valles,Porteros
+Real Betis Balompié,Pau López,Porteros
+Real Betis Balompié,Héctor Bellerín,Defensas
+Real Betis Balompié,Marc Bartra,Defensas
+Real Betis Balompié,Diego Llorente,Defensas
+Real Betis Balompié,Ricardo Rodríguez,Defensas
+Real Betis Balompié,Natan,Defensas
+Real Betis Balompié,Junior Firpo,Defensas
+Real Betis Balompié,Valentín Gómez,Defensas
+Real Betis Balompié,Pablo Fornals,Centrocampistas
+Real Betis Balompié,Isco,Centrocampistas
+Real Betis Balompié,Sergi Altimira,Centrocampistas
+Real Betis Balompié,Marc Roca,Centrocampistas
+Real Betis Balompié,Giovani Lo Celso,Centrocampistas
+Real Betis Balompié,Nelson Deossa,Centrocampistas
+Real Betis Balompié,Sofyan Amrabat,Centrocampistas
+Real Betis Balompié,Abde Ezzalzouli,Delanteros
+Real Betis Balompié,Chimy Ávila,Delanteros
+Real Betis Balompié,Cédric Bakambu,Delanteros
+Real Betis Balompié,Aitor Ruibal,Delanteros
+Real Betis Balompié,Cucho Hernández,Delanteros
+Real Betis Balompié,Rodrigo Riquelme,Delanteros
+Real Betis Balompié,Antony,Delanteros
+
+Real Club Celta de Vigo,Iván Villar,Porteros
+Real Club Celta de Vigo,Ionuț Radu,Porteros
+Real Club Celta de Vigo,Carl Starfelt,Defensas
+Real Club Celta de Vigo,Óscar Mingueza,Defensas
+Real Club Celta de Vigo,Mihailo Ristic,Defensas
+Real Club Celta de Vigo,Carlos Domínguez,Defensas
+Real Club Celta de Vigo,Sergio Carreira,Defensas
+Real Club Celta de Vigo,Marcos Alonso,Defensas
+Real Club Celta de Vigo,Joseph Aidoo,Defensas
+Real Club Celta de Vigo,Javi Rueda,Defensas
+Real Club Celta de Vigo,Manu Fernández,Defensas
+Real Club Celta de Vigo,Fran Beltrán,Centrocampistas
+Real Club Celta de Vigo,Hugo Sotelo,Centrocampistas
+Real Club Celta de Vigo,Damián Rodríguez,Centrocampistas
+Real Club Celta de Vigo,Ilaix Moriba,Centrocampistas
+Real Club Celta de Vigo,Iago Aspas,Delanteros
+Real Club Celta de Vigo,Franco Cervi,Delanteros
+Real Club Celta de Vigo,Williot Swedberg,Delanteros
+Real Club Celta de Vigo,Hugo Álvarez,Delanteros
+Real Club Celta de Vigo,Pablo Durán,Delanteros
+Real Club Celta de Vigo,Jones El-Abdellaoui,Delanteros
+Real Club Celta de Vigo,Ferran Jutglà,Delanteros
+Real Club Celta de Vigo,Bryan Zaragoza,Delanteros
+Real Club Celta de Vigo,Borja Iglesias,Delanteros
+
+Real Club Deportivo Mallorca,Leo Román,Porteros
+Real Club Deportivo Mallorca,Lucas Bergström,Porteros
+Real Club Deportivo Mallorca,Toni Lato,Defensas
+Real Club Deportivo Mallorca,Pablo Maffeo,Defensas
+Real Club Deportivo Mallorca,Antonio Raíllo,Defensas
+Real Club Deportivo Mallorca,Martin Valjent,Defensas
+Real Club Deportivo Mallorca,Mateu Morey Bauzà,Defensas
+Real Club Deportivo Mallorca,Johan Mojica,Defensas
+Real Club Deportivo Mallorca,Marash Kumbulla,Defensas
+Real Club Deportivo Mallorca,Omar Mascarell,Centrocampistas
+Real Club Deportivo Mallorca,Manu Morlanes,Centrocampistas
+Real Club Deportivo Mallorca,Sergi Darder,Centrocampistas
+Real Club Deportivo Mallorca,Samú Costa,Centrocampistas
+Real Club Deportivo Mallorca,Dani Rodríguez,Centrocampistas
+Real Club Deportivo Mallorca,Antonio Sánchez,Centrocampistas
+Real Club Deportivo Mallorca,Pablo Torre,Centrocampistas
+Real Club Deportivo Mallorca,Vedat Muriqi,Delanteros
+Real Club Deportivo Mallorca,Abdón Prats,Delanteros
+Real Club Deportivo Mallorca,Takuma Asano,Delanteros
+Real Club Deportivo Mallorca,Javi Llabrés,Delanteros
+Real Club Deportivo Mallorca,Mateo Joseph,Delanteros
+Real Club Deportivo Mallorca,Jan Virgili,Delanteros
+
+Real Madrid Club de Fútbol,Thibaut Courtois,Porteros
+Real Madrid Club de Fútbol,Andriy Lunin,Porteros
+Real Madrid Club de Fútbol,Dani Carvajal,Defensas
+Real Madrid Club de Fútbol,Éder Militão,Defensas
+Real Madrid Club de Fútbol,David Alaba,Defensas
+Real Madrid Club de Fútbol,Fran García,Defensas
+Real Madrid Club de Fútbol,Antonio Rüdiger,Defensas
+Real Madrid Club de Fútbol,Ferland Mendy,Defensas
+Real Madrid Club de Fútbol,Raúl Asencio,Defensas
+Real Madrid Club de Fútbol,Dean Huijsen,Defensas
+Real Madrid Club de Fútbol,Trent Alexander-Arnold,Defensas
+Real Madrid Club de Fútbol,Álvaro Carreras,Defensas
+Real Madrid Club de Fútbol,Jude Bellingham,Centrocampistas
+Real Madrid Club de Fútbol,Eduardo Camavinga,Centrocampistas
+Real Madrid Club de Fútbol,Fede Valverde,Centrocampistas
+Real Madrid Club de Fútbol,Aurélien Tchouaméni,Centrocampistas
+Real Madrid Club de Fútbol,Dani Ceballos,Centrocampistas
+Real Madrid Club de Fútbol,Vinícius Júnior,Delanteros
+Real Madrid Club de Fútbol,Rodrygo,Delanteros
+Real Madrid Club de Fútbol,Brahim Díaz,Delanteros
+Real Madrid Club de Fútbol,Arda Güler,Delanteros
+Real Madrid Club de Fútbol,Endrick,Delanteros
+Real Madrid Club de Fútbol,Kylian Mbappé,Delanteros
+Real Madrid Club de Fútbol,Franco Mastantuono,Delanteros
+Real Madrid Club de Fútbol,Gonzalo,Delanteros
+
+Real Oviedo,Aarón Escandell,Porteros
+Real Oviedo,Horațiu Moldovan,Porteros
+Real Oviedo,David Costas,Defensas
+Real Oviedo,Dani Calvo,Defensas
+Real Oviedo,Lucas Ahijado,Defensas
+Real Oviedo,Oier Luengo,Defensas
+Real Oviedo,Rahim Alhassane,Defensas
+Real Oviedo,Álvaro Lemos,Defensas
+Real Oviedo,Nacho Vidal,Defensas
+Real Oviedo,Eric Bailly,Defensas
+Real Oviedo,David Carmo,Defensas
+Real Oviedo,Javi López,Defensas
+Real Oviedo,Santi Cazorla,Centrocampistas
+Real Oviedo,Kwasi Sibo,Centrocampistas
+Real Oviedo,Alberto Reina,Centrocampistas
+Real Oviedo,Brandon Dominguès,Centrocampistas
+Real Oviedo,Luka Ilic,Centrocampistas
+Real Oviedo,Leander Dendoncker,Centrocampistas
+Real Oviedo,Haissem Hassan,Delanteros
+Real Oviedo,Ilyas Chaira,Delanteros
+Real Oviedo,Salomón Rondón,Delanteros
+Real Oviedo,Álex Forés,Delanteros
+Real Oviedo,Ovie Ejaria,Delanteros
+Real Oviedo,Josip Brekalo,Delanteros
+
+Real Sociedad de Fútbol,Álex Remiro,Porteros
+Real Sociedad de Fútbol,Unai Marrero,Porteros
+Real Sociedad de Fútbol,Álvaro Odriozola,Defensas
+Real Sociedad de Fútbol,Aihen Muñoz,Defensas
+Real Sociedad de Fútbol,Igor Zubeldia,Defensas
+Real Sociedad de Fútbol,Aritz Elustondo,Defensas
+Real Sociedad de Fútbol,Jon Aramburu,Defensas
+Real Sociedad de Fútbol,Sergio Gómez,Defensas
+Real Sociedad de Fútbol,Duje Caleta-Car,Defensas
+Real Sociedad de Fútbol,Arsen Zakharyan,Centrocampistas
+Real Sociedad de Fútbol,Takefusa Kubo,Centrocampistas
+Real Sociedad de Fútbol,Beñat Turrientes,Centrocampistas
+Real Sociedad de Fútbol,Brais Méndez,Centrocampistas
+Real Sociedad de Fútbol,Luka Sucic,Centrocampistas
+Real Sociedad de Fútbol,Jon Gorrotxategi,Centrocampistas
+Real Sociedad de Fútbol,Yangel Herrera,Centrocampistas
+Real Sociedad de Fútbol,Carlos Soler,Centrocampistas
+Real Sociedad de Fútbol,Ander Barrenetxea,Delanteros
+Real Sociedad de Fútbol,Mikel Oyarzabal,Delanteros
+Real Sociedad de Fútbol,Orri Óskarsson,Delanteros
+Real Sociedad de Fútbol,Jon Karrikaburu,Delanteros
+Real Sociedad de Fútbol,Umar Sadiq,Delanteros
+Real Sociedad de Fútbol,Alberto Dadie,Delanteros
+Real Sociedad de Fútbol,Gonçalo Guedes,Delanteros
+
+Sevilla Fútbol Club,Ørjan Nyland,Porteros
+Sevilla Fútbol Club,Álvaro Fernández,Porteros
+Sevilla Fútbol Club,Odysseas Vlachodimos,Porteros
+Sevilla Fútbol Club,Kike Salas,Defensas
+Sevilla Fútbol Club,Tanguy Nianzou,Defensas
+Sevilla Fútbol Club,Marcão,Defensas
+Sevilla Fútbol Club,Juanlu Sánchez,Defensas
+Sevilla Fútbol Club,José Ángel Carmona,Defensas
+Sevilla Fútbol Club,Federico Gattoni,Defensas
+Sevilla Fútbol Club,Gabriel Suazo,Defensas
+Sevilla Fútbol Club,César Azpilicueta,Defensas
+Sevilla Fútbol Club,Fábio Cardoso,Defensas
+Sevilla Fútbol Club,Nemanja Gudelj,Centrocampistas
+Sevilla Fútbol Club,Djibril Sow,Centrocampistas
+Sevilla Fútbol Club,Manu Bueno,Centrocampistas
+Sevilla Fútbol Club,Lucien Agoumé,Centrocampistas
+Sevilla Fútbol Club,Joan Jordán,Centrocampistas
+Sevilla Fútbol Club,Batista Mendy,Centrocampistas
+Sevilla Fútbol Club,Isaac Romero,Delanteros
+Sevilla Fútbol Club,Chidera Ejuke,Delanteros
+Sevilla Fútbol Club,Peque Fernández,Delanteros
+Sevilla Fútbol Club,Rubén Vargas,Delanteros
+Sevilla Fútbol Club,Akor Adams,Delanteros
+Sevilla Fútbol Club,Adnan Januzaj,Delanteros
+Sevilla Fútbol Club,Alfon González,Delanteros
+Sevilla Fútbol Club,Alexis Sánchez,Delanteros
+
+Valencia Club de Fútbol,Stole Dimitrievski,Porteros
+Valencia Club de Fútbol,Cristian Rivero,Porteros
+Valencia Club de Fútbol,Julen Agirrezabala,Porteros
+Valencia Club de Fútbol,Mouctar Diakhaby,Defensas
+Valencia Club de Fútbol,José Gayà,Defensas
+Valencia Club de Fútbol,Jesús Vázquez,Defensas
+Valencia Club de Fútbol,Thierry Correia,Defensas
+Valencia Club de Fútbol,Dimitri Foulquier,Defensas
+Valencia Club de Fútbol,César Tárrega,Defensas
+Valencia Club de Fútbol,Eray Cömert,Defensas
+Valencia Club de Fútbol,José Copete,Defensas
+Valencia Club de Fútbol,André Almeida,Centrocampistas
+Valencia Club de Fútbol,Javi Guerra,Centrocampistas
+Valencia Club de Fútbol,Pepelu,Centrocampistas
+Valencia Club de Fútbol,Baptiste Santamaria,Centrocampistas
+Valencia Club de Fútbol,Filip Ugrinic,Centrocampistas
+Valencia Club de Fútbol,Hugo Duro,Delanteros
+Valencia Club de Fútbol,Diego López,Delanteros
+Valencia Club de Fútbol,Luis Rioja,Delanteros
+Valencia Club de Fútbol,Dani Raba,Delanteros
+Valencia Club de Fútbol,Arnaut Danjuma,Delanteros
+Valencia Club de Fútbol,Largie Ramazani,Delanteros
+Valencia Club de Fútbol,Lucas Beltrán,Delanteros
+
+Villarreal Club de Fútbol,Diego Conde,Porteros
+Villarreal Club de Fútbol,Luiz Júnior,Porteros
+Villarreal Club de Fútbol,Arnau Tenas,Porteros
+Villarreal Club de Fútbol,Alfonso Pedraza,Defensas
+Villarreal Club de Fútbol,Juan Foyth,Defensas
+Villarreal Club de Fútbol,Willy Kambwala,Defensas
+Villarreal Club de Fútbol,Sergi Cardona,Defensas
+Villarreal Club de Fútbol,Logan Costa,Defensas
+Villarreal Club de Fútbol,Adrià Altimira,Defensas
+Villarreal Club de Fútbol,Rafa Marín,Defensas
+Villarreal Club de Fútbol,Santiago Mouriño,Defensas
+Villarreal Club de Fútbol,Renato Veiga,Defensas
+Villarreal Club de Fútbol,Dani Parejo,Centrocampistas
+Villarreal Club de Fútbol,Santi Comesaña,Centrocampistas
+Villarreal Club de Fútbol,Pape Gueye,Centrocampistas
+Villarreal Club de Fútbol,Alberto Moleiro,Centrocampistas
+Villarreal Club de Fútbol,Tajon Buchanan,Centrocampistas
+Villarreal Club de Fútbol,Thomas Partey,Centrocampistas
+Villarreal Club de Fútbol,Gerard Moreno,Delanteros
+Villarreal Club de Fútbol,Ilias Akhomach,Delanteros
+Villarreal Club de Fútbol,Nicolas Pépé,Delanteros
+Villarreal Club de Fútbol,Ayoze Pérez,Delanteros
+Villarreal Club de Fútbol,Pau Cabanes,Delanteros
+Villarreal Club de Fútbol,Tani Oluwaseyi,Delanteros
+Villarreal Club de Fútbol,Manor Solomon,Delanteros
+Villarreal Club de Fútbol,Georges Mikautadze,Delanteros
