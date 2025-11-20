@@ -259,7 +259,7 @@ public class TeamSelectionWindow extends JFrame {
             int opcion = JOptionPane.showConfirmDialog(
                     this,
                     "¿Seguro que quieres entrenar al " + sel.getNombre() + "?",
-                    "Confirmar selección",
+                    "Confirmar seleccion",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE
             );
