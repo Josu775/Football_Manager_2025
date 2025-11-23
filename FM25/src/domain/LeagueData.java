@@ -1,96 +1,129 @@
 package domain;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import io.CSVPlayerLoader;
+import java.util.*;
 
 public class LeagueData {
 
     private static final Random RNG = new Random();
 
+    /** Información real de equipos: Ciudad y Estadio */
+    private static final Map<String, String[]> INFO_EQUIPOS = Map.ofEntries(
+        Map.entry("Athletic Club", new String[]{"Bilbao", "San Mamés"}),
+        Map.entry("Atlético de Madrid", new String[]{"Madrid", "Cívitas Metropolitano"}),
+        Map.entry("Real Madrid", new String[]{"Madrid", "Santiago Bernabéu"}),
+        Map.entry("CA Osasuna", new String[]{"Pamplona", "El Sadar"}),
+        Map.entry("Rayo Vallecano", new String[]{"Madrid", "Estadio de Vallecas"}),
+        Map.entry("RCD Mallorca", new String[]{"Palma", "Son Moix"}),
+        Map.entry("Deportivo Alavés", new String[]{"Vitoria", "Mendizorrotza"}),
+        Map.entry("RCD Espanyol", new String[]{"Barcelona", "RCDE Stadium"}),
+        Map.entry("Levante UD", new String[]{"Valencia", "Ciutat de València"}),
+        Map.entry("Getafe CF", new String[]{"Getafe", "Coliseum Alfonso Pérez"}),
+        Map.entry("Sevilla FC", new String[]{"Sevilla", "Ramón Sánchez Pizjuán"}),
+        Map.entry("Villarreal CF", new String[]{"Vila-real", "Estadio de la Cerámica"}),
+        Map.entry("FC Barcelona", new String[]{"Barcelona", "Camp Nou"}),
+        Map.entry("Real Club Celta de Vigo", new String[]{"Vigo", "Balaídos"}),
+        Map.entry("Real Betis", new String[]{"Sevilla", "Benito Villamarín"}),
+        Map.entry("Valencia CF", new String[]{"Valencia", "Mestalla"}),
+        Map.entry("Real Sociedad", new String[]{"Donostia / San Sebastián", "Reale Arena"}),
+        Map.entry("Real Oviedo", new String[]{"Oviedo", "Carlos Tartiere"}),
+        Map.entry("Girona FC", new String[]{"Girona", "Montilivi"}),
+        Map.entry("Elche CF", new String[]{"Elche", "Martínez Valero"})
+    );
+
+    /** Devuelve la lista real de equipos con jugadores del CSV */
     public static List<Equipo> getLaLiga20() {
-        List<Equipo> lista = new ArrayList<>();
 
-        lista.add(createEquipo("Real Madrid", "Madrid", "Santiago Bernabéu", "4-3-3", 5.0, 1_000_000_000));
-        lista.add(createEquipo("FC Barcelona", "Barcelona", "Camp Nou", "4-3-3", 4.9, 950_000_000));
-        lista.add(createEquipo("Atlético de Madrid", "Madrid", "Cívitas Metropolitano", "4-4-2", 4.6, 600_000_000));
-        lista.add(createEquipo("Sevilla FC", "Sevilla", "Ramón Sánchez Pizjuán", "4-2-3-1", 4.1, 300_000_000));
-        lista.add(createEquipo("Real Sociedad", "Donostia/San Sebastián", "Reale Arena", "4-3-3", 4.0, 240_000_000));
-        lista.add(createEquipo("Villarreal CF", "Villarreal", "Estadio de la Cerámica", "4-4-2", 3.9, 220_000_000));
-        lista.add(createEquipo("Real Betis", "Sevilla", "Benito Villamarín", "4-3-3", 3.9, 210_000_000));
-        lista.add(createEquipo("Athletic Club", "Bilbao", "San Mamés", "4-2-3-1", 3.8, 190_000_000));
-        lista.add(createEquipo("Valencia CF", "Valencia", "Mestalla", "4-4-2", 3.7, 150_000_000));
-        lista.add(createEquipo("RCD Mallorca", "Mallorca", "Iberostar", "4-4-2", 3.4, 90_000_000));
-        lista.add(createEquipo("CA Osasuna", "Pamplona", "El Sadar", "4-2-3-1", 3.3, 85_000_000));
-        lista.add(createEquipo("RC Celta", "Vigo", "Balaídos", "4-3-3", 3.3, 80_000_000));
-        lista.add(createEquipo("Getafe CF", "Getafe", "Coliseum Alfonso Pérez", "4-4-2", 3.2, 70_000_000));
+        // 1. Cargar jugadores reales del CSV
+        List<Jugador> jugadores = CSVPlayerLoader.cargarJugadoresDesdeCSV(
+            "resources/data/plantillas_laliga_25_26.csv"
+        );
 
-        // ✔ Sustituimos GRANADA CF → REAL OVIEDO
-        lista.add(createEquipo("Real Oviedo", "Oviedo", "Carlos Tartiere", "4-4-2", 3.1, 65_000_000));
+        // 2. Crear mapa equipo → objeto Equipo
+        Map<String, Equipo> mapa = new LinkedHashMap<>();
 
-        lista.add(createEquipo("Rayo Vallecano", "Madrid", "Vallecas", "4-2-3-1", 3.0, 60_000_000));
-        lista.add(createEquipo("Deportivo Alavés", "Vitoria-Gasteiz", "Mendizorrotza", "4-4-2", 2.9, 55_000_000));
+        for (Jugador j : jugadores) {
 
-        // ✔ Sustituimos CÁDIZ CF → LEVANTE UD
-        lista.add(createEquipo("Levante UD", "Valencia", "Ciutat de València", "4-3-3", 3.0, 50_000_000));
+            String nombreEq = j.getEquipo();
 
-        lista.add(createEquipo("Elche CF", "Elche", "Martínez Valero", "4-4-2", 2.7, 45_000_000));
-        lista.add(createEquipo("RCD Espanyol", "Barcelona", "RCDE Stadium", "4-3-3", 3.2, 75_000_000));
-        lista.add(createEquipo("Girona FC", "Girona", "Montilivi", "4-3-3", 3.4, 100_000_000));
+            // Normalizar el nombre
+            String canonical = normalizarNombre(nombreEq);
 
-        for (Equipo e : lista) {
-            List<Jugador> once = new ArrayList<>();
-            once.add(new Jugador(randomNombre(), "POR", randomEdad(24,34), randomValor(e.getValoracion())));
-            for (int i=0;i<4;i++) once.add(new Jugador(randomNombre(), "DEF", randomEdad(20,33), randomValor(e.getValoracion())));
-            for (int i=0;i<3;i++) once.add(new Jugador(randomNombre(), "MID", randomEdad(19,32), randomValor(e.getValoracion())));
-            for (int i=0;i<3;i++) once.add(new Jugador(randomNombre(), "ATT", randomEdad(19,33), randomValor(e.getValoracion())));
-            e.setOnceTitular(once);
+            if (!mapa.containsKey(canonical)) {
+
+                String[] info = INFO_EQUIPOS.get(canonical);
+                String ciudad = info != null ? info[0] : "España";
+                String estadio = info != null ? info[1] : canonical + " Stadium";
+
+                // Valoración realista según tamaño de club
+                double valoracion = generarValoracion(canonical);
+                double budget = generarPresupuesto(canonical);
+
+                mapa.put(canonical, new Equipo(
+                        canonical, ciudad, estadio,
+                        "4-3-3", valoracion, budget
+                ));
+            }
+
+            mapa.get(canonical).getOnceTitular().add(j);
         }
-        return lista;
+
+        return new ArrayList<>(mapa.values());
     }
 
-    private static Equipo createEquipo(String n, String c, String s, String f, double val, double budget) {
-        return new Equipo(n, c, s, f, val, budget);
+    /** Normaliza nombres largos del CSV a nombres cortos */
+    private static String normalizarNombre(String n) {
+        if (n == null) return null;
+
+        return switch (n) {
+            case "Real Madrid Club de Fútbol" -> "Real Madrid";
+            case "Fútbol Club Barcelona", "Futbol Club Barcelona" -> "FC Barcelona";
+            case "Club Atlético de Madrid" -> "Atlético de Madrid";
+            case "Athletic Club de Bilbao" -> "Athletic Club";
+            case "Club Atlético Osasuna" -> "CA Osasuna";
+            case "Real Club Deportivo Mallorca" -> "RCD Mallorca";
+            case "Girona Futbol Club", "Girona Fútbol Club" -> "Girona FC";
+            case "Real club Deportivo Espanyol" -> "RCD Espanyol";
+            case "Getafe Club de Fútbol" -> "Getafe CF";
+            case "Valencia Club de Fútbol" -> "Valencia CF";
+            case "Real Sociedad de Fútbol" -> "Real Sociedad";
+            case "Rayo Vallecano de Madrid" -> "Rayo Vallecano";
+            case "Real Club Celta de Vigo", "Real Club Celta De Vigo", "RC Celta", "RC Celta de Vigo" -> "Real Club Celta de Vigo";
+            case "Club Deportivo Alavés" -> "Deportivo Alavés";
+            case "Levante Unión Deportiva" -> "Levante UD";
+            default -> n;
+        };
     }
 
-    private static int randomEdad(int a, int b) { return a + RNG.nextInt(b - a + 1); }
-
-    private static int playerBaseFromTeamVal(double teamVal) {
-        double base = 3.63636 * teamVal + 65.8182;
-        return (int) Math.round(base);
+    /** Valoración realista basada en el tamaño del club */
+    private static double generarValoracion(String equipo) {
+        return switch (equipo) {
+            case "Real Madrid", "FC Barcelona" -> 4.8;
+            case "Atlético de Madrid" -> 4.6;
+            case "Sevilla FC", "Real Sociedad", "Villarreal CF" -> 4.3;
+            case "Athletic Club", "Real Betis", "Valencia CF" -> 4.0;
+            default -> 3.5;
+        };
     }
 
-    private static int randomValor(double teamVal) {
-        int base = playerBaseFromTeamVal(teamVal);
-        int variation = RNG.nextInt(13) - 6;
-        int val = base + variation;
-        if (val < 60) val = 60;
-        if (val > 99) val = 99;
-        return val;
+    /** Presupuesto aproximado por tamaño del club */
+    private static double generarPresupuesto(String equipo) {
+        return switch (equipo) {
+            case "Real Madrid" -> 800_000_000;
+            case "FC Barcelona" -> 750_000_000;
+            case "Atlético de Madrid" -> 500_000_000;
+            case "Sevilla FC", "Villarreal CF", "Real Sociedad" -> 250_000_000;
+            case "Athletic Club", "Real Betis", "Valencia CF" -> 150_000_000;
+            default -> 80_000_000;
+        };
     }
 
-    private static String randomNombre() {
-        String[] fn = {"Álvaro","Alejandro","Sergio","David","Juan","Pablo","Luis","Miguel","Javier","Carlos",
-                "Andrés","Fernando","Rubén","Óscar","Diego","Iván","Hugo","Martín","Marco","Iker"};
-        String[] ln = {"García","González","Rodríguez","Fernández","López","Martínez","Sánchez","Pérez","Gómez","Ruiz"};
-        return fn[RNG.nextInt(fn.length)] + " " + ln[RNG.nextInt(ln.length)];
-    }
-
+    /** Formatea dinero */
     public static String formatMoney(double amount) {
-        if (amount >= 1_000_000_000) {
-            double v = amount / 1_000_000_000.0;
-            return String.format("%.1f", v).replace('.', ',') + "B€";
-        }
-        if (amount >= 1_000_000) {
-            double v = amount / 1_000_000.0;
-            if (Math.abs(v - Math.round(v)) < 0.01) return String.format("%.0f", v) + "M€";
-            return String.format("%.1f", v).replace('.', ',') + "M€";
-        }
-        if (amount >= 1000) {
-            double v = amount / 1000.0;
-            if (Math.abs(v - Math.round(v)) < 0.01) return String.format("%.0f", v) + "K€";
-            return String.format("%.1f", v).replace('.', ',') + "K€";
-        }
-        return String.format("%.0f€", amount);
+        if (amount >= 1_000_000_000)
+            return String.format("%.1fB€", amount / 1_000_000_000).replace('.', ',');
+        if (amount >= 1_000_000)
+            return String.format("%.1fM€", amount / 1_000_000).replace('.', ',');
+        return ((int) amount) + "€";
     }
 }

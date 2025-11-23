@@ -8,9 +8,12 @@ public class Equipo {
     private String ciudad;
     private String estadio;
     private String formacion;
-    private double valoracion; 
-    private double budget; 
+    private double valoracion;
+    private double budget;
     private List<Jugador> onceTitular = new ArrayList<>();
+
+    // NUEVO: estadísticas del equipo (para clasificación)
+    private TeamStats stats = new TeamStats();
 
     public Equipo(String nombre, String ciudad, String estadio, String formacion, double valoracion, double budget) {
         this.nombre = nombre;
@@ -26,6 +29,7 @@ public class Equipo {
     public String getEstadio() { return estadio; }
     public String getFormacion() { return formacion; }
     public void setFormacion(String formacion) { this.formacion = formacion; }
+
     public double getValoracion() { return valoracion; }
     public void setValoracion(double valoracion) {
         this.valoracion = Math.round(Math.max(1.0, Math.min(5.0, valoracion)) * 10.0) / 10.0;
@@ -39,6 +43,11 @@ public class Equipo {
     public void setOnceTitular(List<Jugador> once) {
         this.onceTitular.clear();
         if (once != null) this.onceTitular.addAll(once);
+    }
+
+    // NUEVO: acceso a estadísticas (clasificación)
+    public TeamStats getStats() {
+        return stats;
     }
 
     @Override

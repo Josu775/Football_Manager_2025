@@ -6,21 +6,20 @@ import domain.GameSession;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TeamSelectionWindow extends JFrame {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private JList<Equipo> list;
+    private JList<Equipo> list;
     private JLabel lblEscudo;
     private JLabel lblTituloEquipo;
-    private JTextArea detalleTextLeft;   // Información general
-    private JTextArea detalleTextRight;  // Once titular
+
+    private JTextArea detalleTextLeft;
+    private JTextArea detalleTextRight; // NUEVA COLUMNA DERECHA
+
+    private JButton btnVerPlantilla;
+    private JLabel lblMensajeInicial;
 
     private static final Map<String, String> ESCUDOS = new HashMap<>();
 
@@ -36,7 +35,7 @@ public class TeamSelectionWindow extends JFrame {
         ESCUDOS.put("Valencia CF", "valencia.png");
         ESCUDOS.put("RCD Mallorca", "mallorca.png");
         ESCUDOS.put("CA Osasuna", "osasuna.png");
-        ESCUDOS.put("RC Celta", "celta.png");
+        ESCUDOS.put("Real Club Celta de Vigo", "celta.png");
         ESCUDOS.put("Getafe CF", "getafe.png");
         ESCUDOS.put("Rayo Vallecano", "rayovallecano.png");
         ESCUDOS.put("Deportivo Alavés", "alaves.png");
@@ -46,6 +45,8 @@ public class TeamSelectionWindow extends JFrame {
         ESCUDOS.put("Real Oviedo", "realoviedo.png");
         ESCUDOS.put("Levante UD", "levante.png");
     }
+
+    // === TEXTOS ANTIGUOS RESTAURADOS ===
 
     private static final Map<String, String> HISTORIA = new HashMap<>();
     static {
@@ -60,7 +61,7 @@ public class TeamSelectionWindow extends JFrame {
         HISTORIA.put("Valencia CF", "Amunt, sempre Amunt.");
         HISTORIA.put("RCD Mallorca", "Ca nostra, ca teva.");
         HISTORIA.put("CA Osasuna", "Osasuna nunca se rinde.");
-        HISTORIA.put("RC Celta", "Afouteza, corazón, orgullo e tradición.");
+        HISTORIA.put("Real Club Celta de Vigo", "Afouteza,orgullo e tradición.");
         HISTORIA.put("Getafe CF", "Esto es fútbol, papá.");
         HISTORIA.put("Rayo Vallecano", "La vida pirata la vida mejor.");
         HISTORIA.put("Deportivo Alavés", "Babazorro, alta la frente.");
@@ -84,7 +85,7 @@ public class TeamSelectionWindow extends JFrame {
         OBJETIVO.put("Valencia CF", "Mitad alta");
         OBJETIVO.put("RCD Mallorca", "Salvarse");
         OBJETIVO.put("CA Osasuna", "Salvarse");
-        OBJETIVO.put("RC Celta", "Salvarse");
+        OBJETIVO.put("Real Club Celta de Vigo", "Salvarse");
         OBJETIVO.put("Getafe CF", "Evitar descenso");
         OBJETIVO.put("Rayo Vallecano", "Evitar descenso");
         OBJETIVO.put("Deportivo Alavés", "Permanencia");
@@ -109,7 +110,7 @@ public class TeamSelectionWindow extends JFrame {
         REPUTACION.put("Girona FC", "Baja");
         REPUTACION.put("RCD Mallorca", "Baja");
         REPUTACION.put("CA Osasuna", "Media");
-        REPUTACION.put("RC Celta", "Baja");
+        REPUTACION.put("Real Club Celta de Vigo", "Baja");
         REPUTACION.put("RCD Espanyol", "Baja");
         REPUTACION.put("Getafe CF", "Baja");
         REPUTACION.put("Rayo Vallecano", "Baja");
@@ -140,69 +141,86 @@ public class TeamSelectionWindow extends JFrame {
         fondo.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         add(fondo);
 
-        // ===== LISTA =====
         DefaultListModel<Equipo> model = new DefaultListModel<>();
         for (Equipo e : LeagueData.getLaLiga20()) model.addElement(e);
 
         list = new JList<>(model);
-        list.setFont(new Font("Arial", Font.BOLD, 16));
+        list.setFont(new Font("Arial", Font.BOLD, 20));
+        list.setFixedCellHeight(30);
         list.setBackground(new Color(10,20,50));
         list.setForeground(Color.WHITE);
         list.setSelectionBackground(new Color(50,70,140));
         list.setSelectionForeground(Color.WHITE);
-        list.setCellRenderer(new HighRowRenderer());
 
-        JScrollPane scrollList = new JScrollPane(list);
-        scrollList.setPreferredSize(new Dimension(260,500));
-        fondo.add(scrollList, BorderLayout.WEST);
+        fondo.add(new JScrollPane(list), BorderLayout.WEST);
 
-        // ===== PANEL DERECHO =====
-        JPanel right = new JPanel(new BorderLayout());
+        // ==== PANEL DERECHO ====
+        JPanel right = new JPanel(null);
         right.setBackground(new Color(8,16,45));
-        right.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(200,200,255),2),
-                BorderFactory.createEmptyBorder(15,15,15,15)
-        ));
         fondo.add(right, BorderLayout.CENTER);
 
-        // TÍTULO
+        lblMensajeInicial = new JLabel("Selecciona un equipo", SwingConstants.CENTER);
+        lblMensajeInicial.setForeground(Color.WHITE);
+        lblMensajeInicial.setFont(new Font("Arial", Font.BOLD, 32));
+        lblMensajeInicial.setBounds(100, 250, 500, 60);
+        right.add(lblMensajeInicial);
+
         lblTituloEquipo = new JLabel("", SwingConstants.CENTER);
-        lblTituloEquipo.setFont(new Font("Arial", Font.BOLD, 26));
+        lblTituloEquipo.setFont(new Font("Arial", Font.BOLD, 34));
         lblTituloEquipo.setForeground(Color.WHITE);
-        right.add(lblTituloEquipo, BorderLayout.NORTH);
+        lblTituloEquipo.setBounds(0, 20, 700, 45);
+        lblTituloEquipo.setVisible(false);
+        right.add(lblTituloEquipo);
 
-        // ESCUDO
         lblEscudo = new JLabel("", SwingConstants.CENTER);
-        right.add(lblEscudo, BorderLayout.CENTER);
+        lblEscudo.setBounds(260, 80, 180, 180);
+        lblEscudo.setVisible(false);
+        right.add(lblEscudo);
 
-        // ===== PANEL DOBLE (INFO IZQ + ONCE DCHA) =====
-        JPanel doble = new JPanel(new GridLayout(1,2,20,0));
-        doble.setBackground(new Color(8,16,45));
-        right.add(doble, BorderLayout.SOUTH);
+        btnVerPlantilla = new JButton("Ver plantilla");
+        btnVerPlantilla.setBounds(300, 270, 100, 32);
+        btnVerPlantilla.setVisible(false);
+        btnVerPlantilla.addActionListener(e -> {
+            Equipo sel = list.getSelectedValue();
+            if (sel != null) new FullSquadWindow(this, sel);
+        });
+        right.add(btnVerPlantilla);
 
-        // INFO IZQUIERDA
+        // ============================
+        //   PANEL INFERIOR 2 COLUMNAS
+        // ============================
+        JPanel infoPanel = new JPanel(null);
+        infoPanel.setBackground(new Color(8,16,45));
+        infoPanel.setBounds(120, 330, 630, 230);
+ 
+        right.add(infoPanel);
+
+        // IZQUIERDA (5 datos)
         detalleTextLeft = new JTextArea();
         detalleTextLeft.setEditable(false);
-        detalleTextLeft.setBackground(new Color(8,16,45));
+        detalleTextLeft.setOpaque(false);
         detalleTextLeft.setForeground(Color.WHITE);
-        detalleTextLeft.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 15));
-        detalleTextLeft.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        detalleTextLeft.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 19));
+        detalleTextLeft.setLineWrap(true);
+        detalleTextLeft.setWrapStyleWord(true);
+        detalleTextLeft.setBounds(0, 0, 300, 230);
+        infoPanel.add(detalleTextLeft);
 
-        JScrollPane scrollLeft = new JScrollPane(detalleTextLeft);
-        scrollLeft.setBorder(null);
-        doble.add(scrollLeft);
-
-        // ONCE DERECHA
+        // DERECHA (otros 5 datos)
         detalleTextRight = new JTextArea();
         detalleTextRight.setEditable(false);
-        detalleTextRight.setBackground(new Color(8,16,45));
+        detalleTextRight.setOpaque(false);
         detalleTextRight.setForeground(Color.WHITE);
-        detalleTextRight.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 15));
-        detalleTextRight.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        detalleTextRight.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 19));
+        detalleTextRight.setLineWrap(true);
+        detalleTextRight.setWrapStyleWord(true);
+        detalleTextRight.setBounds(310, 0, 300, 230);
+        infoPanel.add(detalleTextRight);
 
-        JScrollPane scrollRight = new JScrollPane(detalleTextRight);
-        scrollRight.setBorder(null);
-        doble.add(scrollRight);
+        // EVENTO
+        list.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) updateDetails();
+        });
 
         // BOTONES
         JPanel south = new JPanel();
@@ -212,84 +230,51 @@ public class TeamSelectionWindow extends JFrame {
         south.add(btnAtras);
         fondo.add(south, BorderLayout.SOUTH);
 
-        /* ======================================================
-              KEY BINDINGS: ENTER = elegir, ESC = atrás
-           ====================================================== */
-        JRootPane root = getRootPane();
-        InputMap im = root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap am = root.getActionMap();
-
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "elegir");
-        am.put("elegir", new AbstractAction() {
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-            public void actionPerformed(ActionEvent e) {
-                btnElegir.doClick();
-            }
-        });
-
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "atras");
-        am.put("atras", new AbstractAction() {
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-            public void actionPerformed(ActionEvent e) {
-                btnAtras.doClick();
-            }
-        });
-
-        // EVENTOS
-        list.addListSelectionListener(e -> updateDetails());
-
         btnElegir.addActionListener(e -> {
             Equipo sel = list.getSelectedValue();
-
-            if (sel == null) {
-                JOptionPane.showMessageDialog(this, "Selecciona un equipo.");
-                return;
-            }
-
-            int opcion = JOptionPane.showConfirmDialog(
-                    this,
-                    "¿Seguro que quieres entrenar al " + sel.getNombre() + "?",
-                    "Confirmar seleccion",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE
-            );
-
-            if (opcion == JOptionPane.YES_OPTION) {
+            if (sel != null) {
                 new MainGameWindow(this, new GameSession(sel));
                 dispose();
             }
         });
 
+        btnAtras.addActionListener(e -> dispose());
     }
 
-    /* =====================================================
-                       ACTUALIZAR DETALLES
-       ===================================================== */
     private void updateDetails() {
+
         Equipo sel = list.getSelectedValue();
         if (sel == null) return;
 
+        lblMensajeInicial.setVisible(false);
+        lblTituloEquipo.setVisible(true);
+        lblEscudo.setVisible(true);
+        btnVerPlantilla.setVisible(true);
+
         lblTituloEquipo.setText(sel.getNombre());
 
-        // Escudo
         String file = ESCUDOS.get(sel.getNombre());
         if (file != null) {
             ImageIcon img = new ImageIcon("resources/images/escudos/" + file);
-            Image scaled = img.getImage().getScaledInstance(150,150,Image.SCALE_SMOOTH);
+            Image scaled = img.getImage().getScaledInstance(180,180,Image.SCALE_SMOOTH);
             lblEscudo.setIcon(new ImageIcon(scaled));
         }
 
-        // ===== INFO GENERAL IZQUIERDA =====
+        // ======================================================
+        //      NUEVA VALORACIÓN ESTILO FOOTBALL MANAGER / EA FC
+        // ======================================================
+
+        // Valoración antigua: 0 - 5 → convertir a 75 - 99
+        int valor100 = Math.max(75, (int)(sel.getValoracion() * 20));
+
+        // Ataque y defensa ligeramente ajustados respecto a la valoración
+        // Rango siempre 75–99
+        int ataque  = Math.max(75, Math.min(99, valor100 + (int)(Math.random()*6 - 3)));
+        int defensa = Math.max(75, Math.min(99, valor100 + (int)(Math.random()*6 - 3)));
+
+        // ======================================================
+        //                 COLUMNA IZQUIERDA
+        // ======================================================
         StringBuilder left = new StringBuilder();
 
         left.append("“").append(HISTORIA.get(sel.getNombre())).append("”\n\n");
@@ -297,60 +282,26 @@ public class TeamSelectionWindow extends JFrame {
         left.append("Estadio: ").append(sel.getEstadio()).append("\n");
         left.append("Reputación: ").append(REPUTACION.get(sel.getNombre())).append("\n");
         left.append("Formación: ").append(sel.getFormacion()).append("\n");
-        left.append("Valoración: ").append(sel.getValoracion()).append(" / 5.0\n");
-        left.append("Presupuesto: ").append(LeagueData.formatMoney(sel.getBudget())).append("\n");
-        left.append("Objetivo: ").append(OBJETIVO.get(sel.getNombre())).append("\n");
-        left.append("Fortaleza: ").append(FORTALEZAS[(int)(Math.random()*FORTALEZAS.length)]).append("\n\n");
-        left.append("Ataque:   ").append(estrellas(sel.getValoracion()+0.5)).append("\n");
-        left.append("Defensa:  ").append(estrellas(sel.getValoracion())).append("\n");
 
         detalleTextLeft.setText(left.toString());
         detalleTextLeft.setCaretPosition(0);
 
-        // ===== ONCE TITULAR DERECHA =====
-        StringBuilder right = new StringBuilder("Once titular:\n\n");
-        int i = 1;
-        for (var j : sel.getOnceTitular()) {
-            right.append(i++).append(". ").append(j.getNombre())
-                 .append(" - ").append(j.getPosicion())
-                 .append(" (").append(j.getEdad()).append(" años) ")
-                 .append(j.getValoracion()).append("/99\n");
-        }
+        // ======================================================
+        //                 COLUMNA DERECHA
+        // ======================================================
+        StringBuilder right = new StringBuilder();
+
+        right.append("Valoración: ").append(valor100).append("\n");
+        right.append("Presupuesto: ").append(LeagueData.formatMoney(sel.getBudget())).append("\n");
+        right.append("Objetivo: ").append(OBJETIVO.get(sel.getNombre())).append("\n");
+        right.append("Fortaleza: ").append(FORTALEZAS[(int)(Math.random()*FORTALEZAS.length)]).append("\n");
+        right.append("Ataque: ").append(ataque).append("\n");
+        right.append("Defensa: ").append(defensa).append("\n");
 
         detalleTextRight.setText(right.toString());
         detalleTextRight.setCaretPosition(0);
     }
 
-    private String estrellas(double v) {
-        int n = (int)Math.round(v);
-        return "⭐".repeat(Math.min(n, 5));
-    }
 
-    class HighRowRenderer extends DefaultListCellRenderer {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-		@Override
-        public Component getListCellRendererComponent(
-                JList<?> list, Object value, int index,
-                boolean isSelected, boolean cellHasFocus) {
-
-            JLabel label = (JLabel) super.getListCellRendererComponent(
-                    list, value, index, isSelected, cellHasFocus);
-
-            label.setPreferredSize(new Dimension(label.getWidth(), 30));
-            label.setOpaque(true);
-
-            if (isSelected) {
-                label.setBackground(new Color(50,70,140));
-                label.setForeground(Color.WHITE);
-            } else {
-                label.setBackground(new Color(10,20,50));
-                label.setForeground(Color.WHITE);
-            }
-            return label;
-        }
-    }
+    
 }

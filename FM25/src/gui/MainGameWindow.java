@@ -6,16 +6,14 @@ import domain.LeagueData;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 public class MainGameWindow extends JFrame {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private GameSession session;
+    private static final long serialVersionUID = 1L;
+
+    private GameSession session;
     private Equipo equipo;
     private JLabel lblTeamName;
     private JLabel lblFormation;
@@ -93,7 +91,14 @@ public class MainGameWindow extends JFrame {
         add(center, BorderLayout.CENTER);
         add(bottom, BorderLayout.SOUTH);
 
-        btnClasificacion.addActionListener(e -> new ClassificationWindow(this));
+        // === BOTONES ===
+        btnClasificacion.addActionListener(e -> {
+            // Por ahora recargamos la liga desde LeagueData; en el futuro
+            // lo ideal es que GameSession gestione la lista de equipos.
+            List<Equipo> liga = LeagueData.getLaLiga20();
+            new ClassificationWindow(this, equipo, liga);
+        });
+
         btnMercado.addActionListener(e -> {
             MarketWindow mw = new MarketWindow(this, equipo);
             mw.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -117,13 +122,9 @@ public class MainGameWindow extends JFrame {
         ActionMap am = root.getActionMap();
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "volver");
         am.put("volver", new AbstractAction() {
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-            public void actionPerformed(ActionEvent e) {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent e) {
                 btnAtras.doClick();
             }
         });
@@ -142,7 +143,7 @@ public class MainGameWindow extends JFrame {
         area.setText(sb.toString());
     }
 
-    private int calcularMediaOnce(List<domain.Jugador> once) {
+    private int calcularMediaOnce(java.util.List<domain.Jugador> once) {
         if (once == null || once.isEmpty()) return 0;
         int sum = 0;
         for (domain.Jugador j : once) sum += j.getValoracion();
