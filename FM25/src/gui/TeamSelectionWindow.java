@@ -238,7 +238,11 @@ public class TeamSelectionWindow extends JFrame {
             }
         });
 
-        btnAtras.addActionListener(e -> dispose());
+        btnAtras.addActionListener(e -> {
+            new WelcomeWindow();  // volver a la pantalla inicial
+            dispose();            // cerrar solo el selector de equipos
+        });
+
     }
 
     private void updateDetails() {
