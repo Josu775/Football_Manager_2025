@@ -151,7 +151,7 @@ public class TeamSelectionWindow extends JFrame {
         }
 
         list = new JList<>(model);
-        list.setFont(new Font("Arial", Font.BOLD, 20));
+        list.setFont(new Font("Arial", Font.BOLD, 17));
         list.setFixedCellHeight(30);
         list.setBackground(new Color(10,20,50));
         list.setForeground(Color.WHITE);
