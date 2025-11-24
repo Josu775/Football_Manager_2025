@@ -1,6 +1,8 @@
 package domain;
 
 import io.CSVPlayerLoader;
+import db.DataManager;
+
 import java.util.*;
 
 public class LeagueData {
@@ -31,8 +33,25 @@ public class LeagueData {
         Map.entry("Elche CF", new String[]{"Elche", "Martínez Valero"})
     );
 
-    /** Devuelve la lista real de equipos con jugadores del CSV */
+    /**
+     * Devuelve la lista real de equipos con jugadores.
+     *
+     * 1) Si la BD ya tiene datos, se carga desde SQLite.
+     * 2) Si la BD está vacía, se carga desde CSV, se guarda en la BD y se devuelve.
+     */
     public static List<Equipo> getLaLiga20() {
+
+        // 0. Intentar cargar desde BD (si ya se ha guardado antes)
+        try {
+            if (DataManager.getEquipoDAO() != null) {
+                List<Equipo> desdeBD = DataManager.cargarLigaDeBD();
+                if (!desdeBD.isEmpty()) {
+                    return desdeBD;
+                }
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
         // 1. Cargar jugadores reales del CSV
         List<Jugador> jugadores = CSVPlayerLoader.cargarJugadoresDesdeCSV(
@@ -68,7 +87,18 @@ public class LeagueData {
             mapa.get(canonical).getOnceTitular().add(j);
         }
 
-        return new ArrayList<>(mapa.values());
+        List<Equipo> liga = new ArrayList<>(mapa.values());
+
+        // 3. Guardar en BD para futuras ejecuciones
+        try {
+            if (DataManager.getEquipoDAO() != null) {
+                DataManager.guardarLiga(liga);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return liga;
     }
 
     /** Normaliza nombres largos del CSV a nombres cortos */

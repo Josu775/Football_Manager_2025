@@ -1,7 +1,6 @@
 package gui;
 
 import domain.Equipo;
-import domain.LeagueData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,19 +12,17 @@ import java.util.Random;
 
 public class CalendarWindow extends JFrame {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private final Equipo equipo;
+    private static final long serialVersionUID = 1L;
+    private final Equipo equipo;
     private final List<MatchInfo> jornadas;
     private int jornadaActual = 1;
     private JLabel lblInfo;
 
-    public CalendarWindow(JFrame parent, Equipo equipo) {
+    // AHORA recibe también la lista de equipos de la liga
+    public CalendarWindow(JFrame parent, Equipo equipo, List<Equipo> liga) {
         super("Calendario - " + equipo.getNombre());
         this.equipo = equipo;
-        this.jornadas = generarJornadas();
+        this.jornadas = generarJornadas(liga);
         setSize(650, 400);
         setLocationRelativeTo(parent);
         init();
@@ -68,34 +65,22 @@ public class CalendarWindow extends JFrame {
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "cerrar");
 
         am.put("prev", new AbstractAction() {
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
+            private static final long serialVersionUID = 1L;
+            @Override
             public void actionPerformed(ActionEvent e) {
                 btnPrev.doClick();
             }
         });
         am.put("next", new AbstractAction() {
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
+            private static final long serialVersionUID = 1L;
+            @Override
             public void actionPerformed(ActionEvent e) {
                 btnNext.doClick();
             }
         });
         am.put("cerrar", new AbstractAction() {
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
+            private static final long serialVersionUID = 1L;
+            @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
@@ -117,10 +102,14 @@ public class CalendarWindow extends JFrame {
         lblInfo.setText(html);
     }
 
-    private List<MatchInfo> generarJornadas() {
+    // AHORA usa la lista de la sesión, no vuelve a llamar a LeagueData
+    private List<MatchInfo> generarJornadas(List<Equipo> liga) {
         List<MatchInfo> lista = new ArrayList<>();
-        List<Equipo> equipos = LeagueData.getLaLiga20();
+
+        // Copia modificable de la liga y quitamos nuestro propio equipo
+        List<Equipo> equipos = new ArrayList<>(liga);
         equipos.removeIf(e -> e.getNombre().equals(equipo.getNombre()));
+
         Random rnd = new Random();
 
         for (int i = 1; i <= 38; i++) {
@@ -142,14 +131,19 @@ public class CalendarWindow extends JFrame {
         int posicion;
         boolean local;
         MatchInfo(int j, String r, String e, String h, int p, boolean l) {
-            setJornada(j); rival = r; estadio = e; hora = h; posicion = p; local = l;
+            setJornada(j);
+            rival = r;
+            estadio = e;
+            hora = h;
+            posicion = p;
+            local = l;
         }
-		@SuppressWarnings("unused")
-		public int getJornada() {
-			return jornada;
-		}
-		public void setJornada(int jornada) {
-			this.jornada = jornada;
-		}
+        @SuppressWarnings("unused")
+        public int getJornada() {
+            return jornada;
+        }
+        public void setJornada(int jornada) {
+            this.jornada = jornada;
+        }
     }
 }

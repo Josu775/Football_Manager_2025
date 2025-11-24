@@ -7,6 +7,7 @@ import domain.GameSession;
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TeamSelectionWindow extends JFrame {
@@ -141,8 +142,13 @@ public class TeamSelectionWindow extends JFrame {
         fondo.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         add(fondo);
 
+        // ⚽️ Liga creada UNA vez para esta ventana
+        List<Equipo> liga = LeagueData.getLaLiga20();
+
         DefaultListModel<Equipo> model = new DefaultListModel<>();
-        for (Equipo e : LeagueData.getLaLiga20()) model.addElement(e);
+        for (Equipo e : liga) {
+            model.addElement(e);
+        }
 
         list = new JList<>(model);
         list.setFont(new Font("Arial", Font.BOLD, 20));
@@ -192,7 +198,7 @@ public class TeamSelectionWindow extends JFrame {
         JPanel infoPanel = new JPanel(null);
         infoPanel.setBackground(new Color(8,16,45));
         infoPanel.setBounds(120, 330, 630, 230);
- 
+
         right.add(infoPanel);
 
         // IZQUIERDA (5 datos)
@@ -233,16 +239,16 @@ public class TeamSelectionWindow extends JFrame {
         btnElegir.addActionListener(e -> {
             Equipo sel = list.getSelectedValue();
             if (sel != null) {
-                new MainGameWindow(this, new GameSession(sel));
+                // 👉 Pasamos también la liga completa a la GameSession
+                new MainGameWindow(this, new GameSession(sel, liga));
                 dispose();
             }
         });
 
         btnAtras.addActionListener(e -> {
-            new WelcomeWindow();  // volver a la pantalla inicial
-            dispose();            // cerrar solo el selector de equipos
+            new WelcomeWindow();
+            dispose();
         });
-
     }
 
     private void updateDetails() {
@@ -268,19 +274,13 @@ public class TeamSelectionWindow extends JFrame {
         //      NUEVA VALORACIÓN ESTILO FOOTBALL MANAGER / EA FC
         // ======================================================
 
-        // Valoración antigua: 0 - 5 → convertir a 75 - 99
         int valor100 = Math.max(75, (int)(sel.getValoracion() * 20));
 
-        // Ataque y defensa ligeramente ajustados respecto a la valoración
-        // Rango siempre 75–99
         int ataque  = Math.max(75, Math.min(99, valor100 + (int)(Math.random()*6 - 3)));
         int defensa = Math.max(75, Math.min(99, valor100 + (int)(Math.random()*6 - 3)));
 
-        // ======================================================
-        //                 COLUMNA IZQUIERDA
-        // ======================================================
+        // COLUMNA IZQUIERDA
         StringBuilder left = new StringBuilder();
-
         left.append("“").append(HISTORIA.get(sel.getNombre())).append("”\n\n");
         left.append("Ciudad: ").append(sel.getCiudad()).append("\n");
         left.append("Estadio: ").append(sel.getEstadio()).append("\n");
@@ -290,11 +290,8 @@ public class TeamSelectionWindow extends JFrame {
         detalleTextLeft.setText(left.toString());
         detalleTextLeft.setCaretPosition(0);
 
-        // ======================================================
-        //                 COLUMNA DERECHA
-        // ======================================================
+        // COLUMNA DERECHA
         StringBuilder right = new StringBuilder();
-
         right.append("Valoración: ").append(valor100).append("\n");
         right.append("Presupuesto: ").append(LeagueData.formatMoney(sel.getBudget())).append("\n");
         right.append("Objetivo: ").append(OBJETIVO.get(sel.getNombre())).append("\n");
@@ -305,7 +302,4 @@ public class TeamSelectionWindow extends JFrame {
         detalleTextRight.setText(right.toString());
         detalleTextRight.setCaretPosition(0);
     }
-
-
-    
 }

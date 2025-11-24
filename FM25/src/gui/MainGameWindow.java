@@ -93,9 +93,8 @@ public class MainGameWindow extends JFrame {
 
         // === BOTONES ===
         btnClasificacion.addActionListener(e -> {
-            // Por ahora recargamos la liga desde LeagueData; en el futuro
-            // lo ideal es que GameSession gestione la lista de equipos.
-            List<Equipo> liga = LeagueData.getLaLiga20();
+            // AHORA usamos la liga de la sesión (no recalculamos LeagueData)
+            List<Equipo> liga = session.getLiga();
             new ClassificationWindow(this, equipo, liga);
         });
 
@@ -109,8 +108,11 @@ public class MainGameWindow extends JFrame {
                 }
             });
         });
+
         btnPlantilla.addActionListener(e -> new SquadTacticsWindow(this, equipo));
-        btnCalendario.addActionListener(e -> new CalendarWindow(this, equipo));
+
+        // AHORA calendario también usa la liga de la sesión
+        btnCalendario.addActionListener(e -> new CalendarWindow(this, equipo, session.getLiga()));
 
         btnAtras.addActionListener(e -> {
             dispose();

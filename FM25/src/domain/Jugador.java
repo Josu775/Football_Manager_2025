@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * Jugador con valoracion en escala 0.0 - 5.0 (double, 1 decimal).
- * Ahora también admite jugadores cargados desde CSV reales.
+ * Admite jugadores cargados desde CSV, desde BD y generados para el mercado.
  */
 public class Jugador {
 
@@ -14,17 +14,23 @@ public class Jugador {
     private String posicion;
     private int edad;
     private double valoracion;
-    private String equipo;   // nombre del equipo al que pertenece (para el CSV)
+    private String equipo;   // nombre del equipo al que pertenece
 
-    // Constructor original (inventados / mercado)
+    // Constructor para mercado / jugadores inventados (sin equipo inicial)
     public Jugador(String nombre, String posicion, int edad, double valoracion) {
+        this(nombre, posicion, edad, valoracion, null);
+    }
+
+    // Constructor para cargar desde BD (o para crear con equipo explícito)
+    public Jugador(String nombre, String posicion, int edad, double valoracion, String equipo) {
         this.nombre = nombre;
         this.posicion = posicion;
         this.edad = edad;
+        this.equipo = equipo;
         setValoracion(valoracion);
     }
 
-    // Constructor nuevo para CSV (nombre, posición, equipo)
+    // Constructor para CSV (nombre, posición, equipo) — edad y valoración aleatorias
     public Jugador(String nombre, String posicion, String equipo) {
         this.nombre = nombre;
         this.posicion = posicion;
@@ -32,8 +38,7 @@ public class Jugador {
 
         this.edad = 18 + RNG.nextInt(17);  // 18-34
 
-        // Rating base para jugadores reales, 1.5 - 5.0
-        double base = 1.5 + RNG.nextDouble() * 3.5;
+        double base = 1.5 + RNG.nextDouble() * 3.5; // 1.5 - 5.0
         setValoracion(base);
     }
 
@@ -41,6 +46,7 @@ public class Jugador {
     public String getPosicion() { return posicion; }
     public int getEdad() { return edad; }
     public String getEquipo() { return equipo; }
+    public void setEquipo(String equipo) { this.equipo = equipo; }
 
     public double getValoracion() { return valoracion; }
 

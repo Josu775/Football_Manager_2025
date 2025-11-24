@@ -1,5 +1,6 @@
 package gui;
 
+import db.DataManager;
 import domain.Equipo;
 import domain.Jugador;
 
@@ -14,11 +15,8 @@ import java.util.Random;
 
 public class MarketWindow extends JFrame {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private static final Random RNG = new Random();
+    private static final long serialVersionUID = 1L;
+    private static final Random RNG = new Random();
     private final List<Offer> offers = new ArrayList<>();
 
     public MarketWindow(JFrame parent, Equipo targetTeam) {
@@ -32,12 +30,9 @@ public class MarketWindow extends JFrame {
     private void init(Equipo targetTeam) {
         String[] cols = {"Nombre", "Club origen", "Posición", "Edad", "Valoración", "Precio", "Acción"};
         DefaultTableModel model = new DefaultTableModel(cols, 0) {
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
-			@Override public boolean isCellEditable(int r, int c) { return c == 6; }
+            @Override public boolean isCellEditable(int r, int c) { return c == 6; }
         };
 
         JTable table = new JTable(model);
@@ -81,23 +76,15 @@ public class MarketWindow extends JFrame {
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "fichar");
 
         am.put("cerrar", new AbstractAction() {
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
+            private static final long serialVersionUID = 1L;
+            @Override
             public void actionPerformed(ActionEvent e) {
                 btnClose.doClick();
             }
         });
         am.put("fichar", new AbstractAction() {
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
+            private static final long serialVersionUID = 1L;
+            @Override
             public void actionPerformed(ActionEvent e) {
                 int row = table.getSelectedRow();
                 if (row >= 0) {
@@ -158,6 +145,8 @@ public class MarketWindow extends JFrame {
             double base = val * 2_000_000;
             double factor = (age < 22 ? 1.6 : 1.0) * (position.equals("POR") ? 0.9 : 1.0);
             double precio = Math.round((base * factor + RNG.nextInt(15_000_000)) / 1000.0) * 1000.0;
+
+            // Jugador inventado sin equipo todavía
             offers.add(new Offer(new Jugador(name, position, age, val), origen, precio));
         }
     }
@@ -170,11 +159,8 @@ public class MarketWindow extends JFrame {
     }
 
     private static class ButtonRenderer extends JButton implements javax.swing.table.TableCellRenderer {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		public ButtonRenderer() { setOpaque(true); setBackground(new Color(230, 240, 255)); }
+        private static final long serialVersionUID = 1L;
+        public ButtonRenderer() { setOpaque(true); setBackground(new Color(230, 240, 255)); }
         @Override public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             setText((value == null) ? "" : value.toString());
             setForeground(Color.BLACK);
@@ -183,11 +169,8 @@ public class MarketWindow extends JFrame {
     }
 
     private static class ButtonEditor extends AbstractCellEditor implements javax.swing.table.TableCellEditor, ActionListener {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		private final JButton button = new JButton();
+        private static final long serialVersionUID = 1L;
+        private final JButton button = new JButton();
         private final JTable table;
         private final DefaultTableModel model;
         private final List<Offer> offers;
@@ -213,18 +196,34 @@ public class MarketWindow extends JFrame {
 
         @Override public Object getCellEditorValue() { return button.getText(); }
 
-        @Override public void actionPerformed(ActionEvent e) {
+        @Override
+        public void actionPerformed(ActionEvent e) {
             if (editingRow < 0 || editingRow >= offers.size()) { fireEditingStopped(); return; }
+
             Offer of = offers.get(editingRow);
             double precio = of.precio;
+
             if (precio > targetTeam.getBudget()) {
                 JOptionPane.showMessageDialog(table, "No hay presupuesto suficiente para fichar a " + of.jugador.getNombre());
                 fireEditingStopped();
                 return;
             }
+
+            // Actualizar en memoria
             targetTeam.setBudget(targetTeam.getBudget() - precio);
+            of.jugador.setEquipo(targetTeam.getNombre());
             targetTeam.getOnceTitular().add(of.jugador);
+
+            // Actualizar en BD
+            try {
+                DataManager.getJugadorDAO().insertarJugador(of.jugador);
+                DataManager.getEquipoDAO().actualizarPresupuesto(targetTeam.getNombre(), targetTeam.getBudget());
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+
             JOptionPane.showMessageDialog(table, "Fichado: " + of.jugador.getNombre() + "\nPrecio: " + formatMoney(precio));
+
             if (lblBudget != null) lblBudget.setText("Presupuesto: " + formatMoney(targetTeam.getBudget()));
             offers.remove(editingRow);
             model.removeRow(editingRow);
