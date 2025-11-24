@@ -30,6 +30,17 @@ public class CSVPlayerLoader {
         Map.entry("Real Oviedo", "Real Oviedo"),
         Map.entry("Real Club Deportivo Mallorca", "RCD Mallorca"),
 
+        // 🔵 EXTRA: variantes muy típicas de BARÇA
+        Map.entry("Fútbol Club Barcelona", "FC Barcelona"),
+        Map.entry("Futbol Club Barcelona", "FC Barcelona"),
+        Map.entry("Barcelona", "FC Barcelona"),
+        Map.entry("Barça", "FC Barcelona"),
+
+        // 🔵 EXTRA: variantes muy típicas de GIRONA
+        Map.entry("Girona Futbol Club", "Girona FC"),
+        Map.entry("Girona FC", "Girona FC"),
+        Map.entry("Girona", "Girona FC"),
+
         // Extras que suelen aparecer en CSV de transfermarkt, sofifa, etc.
         Map.entry("RC Celta", "Real Club Celta de Vigo"),
         Map.entry("Celta Vigo", "Real Club Celta de Vigo"),
