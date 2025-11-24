@@ -6,14 +6,11 @@ import java.awt.event.*;
 
 public class WelcomeWindow extends JFrame {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public WelcomeWindow() {
+    public WelcomeWindow() {
         setTitle("Football Manager");
-        setSize(900, 500); 
+        setSize(900, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         initComponents();
@@ -23,14 +20,14 @@ public class WelcomeWindow extends JFrame {
     private void initComponents() {
 
         // ========== PANEL DE FONDO ==========
-        BackgroundPanel p = new BackgroundPanel("resources/images/logo.jpg"); 
+        BackgroundPanel p = new BackgroundPanel("resources/images/logo.jpg");
         p.setLayout(new BorderLayout(10,10));
         p.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
         // ========== TÍTULO ==========
         JLabel title = new JLabel("Football Manager", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 32));
-        title.setForeground(Color.WHITE); 
+        title.setForeground(Color.WHITE);
         p.add(title, BorderLayout.NORTH);
 
         // ========== SUBTÍTULO ==========
@@ -39,7 +36,7 @@ public class WelcomeWindow extends JFrame {
         subtitle.setForeground(Color.WHITE);
 
         JPanel center = new JPanel();
-        center.setOpaque(false); 
+        center.setOpaque(false);
         center.add(subtitle);
         p.add(center, BorderLayout.CENTER);
 
@@ -66,31 +63,27 @@ public class WelcomeWindow extends JFrame {
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "salir");
 
         am.put("nueva", new AbstractAction() {
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
+            private static final long serialVersionUID = 1L;
+            @Override
             public void actionPerformed(ActionEvent e) {
                 btnNueva.doClick();
             }
         });
         am.put("salir", new AbstractAction() {
-            /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
+            private static final long serialVersionUID = 1L;
+            @Override
             public void actionPerformed(ActionEvent e) {
                 btnSalir.doClick();
             }
         });
 
+        // === ACCIONES ===
         btnNueva.addActionListener(e -> {
-            new TeamSelectionWindow(this);
-            setVisible(false);
+            // Flujo nuevo: nombre -> avatar -> selector de equipo
+            new CreateManagerWindow(this, (nombre, avatar) -> {
+                new TeamSelectionWindow(this, nombre, avatar);
+                setVisible(false);
+            });
         });
 
         btnSalir.addActionListener(e -> System.exit(0));
@@ -98,11 +91,8 @@ public class WelcomeWindow extends JFrame {
 
     // ========== PANEL QUE PINTA EL FONDO ==========
     class BackgroundPanel extends JPanel {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		private Image background;
+        private static final long serialVersionUID = 1L;
+        private Image background;
 
         public BackgroundPanel(String imagePath) {
             background = new ImageIcon(imagePath).getImage();

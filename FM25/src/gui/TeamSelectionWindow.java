@@ -12,12 +12,21 @@ import java.util.Map;
 
 public class TeamSelectionWindow extends JFrame {
 
+    private static final long serialVersionUID = 1L;
+
+    // Manager
+    private final String managerName;
+    private final String managerAvatar;
+
+    // Datos liga
+    private List<Equipo> liga;
+
     private JList<Equipo> list;
     private JLabel lblEscudo;
     private JLabel lblTituloEquipo;
 
     private JTextArea detalleTextLeft;
-    private JTextArea detalleTextRight; // NUEVA COLUMNA DERECHA
+    private JTextArea detalleTextRight;
 
     private JButton btnVerPlantilla;
     private JLabel lblMensajeInicial;
@@ -126,8 +135,11 @@ public class TeamSelectionWindow extends JFrame {
             "Juego directo", "Defensa sólida", "Creatividad ofensiva"
     };
 
-    public TeamSelectionWindow(JFrame parent) {
-        setTitle("Elegir equipo - Nueva partida");
+    public TeamSelectionWindow(JFrame parent, String managerName, String managerAvatar) {
+        this.managerName = managerName;
+        this.managerAvatar = managerAvatar;
+
+        setTitle("Elegir equipo - " + managerName);
         setSize(1000, 600);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -143,7 +155,7 @@ public class TeamSelectionWindow extends JFrame {
         add(fondo);
 
         // ⚽️ Liga creada UNA vez para esta ventana
-        List<Equipo> liga = LeagueData.getLaLiga20();
+        liga = LeagueData.getLaLiga20();
 
         DefaultListModel<Equipo> model = new DefaultListModel<>();
         for (Equipo e : liga) {
@@ -184,7 +196,7 @@ public class TeamSelectionWindow extends JFrame {
         right.add(lblEscudo);
 
         btnVerPlantilla = new JButton("Ver plantilla");
-        btnVerPlantilla.setBounds(300, 270, 100, 32);
+        btnVerPlantilla.setBounds(300, 270, 120, 32);
         btnVerPlantilla.setVisible(false);
         btnVerPlantilla.addActionListener(e -> {
             Equipo sel = list.getSelectedValue();
@@ -201,7 +213,7 @@ public class TeamSelectionWindow extends JFrame {
 
         right.add(infoPanel);
 
-        // IZQUIERDA (5 datos)
+        // IZQUIERDA
         detalleTextLeft = new JTextArea();
         detalleTextLeft.setEditable(false);
         detalleTextLeft.setOpaque(false);
@@ -212,7 +224,7 @@ public class TeamSelectionWindow extends JFrame {
         detalleTextLeft.setBounds(0, 0, 300, 230);
         infoPanel.add(detalleTextLeft);
 
-        // DERECHA (otros 5 datos)
+        // DERECHA
         detalleTextRight = new JTextArea();
         detalleTextRight.setEditable(false);
         detalleTextRight.setOpaque(false);
@@ -228,7 +240,7 @@ public class TeamSelectionWindow extends JFrame {
             if (!e.getValueIsAdjusting()) updateDetails();
         });
 
-        // BOTONES
+        // BOTONES SUR
         JPanel south = new JPanel();
         JButton btnElegir = new JButton("Elegir equipo");
         JButton btnAtras = new JButton("Atrás");
@@ -238,11 +250,14 @@ public class TeamSelectionWindow extends JFrame {
 
         btnElegir.addActionListener(e -> {
             Equipo sel = list.getSelectedValue();
-            if (sel != null) {
-                // 👉 Pasamos también la liga completa a la GameSession
-                new MainGameWindow(this, new GameSession(sel, liga));
-                dispose();
-            }
+            if (sel == null) return;
+
+            GameSession session = new GameSession(sel, liga);
+            session.setManagerName(managerName);
+            session.setManagerAvatar(managerAvatar);
+
+            new MainGameWindow(this, session);
+            dispose();
         });
 
         btnAtras.addActionListener(e -> {
@@ -252,7 +267,6 @@ public class TeamSelectionWindow extends JFrame {
     }
 
     private void updateDetails() {
-
         Equipo sel = list.getSelectedValue();
         if (sel == null) return;
 
@@ -268,14 +282,11 @@ public class TeamSelectionWindow extends JFrame {
             ImageIcon img = new ImageIcon("resources/images/escudos/" + file);
             Image scaled = img.getImage().getScaledInstance(180,180,Image.SCALE_SMOOTH);
             lblEscudo.setIcon(new ImageIcon(scaled));
+        } else {
+            lblEscudo.setIcon(null);
         }
 
-        // ======================================================
-        //      NUEVA VALORACIÓN ESTILO FOOTBALL MANAGER / EA FC
-        // ======================================================
-
         int valor100 = Math.max(75, (int)(sel.getValoracion() * 20));
-
         int ataque  = Math.max(75, Math.min(99, valor100 + (int)(Math.random()*6 - 3)));
         int defensa = Math.max(75, Math.min(99, valor100 + (int)(Math.random()*6 - 3)));
 

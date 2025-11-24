@@ -1,5 +1,6 @@
 package gui;
 
+import io.SaveManager;
 import domain.GameSession;
 import domain.Equipo;
 import domain.LeagueData;
@@ -68,8 +69,10 @@ public class MainGameWindow extends JFrame {
         JButton btnMercado = new JButton("Mercado");
         JButton btnPlantilla = new JButton("Plantilla / Tácticas");
         JButton btnCalendario = new JButton("Calendario");
+        JButton btnGuardar = new JButton("Guardar partida");
+
         Dimension btnSize = new Dimension(200, 36);
-        for (JButton b : new JButton[]{btnClasificacion, btnMercado, btnPlantilla, btnCalendario}) {
+        for (JButton b : new JButton[]{btnClasificacion, btnMercado, btnPlantilla, btnCalendario, btnGuardar}) {
             b.setMaximumSize(btnSize);
             b.setAlignmentX(Component.CENTER_ALIGNMENT);
             leftMenu.add(b);
@@ -87,13 +90,31 @@ public class MainGameWindow extends JFrame {
         JButton btnAtras = new JButton("Atrás");
         bottom.add(btnAtras);
 
+        // PANEL MANAGER (arriba a la derecha)
+        JPanel managerPanel = new JPanel();
+        managerPanel.setLayout(new BoxLayout(managerPanel, BoxLayout.Y_AXIS));
+        managerPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+
+        JLabel lblName = new JLabel(session.getManagerName(), SwingConstants.CENTER);
+        lblName.setFont(new Font("Arial", Font.BOLD, 18));
+        lblName.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        ImageIcon av = new ImageIcon("resources/images/avatars/" + session.getManagerAvatar());
+        Image scaledAv = av.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+        JLabel lblAvatar = new JLabel(new ImageIcon(scaledAv), SwingConstants.CENTER);
+        lblAvatar.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        managerPanel.add(lblAvatar);
+        managerPanel.add(Box.createVerticalStrut(5));
+        managerPanel.add(lblName);
+
+        add(managerPanel, BorderLayout.EAST);
         add(leftMenu, BorderLayout.WEST);
         add(center, BorderLayout.CENTER);
         add(bottom, BorderLayout.SOUTH);
 
         // === BOTONES ===
         btnClasificacion.addActionListener(e -> {
-            // AHORA usamos la liga de la sesión (no recalculamos LeagueData)
             List<Equipo> liga = session.getLiga();
             new ClassificationWindow(this, equipo, liga);
         });
@@ -110,23 +131,26 @@ public class MainGameWindow extends JFrame {
         });
 
         btnPlantilla.addActionListener(e -> new SquadTacticsWindow(this, equipo));
-
-        // AHORA calendario también usa la liga de la sesión
         btnCalendario.addActionListener(e -> new CalendarWindow(this, equipo, session.getLiga()));
+
+        btnGuardar.addActionListener(e -> {
+            SaveManager.guardarPartida(session);
+            JOptionPane.showMessageDialog(this, "Partida guardada.");
+        });
 
         btnAtras.addActionListener(e -> {
             dispose();
             new WelcomeWindow().setVisible(true);
         });
 
+        // ESC para volver
         JRootPane root = getRootPane();
         InputMap im = root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap am = root.getActionMap();
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "volver");
         am.put("volver", new AbstractAction() {
             private static final long serialVersionUID = 1L;
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent e) {
+            @Override public void actionPerformed(java.awt.event.ActionEvent e) {
                 btnAtras.doClick();
             }
         });
@@ -134,6 +158,7 @@ public class MainGameWindow extends JFrame {
 
     private void updateOverviewText(JTextArea area) {
         StringBuilder sb = new StringBuilder();
+        sb.append("Manager: ").append(session.getManagerName()).append("\n\n");
         sb.append("Equipo: ").append(equipo.getNombre()).append("\n");
         sb.append("Ciudad: ").append(equipo.getCiudad()).append("\n");
         sb.append("Estadio: ").append(equipo.getEstadio()).append("\n");
