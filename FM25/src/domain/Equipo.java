@@ -1,9 +1,13 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Equipo {
+public class Equipo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private String nombre; //nombre
     private String ciudad;
     private String estadio;
@@ -12,7 +16,7 @@ public class Equipo {
     private double budget;
     private List<Jugador> onceTitular = new ArrayList<>();
 
-    // NUEVO: estadísticas del equipo (para clasificación)
+    // Estadísticas del equipo (para clasificación)
     private TeamStats stats = new TeamStats();
 
     public Equipo(String nombre, String ciudad, String estadio, String formacion, double valoracion, double budget) {
@@ -27,6 +31,7 @@ public class Equipo {
     public String getNombre() { return nombre; }
     public String getCiudad() { return ciudad; }
     public String getEstadio() { return estadio; }
+
     public String getFormacion() { return formacion; }
     public void setFormacion(String formacion) { this.formacion = formacion; }
 
@@ -45,7 +50,7 @@ public class Equipo {
         if (once != null) this.onceTitular.addAll(once);
     }
 
-    // NUEVO: acceso a estadísticas (clasificación)
+    // Estadísticas (clasificación)
     public TeamStats getStats() {
         return stats;
     }

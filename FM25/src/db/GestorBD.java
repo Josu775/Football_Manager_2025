@@ -6,27 +6,35 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * GestorBD preparado para SQLite, pero aún sin activar.
- * Mantiene toda la estructura real lista.
+ * GestorBD para SQLite.
  */
 public class GestorBD {
 
-    // Ruta futura a la base de datos
+    // Ruta a la base de datos (archivo .db dentro de resources/db)
     private static final String URL = "jdbc:sqlite:resources/db/fm25.db";
-    
+
     private Connection conn;
 
-    /** FUTURO: Abrir conexión */
+    /** Abrir conexión */
     public void connect() {
         try {
+            // Cargar driver (útil en muchas configuraciones)
+            try {
+                Class.forName("org.sqlite.JDBC");
+            } catch (ClassNotFoundException e) {
+                System.err.println("[BD] Driver SQLite no encontrado en el classpath.");
+                e.printStackTrace();
+            }
+
             conn = DriverManager.getConnection(URL);
             System.out.println("[BD] Conexión abierta");
         } catch (SQLException e) {
+            System.err.println("[BD] Error al conectar con la BD");
             e.printStackTrace();
         }
     }
 
-    /** FUTURO: Cerrar conexión */
+    /** Cerrar conexión */
     public void close() {
         try {
             if (conn != null) {
@@ -34,11 +42,12 @@ public class GestorBD {
                 System.out.println("[BD] Conexión cerrada");
             }
         } catch (SQLException e) {
+            System.err.println("[BD] Error al cerrar la BD");
             e.printStackTrace();
         }
     }
 
-    /** FUTURO: Crear tablas si no existen */
+    /** Crear tablas si no existen */
     public void inicializarTablas() {
         try (Statement st = conn.createStatement()) {
 
@@ -69,11 +78,12 @@ public class GestorBD {
             System.out.println("[BD] Tablas inicializadas");
 
         } catch (SQLException e) {
+            System.err.println("[BD] Error al crear tablas");
             e.printStackTrace();
         }
     }
 
-    /** Getter de la conexión (cuando la uses en el futuro) */
+    /** Getter de la conexión */
     public Connection getConnection() {
         return conn;
     }

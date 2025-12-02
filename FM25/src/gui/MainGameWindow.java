@@ -1,12 +1,15 @@
 package gui;
 
+import domain.MatchSimulator;
 import io.SaveManager;
 import domain.GameSession;
 import domain.Equipo;
 import domain.LeagueData;
+import domain.Jugador;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
@@ -65,14 +68,17 @@ public class MainGameWindow extends JFrame {
         leftMenu.add(lblBudget);
         leftMenu.add(Box.createVerticalStrut(15));
 
-        JButton btnClasificacion = new JButton("Clasificación");
-        JButton btnMercado = new JButton("Mercado");
-        JButton btnPlantilla = new JButton("Plantilla / Tácticas");
-        JButton btnCalendario = new JButton("Calendario");
-        JButton btnGuardar = new JButton("Guardar partida");
+        JButton btnClasificacion      = new JButton("Clasificación");
+        JButton btnMercado            = new JButton("Mercado");
+        JButton btnPlantilla          = new JButton("Plantilla / Tácticas");
+        JButton btnCalendario         = new JButton("Calendario");
+        JButton btnSimularPartido     = new JButton("Simular siguiente partido");
+        JButton btnSimularTemporada   = new JButton("Simular temporada");
+        JButton btnGuardar            = new JButton("Guardar partida");
 
         Dimension btnSize = new Dimension(200, 36);
-        for (JButton b : new JButton[]{btnClasificacion, btnMercado, btnPlantilla, btnCalendario, btnGuardar}) {
+        for (JButton b : new JButton[]{btnClasificacion, btnMercado, btnPlantilla,
+                btnCalendario, btnSimularPartido, btnSimularTemporada, btnGuardar}) {
             b.setMaximumSize(btnSize);
             b.setAlignmentX(Component.CENTER_ALIGNMENT);
             leftMenu.add(b);
@@ -114,11 +120,14 @@ public class MainGameWindow extends JFrame {
         add(bottom, BorderLayout.SOUTH);
 
         // === BOTONES ===
+
+        // Clasificación (lee TeamStats de cada equipo)
         btnClasificacion.addActionListener(e -> {
             List<Equipo> liga = session.getLiga();
             new ClassificationWindow(this, equipo, liga);
         });
 
+        // Mercado
         btnMercado.addActionListener(e -> {
             MarketWindow mw = new MarketWindow(this, equipo);
             mw.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -130,17 +139,105 @@ public class MainGameWindow extends JFrame {
             });
         });
 
+        // Plantilla / Tácticas
         btnPlantilla.addActionListener(e -> new SquadTacticsWindow(this, equipo));
-        btnCalendario.addActionListener(e -> new CalendarWindow(this, equipo, session.getLiga()));
 
+        // Calendario (pasa también la sesión para guardar / reutilizar calendario)
+        btnCalendario.addActionListener(e ->
+                new CalendarWindow(this, equipo, session.getLiga(), session)
+        );
+
+        // Guardar partida
         btnGuardar.addActionListener(e -> {
             SaveManager.guardarPartida(session);
             JOptionPane.showMessageDialog(this, "Partida guardada.");
         });
 
+        // Volver al menú principal
         btnAtras.addActionListener(e -> {
             dispose();
             new WelcomeWindow().setVisible(true);
+        });
+
+        // === SIMULAR TEMPORADA COMPLETA (HILO) ===
+        btnSimularTemporada.addActionListener(e -> {
+            btnSimularTemporada.setEnabled(false);
+
+            Thread t = new Thread(() -> {
+                MatchSimulator.simularTemporada(session.getLiga());
+
+                SwingUtilities.invokeLater(() -> {
+                    btnSimularTemporada.setEnabled(true);
+                    session.reiniciarJornada();  // volvemos a 1 por si queremos luego simular jornada a jornada
+                    JOptionPane.showMessageDialog(this,
+                            "La temporada completa ha sido simulada.\n" +
+                            "Abre la Clasificación para ver los resultados.");
+                });
+            }, "SimulacionLigaThread");
+
+            t.start();
+        });
+
+        // === SIMULAR SIGUIENTE PARTIDO (HILO) ===
+        btnSimularPartido.addActionListener(e -> {
+
+            List<Object[]> calendario = session.getCalendario();
+            if (calendario == null || calendario.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "Primero abre el Calendario para generar el calendario de partidos.");
+                return;
+            }
+
+            int jornada = session.getJornadaActual();
+            if (jornada < 1) jornada = 1;
+
+            if (jornada > calendario.size()) {
+                JOptionPane.showMessageDialog(this,
+                        "La temporada ya ha terminado. No hay más partidos por simular.");
+                return;
+            }
+
+            Object[] datos = calendario.get(jornada - 1);
+            String nombreRival = (String) datos[1];
+            boolean local = (Boolean) datos[5];
+
+            // Buscar rival en la lista de equipos de la liga
+            Equipo rival = null;
+            for (Equipo eq : session.getLiga()) {
+                if (eq.getNombre().equals(nombreRival)) {
+                    rival = eq;
+                    break;
+                }
+            }
+
+            if (rival == null) {
+                JOptionPane.showMessageDialog(this,
+                        "No se ha encontrado el rival " + nombreRival + " en la liga.");
+                return;
+            }
+
+            // Variables finales para usarlas dentro del hilo
+            final Equipo rivalFinal          = rival;
+            final int jornadaFinal          = jornada;
+            final String nombreRivalFinal   = nombreRival;
+            final boolean localFinal        = local;
+
+            btnSimularPartido.setEnabled(false);
+
+            Thread t = new Thread(() -> {
+                MatchSimulator.simularPartidoDirecto(equipo, rivalFinal, localFinal);
+
+                SwingUtilities.invokeLater(() -> {
+                    btnSimularPartido.setEnabled(true);
+                    JOptionPane.showMessageDialog(this,
+                            "Jornada " + jornadaFinal + " simulada.\n" +
+                            "Rival: " + nombreRivalFinal + "\n" +
+                            "Consulta la Clasificación para ver los cambios.");
+                    session.avanzarJornada();
+                });
+            }, "SimularPartidoThread");
+
+            t.start();
         });
 
         // ESC para volver
@@ -150,7 +247,8 @@ public class MainGameWindow extends JFrame {
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "volver");
         am.put("volver", new AbstractAction() {
             private static final long serialVersionUID = 1L;
-            @Override public void actionPerformed(java.awt.event.ActionEvent e) {
+            @Override
+            public void actionPerformed(ActionEvent e) {
                 btnAtras.doClick();
             }
         });
@@ -170,10 +268,10 @@ public class MainGameWindow extends JFrame {
         area.setText(sb.toString());
     }
 
-    private int calcularMediaOnce(java.util.List<domain.Jugador> once) {
+    private int calcularMediaOnce(List<Jugador> once) {
         if (once == null || once.isEmpty()) return 0;
         int sum = 0;
-        for (domain.Jugador j : once) sum += j.getValoracion();
+        for (Jugador j : once) sum += j.getValoracion();
         return Math.round((float) sum / once.size());
     }
 }

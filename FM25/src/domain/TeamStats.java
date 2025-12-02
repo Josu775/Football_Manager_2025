@@ -1,6 +1,10 @@
 package domain;
 
-public class TeamStats {
+import java.io.Serializable;
+
+public class TeamStats implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private int puntos;
     private int gf;
@@ -12,23 +16,12 @@ public class TeamStats {
         this.gc = 0;
     }
 
-    public int getPuntos() {
-        return puntos;
-    }
+    public int getPuntos() { return puntos; }
+    public int getGf() { return gf; }
+    public int getGc() { return gc; }
+    public int getDg() { return gf - gc; }
 
-    public int getGf() {
-        return gf;
-    }
-
-    public int getGc() {
-        return gc;
-    }
-
-    public int getDg() {
-        return gf - gc;
-    }
-
-    /**
+    /** 
      * Actualiza estadísticas tras un partido.
      * gf = goles marcados por este equipo
      * gc = goles recibidos por este equipo
@@ -36,11 +29,17 @@ public class TeamStats {
     public void addPartido(int gf, int gc) {
         this.gf += gf;
         this.gc += gc;
-
         if (gf > gc) {
             puntos += 3;
         } else if (gf == gc) {
             puntos += 1;
         }
+    }
+
+    /** Reinicia la temporada (todo a cero). */
+    public void reset() {
+        this.puntos = 0;
+        this.gf = 0;
+        this.gc = 0;
     }
 }

@@ -1,6 +1,5 @@
 package io;
 
-import domain.Equipo;
 import domain.GameSession;
 
 import java.io.*;
@@ -11,10 +10,20 @@ public class SaveManager {
 
     /** Guarda una sesión de juego completa */
     public static void guardarPartida(GameSession session) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(SAVE_PATH))) {
-            out.writeObject(session);
+        try {
+            File f = new File(SAVE_PATH);
+            File parent = f.getParentFile();
+            if (parent != null && !parent.exists()) {
+                parent.mkdirs();   // crea resources/saves si no existe
+            }
+
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f))) {
+                out.writeObject(session);
+            }
+
             System.out.println("[SAVE] Partida guardada correctamente.");
         } catch (Exception e) {
+            System.err.println("[SAVE] Error al guardar la partida");
             e.printStackTrace();
         }
     }
@@ -27,11 +36,12 @@ public class SaveManager {
             return null;
         }
 
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(SAVE_PATH))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(f))) {
             GameSession session = (GameSession) in.readObject();
             System.out.println("[SAVE] Partida cargada.");
             return session;
         } catch (Exception e) {
+            System.err.println("[SAVE] Error al cargar la partida");
             e.printStackTrace();
             return null;
         }
