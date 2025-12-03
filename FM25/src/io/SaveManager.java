@@ -8,7 +8,7 @@ public class SaveManager {
 
     private static final String SAVE_PATH = "resources/saves/savegame.dat";
 
-    /** Guarda una sesión de juego completa */
+    // Guarda una sesion del juego completa. 
     public static void guardarPartida(GameSession session) {
         try {
             File f = new File(SAVE_PATH);
@@ -28,7 +28,7 @@ public class SaveManager {
         }
     }
 
-    /** Carga la última partida guardada */
+    // Carga la última partida guardada
     public static GameSession cargarPartida() {
         File f = new File(SAVE_PATH);
         if (!f.exists() || f.length() == 0) {
