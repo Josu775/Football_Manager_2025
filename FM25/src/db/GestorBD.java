@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-/**
- * GestorBD para SQLite.
- */
+
+	//GestorBasedeDatos para SQLite
+
 public class GestorBD {
 
     // Ruta a la base de datos (archivo .db dentro de resources/db)
@@ -15,7 +15,8 @@ public class GestorBD {
 
     private Connection conn;
 
-    /** Abrir conexión */
+    //Abrir la conexión
+   
     public void connect() {
         try {
             // Cargar driver (útil en muchas configuraciones)
@@ -34,7 +35,7 @@ public class GestorBD {
         }
     }
 
-    /** Cerrar conexión */
+    // Cerrar la conexión
     public void close() {
         try {
             if (conn != null) {
@@ -47,7 +48,7 @@ public class GestorBD {
         }
     }
 
-    /** Crear tablas si no existen */
+    //Crear las tablas si no existen
     public void inicializarTablas() {
         try (Statement st = conn.createStatement()) {
 
@@ -83,7 +84,7 @@ public class GestorBD {
         }
     }
 
-    /** Getter de la conexión */
+    // Getter de la conexión crear
     public Connection getConnection() {
         return conn;
     }
