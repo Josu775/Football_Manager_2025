@@ -96,7 +96,7 @@ public class MainGameWindow extends JFrame {
         JButton btnAtras = new JButton("Atrás");
         bottom.add(btnAtras);
 
-        // PANEL MANAGER (arriba a la derecha)
+        // PANEL MANAGER (arriba a la derecha)      
         JPanel managerPanel = new JPanel();
         managerPanel.setLayout(new BoxLayout(managerPanel, BoxLayout.Y_AXIS));
         managerPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
@@ -121,7 +121,7 @@ public class MainGameWindow extends JFrame {
 
         // === BOTONES ===
 
-        // Clasificación (lee TeamStats de cada equipo)
+        // Clasificación ( lee TeamStats de cada equipo)
         btnClasificacion.addActionListener(e -> {
             List<Equipo> liga = session.getLiga();
             new ClassificationWindow(this, equipo, liga);
@@ -142,7 +142,7 @@ public class MainGameWindow extends JFrame {
         // Plantilla / Tácticas
         btnPlantilla.addActionListener(e -> new SquadTacticsWindow(this, equipo));
 
-        // Calendario (pasa también la sesión para guardar / reutilizar calendario)
+        // Calendario ( pasa también la sesión para guardar / reutilizar calendario)
         btnCalendario.addActionListener(e ->
                 new CalendarWindow(this, equipo, session.getLiga(), session)
         );
@@ -159,7 +159,7 @@ public class MainGameWindow extends JFrame {
             new WelcomeWindow().setVisible(true);
         });
 
-        // === SIMULAR TEMPORADA COMPLETA (HILO) ===
+        // === SIMULAR TEMPORADA COMPLETA ( HILO) ===
         btnSimularTemporada.addActionListener(e -> {
             btnSimularTemporada.setEnabled(false);
 
@@ -178,7 +178,7 @@ public class MainGameWindow extends JFrame {
             t.start();
         });
 
-        // === SIMULAR SIGUIENTE PARTIDO (HILO) ===
+        // ===  SIMULAR SIGUIENTE PARTIDO (HILO) ===
         btnSimularPartido.addActionListener(e -> {
 
             List<Object[]> calendario = session.getCalendario();
@@ -201,7 +201,7 @@ public class MainGameWindow extends JFrame {
             String nombreRival = (String) datos[1];
             boolean local = (Boolean) datos[5];
 
-            // Buscar rival en la lista de equipos de la liga
+            //  Buscar rival en la lista de equipos de la liga
             Equipo rival = null;
             for (Equipo eq : session.getLiga()) {
                 if (eq.getNombre().equals(nombreRival)) {
@@ -216,7 +216,7 @@ public class MainGameWindow extends JFrame {
                 return;
             }
 
-            // Variables finales para usarlas dentro del hilo
+            //  Variables finales para usarlas dentro del hilo
             final Equipo rivalFinal          = rival;
             final int jornadaFinal          = jornada;
             final String nombreRivalFinal   = nombreRival;
