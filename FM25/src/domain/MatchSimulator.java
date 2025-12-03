@@ -3,19 +3,13 @@ package domain;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Motor de simulación de partidos.
- * - Simula temporada completa (ida y vuelta).
- * - Simula partido único (para "siguiente partido").
- */
+//Simula el partido/temporada
 public class MatchSimulator {
 
     private static final Random RNG = new Random();
 
-    /** 
-     * Simula una temporada completa (ida y vuelta) para la lista de equipos.
-     * Modifica directamente los TeamStats de cada Equipo.
-     */
+    //Simula una temporada entera (ida y vuelta)
+    //Lo actualiza en la clasificacion
     public static void simularTemporada(List<Equipo> equipos) {
         if (equipos == null || equipos.size() < 2) return;
 
@@ -47,7 +41,6 @@ public class MatchSimulator {
         }
     }
 
-    /** Simula un único partido entre local y visitante (para temporada completa). */
     private static void simularPartido(Equipo local, Equipo visitante) {
         double rLocal = local.getValoracion();    // 1.0 - 5.0
         double rVisit = visitante.getValoracion();
@@ -71,10 +64,7 @@ public class MatchSimulator {
         visitante.getStats().addPartido(golesVisit, golesLocal);
     }
 
-    /** 
-     * NUEVO: Simula un partido único teniendo en cuenta si tu equipo juega de local o visitante.
-     * Se usa para "Simular siguiente partido" según el calendario.
-     */
+    
     public static void simularPartidoDirecto(Equipo equipo, Equipo rival, boolean local) {
 
         double r1 = equipo.getValoracion();
