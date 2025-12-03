@@ -21,11 +21,10 @@ public class TeamStats implements Serializable {
     public int getGc() { return gc; }
     public int getDg() { return gf - gc; }
 
-    /** 
-     * Actualiza estadísticas tras un partido.
-     * gf = goles marcados por este equipo
-     * gc = goles recibidos por este equipo
-     */
+    //actualiza las esstadisticas tras un partido
+    //gf = goles a favot
+    //gc = goles en contra
+    
     public void addPartido(int gf, int gc) {
         this.gf += gf;
         this.gc += gc;
@@ -36,7 +35,7 @@ public class TeamStats implements Serializable {
         }
     }
 
-    /** Reinicia la temporada (todo a cero). */
+    //reiniciar la temporada
     public void reset() {
         this.puntos = 0;
         this.gf = 0;
