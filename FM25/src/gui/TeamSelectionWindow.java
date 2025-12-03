@@ -19,7 +19,7 @@ public class TeamSelectionWindow extends JFrame {
     private final String managerName;
     private final String managerAvatar;
 
-    // Datos liga
+    // Datos de la liga
     private List<Equipo> liga;
 
     private JList<Equipo> list;
@@ -57,7 +57,7 @@ public class TeamSelectionWindow extends JFrame {
         ESCUDOS.put("Levante UD", "levante.png");
     }
 
-    // === TEXTOS ANTIGUOS RESTAURADOS ===
+    // == TEXTOS ANTIGUOS RESTAURADOS ==
 
     private static final Map<String, String> HISTORIA = new HashMap<>();
     static {
@@ -173,7 +173,7 @@ public class TeamSelectionWindow extends JFrame {
 
         fondo.add(new JScrollPane(list), BorderLayout.WEST);
 
-        // ==== PANEL DERECHO ====
+        // === PANEL DERECHO ===
         JPanel right = new JPanel(null);
         right.setBackground(new Color(8,16,45));
         fondo.add(right, BorderLayout.CENTER);
