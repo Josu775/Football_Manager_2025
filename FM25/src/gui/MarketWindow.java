@@ -209,12 +209,12 @@ public class MarketWindow extends JFrame {
                 return;
             }
 
-            // Actualizar en memoria
+            //  Actualizar en memoria
             targetTeam.setBudget(targetTeam.getBudget() - precio);
             of.jugador.setEquipo(targetTeam.getNombre());
             targetTeam.getOnceTitular().add(of.jugador);
 
-            // Actualizar en BD
+            //  Actualizar en BD
             try {
                 DataManager.getJugadorDAO().insertarJugador(of.jugador);
                 DataManager.getEquipoDAO().actualizarPresupuesto(targetTeam.getNombre(), targetTeam.getBudget());
