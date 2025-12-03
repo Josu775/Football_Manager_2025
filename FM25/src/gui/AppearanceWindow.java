@@ -96,7 +96,7 @@ public class AppearanceWindow extends JFrame {
         panel.add(south, BorderLayout.SOUTH);
     }
 
-    // 🔵 Borde azul al seleccionar
+    //  Borde azul al seleccionar
     private void highlight(JPanel panel, JLabel selected) {
 
         for (Component c : panel.getComponents()) {
