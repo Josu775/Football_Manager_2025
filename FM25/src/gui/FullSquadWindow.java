@@ -8,7 +8,12 @@ import java.awt.*;
 
 public class FullSquadWindow extends JFrame {
 
-    public FullSquadWindow(JFrame parent, Equipo equipo) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public FullSquadWindow(JFrame parent, Equipo equipo) {
         super("Plantilla completa - " + equipo.getNombre());
         setSize(400, 500);
         setLocationRelativeTo(parent);
