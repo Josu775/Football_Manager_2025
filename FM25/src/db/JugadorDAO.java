@@ -6,9 +6,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * DAO de Jugadores — completamente implementado.
- */
+	//DAO de Jugadores- completamente implementados
+
 public class JugadorDAO {
 
     private GestorBD gestor;
