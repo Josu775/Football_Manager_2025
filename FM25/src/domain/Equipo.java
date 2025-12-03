@@ -8,7 +8,7 @@ public class Equipo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String nombre; //nombre
+    private String nombre; // nombre
     private String ciudad;
     private String estadio;
     private String formacion;
@@ -16,7 +16,7 @@ public class Equipo implements Serializable {
     private double budget;
     private List<Jugador> onceTitular = new ArrayList<>();
 
-    // Estadísticas del equipo (para clasificación)
+    //  Estadísticas del equipo (para clasificación)
     private TeamStats stats = new TeamStats();
 
     public Equipo(String nombre, String ciudad, String estadio, String formacion, double valoracion, double budget) {

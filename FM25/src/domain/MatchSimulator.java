@@ -19,7 +19,7 @@ public class MatchSimulator {
     public static void simularTemporada(List<Equipo> equipos) {
         if (equipos == null || equipos.size() < 2) return;
 
-        // 1) Reiniciar estadísticas
+        //  1) Reiniciar estadísticas
         for (Equipo e : equipos) {
             if (e.getStats() != null) {
                 e.getStats().reset();
@@ -28,7 +28,7 @@ public class MatchSimulator {
 
         int n = equipos.size();
 
-        // 2) Ida y vuelta: cada pareja de equipos juega dos veces
+        //  2) Ida y vuelta: cada pareja de equipos juega dos veces
         for (int vuelta = 0; vuelta < 2; vuelta++) {
             for (int i = 0; i < n; i++) {
                 for (int j = i + 1; j < n; j++) {

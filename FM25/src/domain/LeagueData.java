@@ -53,19 +53,19 @@ public class LeagueData {
             ex.printStackTrace();
         }
 
-        // 1. Cargar jugadores reales del CSV
+        //  1. Cargar jugadores reales del CSV
         List<Jugador> jugadores = CSVPlayerLoader.cargarJugadoresDesdeCSV(
             "resources/data/plantillas_laliga_25_26.csv"
         );
 
-        // 2. Crear mapa equipo → objeto Equipo
+        //  2. Crear mapa equipo → objeto Equipo
         Map<String, Equipo> mapa = new LinkedHashMap<>();
 
         for (Jugador j : jugadores) {
 
             String nombreEq = j.getEquipo();
 
-            // Normalizar el nombre
+            //  Normalizar el nombre
             String canonical = normalizarNombre(nombreEq);
 
             if (!mapa.containsKey(canonical)) {
@@ -74,7 +74,7 @@ public class LeagueData {
                 String ciudad = info != null ? info[0] : "España";
                 String estadio = info != null ? info[1] : canonical + " Stadium";
 
-                // Valoración realista según tamaño de club
+                //  Valoración realista según tamaño de club
                 double valoracion = generarValoracion(canonical);
                 double budget = generarPresupuesto(canonical);
 
@@ -89,7 +89,7 @@ public class LeagueData {
 
         List<Equipo> liga = new ArrayList<>(mapa.values());
 
-        // 3. Guardar en BD para futuras ejecuciones
+        //  3. Guardar en BD para futuras ejecuciones
         try {
             if (DataManager.getEquipoDAO() != null) {
                 DataManager.guardarLiga(liga);
