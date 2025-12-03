@@ -3,6 +3,9 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import db.DataManager;
+import domain.GameSession;
+import io.SaveManager;
 
 public class WelcomeWindow extends JFrame {
 
@@ -45,9 +48,11 @@ public class WelcomeWindow extends JFrame {
         botones.setOpaque(false);
 
         JButton btnNueva = new JButton("Nueva partida");
+        JButton btnCargar = new JButton("Cargar partida");
         JButton btnSalir = new JButton("Salir");
 
         botones.add(btnNueva);
+        botones.add(btnCargar);
         botones.add(btnSalir);
 
         p.add(botones, BorderLayout.SOUTH);
@@ -79,12 +84,50 @@ public class WelcomeWindow extends JFrame {
 
         // == ACCIONES ==
         btnNueva.addActionListener(e -> {
-            // Flujo nuevo: nombre -> avatar -> selector de equipo
+
+            GameSession saved = SaveManager.cargarPartida();
+
+            if (saved != null) {
+                int confirm = JOptionPane.showConfirmDialog(
+                        this,
+                        "Hay una partida guardada.\n¿Deseas empezar una nueva?",
+                        "Nueva Partida",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+                if (confirm != JOptionPane.YES_OPTION) return;
+            }
+
+            // <= AQUÍ SIEMPRE SE REINICIA LA CLASIFICACIÓN
+            DataManager.getGestor().limpiarClasificacion();
+            SaveManager.borrarPartida();
+
+            // Continúa el flujo de nueva partida
             new CreateManagerWindow(this, (nombre, avatar) -> {
                 new TeamSelectionWindow(this, nombre, avatar);
                 setVisible(false);
             });
         });
+
+        btnCargar.addActionListener(e -> {
+
+            GameSession session = SaveManager.cargarPartida();
+
+            if (session == null) {
+                JOptionPane.showMessageDialog(this,
+                        "No hay partida guardada.",
+                        "Error",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Ventana principal del juego
+            new MainGameWindow(this, session);
+
+            // Ocultar esta ventana
+            setVisible(false);
+        });
+
 
         btnSalir.addActionListener(e -> System.exit(0));
     }

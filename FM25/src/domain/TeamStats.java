@@ -10,6 +10,7 @@ public class TeamStats implements Serializable {
     private int gf;
     private int gc;
 
+
     public TeamStats() {
         this.puntos = 0;
         this.gf = 0;
@@ -41,4 +42,17 @@ public class TeamStats implements Serializable {
         this.gf = 0;
         this.gc = 0;
     }
+    
+    public void setPuntos(int puntos) {
+        this.puntos = puntos;
+    }
+
+    public void setGf(int gf) {
+        this.gf = gf;
+    }
+
+    public void setGc(int gc) {
+        this.gc = gc;
+    }
+
 }

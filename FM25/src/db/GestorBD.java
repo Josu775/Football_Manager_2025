@@ -47,6 +47,16 @@ public class GestorBD {
             e.printStackTrace();
         }
     }
+    
+    public void limpiarClasificacion() {
+        try (Statement st = conn.createStatement()) {
+            st.execute("DELETE FROM Clasificacion;");
+            System.out.println("[BD] Clasificación reiniciada.");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     //Crear las tablas si no existen
     public void inicializarTablas() {
@@ -75,6 +85,17 @@ public class GestorBD {
                     equipo TEXT REFERENCES Equipo(nombre)
                 );
             """);
+            
+         // Tabla de clasificación (TeamStats)
+            st.execute("""
+                CREATE TABLE IF NOT EXISTS Clasificacion (
+                    equipo TEXT PRIMARY KEY REFERENCES Equipo(nombre),
+                    puntos INTEGER,
+                    gf INTEGER,
+                    gc INTEGER,
+                    dg INTEGER
+                );
+            """);
 
             System.out.println("[BD] Tablas inicializadas");
 
@@ -82,6 +103,8 @@ public class GestorBD {
             System.err.println("[BD] Error al crear tablas");
             e.printStackTrace();
         }
+        
+        
     }
 
     // Getter de la conexión crear

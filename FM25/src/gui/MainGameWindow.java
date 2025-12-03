@@ -8,6 +8,10 @@ import domain.LeagueData;
 import domain.Jugador;
 
 import javax.swing.*;
+
+import db.ClasificacionDAO;
+import db.DataManager;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -123,9 +127,19 @@ public class MainGameWindow extends JFrame {
 
         // Clasificación ( lee TeamStats de cada equipo)
         btnClasificacion.addActionListener(e -> {
-            List<Equipo> liga = session.getLiga();
+
+            // 1. Cargar equipos desde BD (equipo + plantilla)
+            List<Equipo> liga = DataManager.cargarLigaDeBD();
+
+            // 2. Cargar estadísticas reales desde tabla Clasificacion
+            ClasificacionDAO cdao = new ClasificacionDAO(DataManager.getGestor());
+            cdao.cargarClasificacion(liga);
+
+            // 3. Mostrar la ventana con datos REALES
             new ClassificationWindow(this, equipo, liga);
         });
+
+
 
         // Mercado
         btnMercado.addActionListener(e -> {

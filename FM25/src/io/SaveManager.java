@@ -11,10 +11,17 @@ public class SaveManager {
     // Guarda una sesion del juego completa. 
     public static void guardarPartida(GameSession session) {
         try {
+            // === 1. GUARDAR CLASIFICACIÓN ACTUAL EN BD ===
+            db.ClasificacionDAO cdao = new db.ClasificacionDAO(db.DataManager.getGestor());
+            for (domain.Equipo e : session.getLiga()) {
+                cdao.guardarStats(e);
+            }
+
+            // === 2. GUARDAR ARCHIVO SAVEGAME ===
             File f = new File(SAVE_PATH);
             File parent = f.getParentFile();
             if (parent != null && !parent.exists()) {
-                parent.mkdirs();   // crea resources/saves si no existe
+                parent.mkdirs();
             }
 
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f))) {
@@ -46,4 +53,13 @@ public class SaveManager {
             return null;
         }
     }
+    
+    public static void borrarPartida() {
+        File f = new File(SAVE_PATH);
+        if (f.exists()) {
+            f.delete();
+            System.out.println("[SAVE] Partida eliminada.");
+        }
+    }
+
 }

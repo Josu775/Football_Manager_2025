@@ -10,6 +10,8 @@ public class DataManager {
     private static GestorBD gestor;
     private static EquipoDAO equipoDAO;
     private static JugadorDAO jugadorDAO;
+    private static ClasificacionDAO clasificacionDAO;
+
 
     //Inicializa el sistema de datos ( se llama al abrir el juego) 
     public static void init() {
@@ -19,6 +21,7 @@ public class DataManager {
 
         equipoDAO = new EquipoDAO(gestor);
         jugadorDAO = new JugadorDAO(gestor);
+        clasificacionDAO = new ClasificacionDAO(gestor);
 
         // Cerrar la BD correctamente al salir del programa
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -55,6 +58,12 @@ public class DataManager {
             List<Jugador> jugadores = jugadorDAO.obtenerJugadores(e.getNombre());
             e.setOnceTitular(jugadores);
         }
+        
+     // Cargar clasificación desde BD
+        if (clasificacionDAO != null) {
+            clasificacionDAO.cargarClasificacion(liga);
+        }
+
         System.out.println("[BD] Liga cargada desde BD. Equipos: " + liga.size());
         return liga;
     }
@@ -70,4 +79,9 @@ public class DataManager {
     public static GestorBD getGestor() {
         return gestor;
     }
+    
+    public static ClasificacionDAO getClasificacionDAO() {
+        return clasificacionDAO;
+    }
+
 }

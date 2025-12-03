@@ -39,6 +39,10 @@ public class MatchSimulator {
                 }
             }
         }
+        ClasificacionDAO cdao = new ClasificacionDAO(DataManager.getGestor());
+        for (Equipo e : equipos) {
+            cdao.guardarStats(e);
+        }
     }
 
     private static void simularPartido(Equipo local, Equipo visitante) {
@@ -60,8 +64,12 @@ public class MatchSimulator {
             }
         }
 
+        // Actualizar estadísticas de equipos
         local.getStats().addPartido(golesLocal, golesVisit);
         visitante.getStats().addPartido(golesVisit, golesLocal);
+        ClasificacionDAO cdao = new ClasificacionDAO(DataManager.getGestor());
+        cdao.guardarStats(local);
+        cdao.guardarStats(visitante);
     }
 
     
@@ -93,5 +101,10 @@ public class MatchSimulator {
             equipo.getStats().addPartido(goles2, goles1);
             rival.getStats().addPartido(goles1, goles2);
         }
+
+        // === GUARDAR CLASIFICACIÓN EN BD ===
+        DataManager.getClasificacionDAO().guardarStats(equipo);
+        DataManager.getClasificacionDAO().guardarStats(rival);
     }
+
 }
