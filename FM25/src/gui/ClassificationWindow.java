@@ -44,11 +44,10 @@ public class ClassificationWindow extends JFrame {
         ESCUDOS.put("Levante UD", "levante.png");
     }
 
-    /**
-     * Construye la clasificación con:
-     * - la lista de equipos
-     * - el equipo que entrena el jugador (para resaltarlo)
-     */
+    // Construye la clasificación con : 
+    // la lista de equipos
+    // el equipo que entrena el jugador ( para resaltarlo)
+    
     public ClassificationWindow(JFrame parent, Equipo equipoJugador, List<Equipo> equiposLiga) {
         super("Clasificación");
         this.nombreEquipoJugador = equipoJugador.getNombre();
@@ -126,12 +125,10 @@ public class ClassificationWindow extends JFrame {
         south.add(back);
         main.add(south, BorderLayout.SOUTH);
     }
+    
+    //Rellana la tabla en base a el Team Stats de cada equipo.   
 
-    /**
-     * Rellena la tabla en base a TeamStats de cada equipo.
-     * Ahora mismo todos empiezan en 0; en el futuro, los partidos de la simulación
-     * actualizarán esas estadísticas.
-     */
+    
     private void cargarDatos() {
         model.setRowCount(0);
 
@@ -164,10 +161,10 @@ public class ClassificationWindow extends JFrame {
             model.addRow(row);
         }
     }
+    
+    //Renderer de filas : alterna colores y resalta el equipo seleccionado por el jugador en azul clarito.
 
-    /**
-     * Renderer de filas: alterna colores y resalta el equipo del jugador en azul clarito.
-     */
+    
     private static class ClassificationRenderer extends DefaultTableCellRenderer {
         private static final long serialVersionUID = 1L;
         private final String equipoJugador;
@@ -211,9 +208,8 @@ public class ClassificationWindow extends JFrame {
         }
     }
 
-    /**
-     * Renderer para la columna del escudo + nombre (columna 1).
-     */
+    //Renderer para la columna del escudo + el nombre ( columna 1) 
+    
     private static class BadgeRenderer extends DefaultTableCellRenderer {
         private static final long serialVersionUID = 1L;
 
