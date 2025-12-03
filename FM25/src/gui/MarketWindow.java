@@ -225,9 +225,13 @@ public class MarketWindow extends JFrame {
             JOptionPane.showMessageDialog(table, "Fichado: " + of.jugador.getNombre() + "\nPrecio: " + formatMoney(precio));
 
             if (lblBudget != null) lblBudget.setText("Presupuesto: " + formatMoney(targetTeam.getBudget()));
-            offers.remove(editingRow);
-            model.removeRow(editingRow);
             fireEditingStopped();
+
+            model.removeRow(editingRow);
+            offers.remove(editingRow);
+
+            editingRow = -1;
+
         }
     }
 }

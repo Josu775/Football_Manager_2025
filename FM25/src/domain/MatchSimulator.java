@@ -3,6 +3,9 @@ package domain;
 import java.util.List;
 import java.util.Random;
 
+import db.ClasificacionDAO;
+import db.DataManager;
+
 //Simula el partido/temporada
 public class MatchSimulator {
 
