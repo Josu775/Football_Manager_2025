@@ -55,9 +55,7 @@ public class CreateManagerWindow extends JFrame {
         // — BOTÓN CONTINUAR (ESTÁNDAR, SIN COLORES) —
         JButton btn = new JButton("Continuar");
         btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        // ❌ Sin setBackground
-        // ❌ Sin setForeground
-        // → Botón normal del sistema
+        
 
         JPanel south = new JPanel();
         south.setBackground(new Color(5, 10, 30));
