@@ -11,7 +11,7 @@ public class DataManager {
     private static EquipoDAO equipoDAO;
     private static JugadorDAO jugadorDAO;
 
-    /** Inicializa el sistema de datos (se llama al abrir el juego) */
+    //Inicializa el sistema de datos ( se llama al abrir el juego) 
     public static void init() {
         gestor = new GestorBD();
         gestor.connect();
@@ -29,8 +29,8 @@ public class DataManager {
 
         System.out.println("[Data] Sistema de datos listo.");
     }
-
-    /** Guarda en la BD toda la liga (equipos + jugadores) */
+    
+    // Guarda en la BasedeDatos todo la liga ( equipos + jugadores) 
     public static void guardarLiga(List<Equipo> liga) {
         if (equipoDAO == null || jugadorDAO == null) return;
 
@@ -45,6 +45,7 @@ public class DataManager {
         System.out.println("[BD] Liga guardada correctamente.");
     }
 
+    // Carga toda la liga desde la BasedeDatos ( equipos + plantillas )      
     /** Carga toda la liga desde la BD (equipos + plantillas) */
     public static List<Equipo> cargarLigaDeBD() {
         if (equipoDAO == null || jugadorDAO == null) return List.of();
