@@ -19,18 +19,18 @@ public class WelcomeWindow extends JFrame {
 
     private void initComponents() {
 
-        // ========== PANEL DE FONDO ==========
+        // ======== PANEL DE FONDO ========
         BackgroundPanel p = new BackgroundPanel("resources/images/logo.jpg");
         p.setLayout(new BorderLayout(10,10));
         p.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
-        // ========== TÍTULO ==========
+        // ======== TÍTULO ========
         JLabel title = new JLabel("Football Manager", SwingConstants.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 32));
         title.setForeground(Color.WHITE);
         p.add(title, BorderLayout.NORTH);
 
-        // ========== SUBTÍTULO ==========
+        // ======== SUBTÍTULO ========
         JLabel subtitle = new JLabel("Entrena un equipo. Alcanza la gloria", SwingConstants.CENTER);
         subtitle.setFont(new Font("Arial", Font.PLAIN, 20));
         subtitle.setForeground(Color.WHITE);
@@ -40,7 +40,7 @@ public class WelcomeWindow extends JFrame {
         center.add(subtitle);
         p.add(center, BorderLayout.CENTER);
 
-        // ========== BOTONES ==========
+        // ======== BOTONES ========
         JPanel botones = new JPanel();
         botones.setOpaque(false);
 
@@ -54,7 +54,7 @@ public class WelcomeWindow extends JFrame {
 
         add(p);
 
-        // ========== TECLAS RÁPIDAS ==========
+        // ======== TECLAS RÁPIDAS ========
         JRootPane root = getRootPane();
         InputMap im = root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap am = root.getActionMap();
@@ -77,7 +77,7 @@ public class WelcomeWindow extends JFrame {
             }
         });
 
-        // === ACCIONES ===
+        // == ACCIONES ==
         btnNueva.addActionListener(e -> {
             // Flujo nuevo: nombre -> avatar -> selector de equipo
             new CreateManagerWindow(this, (nombre, avatar) -> {
@@ -89,7 +89,7 @@ public class WelcomeWindow extends JFrame {
         btnSalir.addActionListener(e -> System.exit(0));
     }
 
-    // ========== PANEL QUE PINTA EL FONDO ==========
+    // ======== PANEL QUE PINTA EL FONDO ========
     class BackgroundPanel extends JPanel {
         private static final long serialVersionUID = 1L;
         private Image background;
