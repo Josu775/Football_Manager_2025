@@ -9,7 +9,7 @@ public class LeagueData {
 
     private static final Random RNG = new Random();
 
-    /** Información real de equipos: Ciudad y Estadio */
+    //ciudad y estadio de los equipos
     private static final Map<String, String[]> INFO_EQUIPOS = Map.ofEntries(
         Map.entry("Athletic Club", new String[]{"Bilbao", "San Mamés"}),
         Map.entry("Atlético de Madrid", new String[]{"Madrid", "Cívitas Metropolitano"}),
@@ -33,12 +33,8 @@ public class LeagueData {
         Map.entry("Elche CF", new String[]{"Elche", "Martínez Valero"})
     );
 
-    /**
-     * Devuelve la lista real de equipos con jugadores.
-     *
-     * 1) Si la BD ya tiene datos, se carga desde SQLite.
-     * 2) Si la BD está vacía, se carga desde CSV, se guarda en la BD y se devuelve.
-     */
+    //Devuelve la lista real de equipos con jugadores
+    
     public static List<Equipo> getLaLiga20() {
 
         // 0. Intentar cargar desde BD (si ya se ha guardado antes)
@@ -101,7 +97,7 @@ public class LeagueData {
         return liga;
     }
 
-    /** Normaliza nombres largos del CSV a nombres cortos */
+    //Normaliza nombres largos del SCV a nombres cortos para crear abreviaturas
     private static String normalizarNombre(String n) {
         if (n == null) return null;
 
@@ -125,7 +121,7 @@ public class LeagueData {
         };
     }
 
-    /** Valoración realista basada en el tamaño del club */
+    // Valoracion del club, ralista mas o menos
     private static double generarValoracion(String equipo) {
         return switch (equipo) {
             case "Real Madrid", "FC Barcelona" -> 4.8;
@@ -136,7 +132,7 @@ public class LeagueData {
         };
     }
 
-    /** Presupuesto aproximado por tamaño del club */
+    //Presupuesto del club
     private static double generarPresupuesto(String equipo) {
         return switch (equipo) {
             case "Real Madrid" -> 800_000_000;
@@ -148,7 +144,7 @@ public class LeagueData {
         };
     }
 
-    /** Formatea dinero */
+    //Formatea dinero 
     public static String formatMoney(double amount) {
         if (amount >= 1_000_000_000)
             return String.format("%.1fB€", amount / 1_000_000_000).replace('.', ',');
