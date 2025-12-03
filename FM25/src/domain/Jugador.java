@@ -3,10 +3,9 @@ package domain;
 import java.io.Serializable;
 import java.util.Random;
 
-/**
- * Jugador con valoracion en escala 0.0 - 5.0 (double, 1 decimal).
- * Admite jugadores cargados desde CSV, desde BD y generados para el mercado.
- */
+	//Jugadores con valoracion en una escala de 0 a 5.
+	//Admite jugadores cargados desde el CSV, desde la base de datos y los generados para el mercado.
+
 public class Jugador implements Serializable {
 
     private static final long serialVersionUID = 1L;
