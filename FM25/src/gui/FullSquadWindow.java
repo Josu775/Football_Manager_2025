@@ -2,18 +2,16 @@ package gui;
 
 import domain.Equipo;
 import domain.Jugador;
+import domain.LeagueData;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class FullSquadWindow extends JFrame {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public FullSquadWindow(JFrame parent, Equipo equipo) {
+    public FullSquadWindow(JFrame parent, Equipo equipo) {
         super("Plantilla completa - " + equipo.getNombre());
         setSize(400, 500);
         setLocationRelativeTo(parent);
@@ -31,15 +29,19 @@ public class FullSquadWindow extends JFrame {
         txt.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         StringBuilder sb = new StringBuilder();
-        
 
         int i = 1;
         for (Jugador j : equipo.getOnceTitular()) {
+
+            int media = LeagueData.toMedia(j.getValoracion());
+
             sb.append(i++)
               .append(". ")
               .append(j.getNombre())
               .append(" – ")
               .append(j.getPosicion())
+              .append(" – Media: ")
+              .append(media)
               .append("\n");
         }
 

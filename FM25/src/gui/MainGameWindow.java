@@ -57,7 +57,7 @@ public class MainGameWindow extends JFrame {
         leftMenu.add(lblFormation);
         leftMenu.add(Box.createVerticalStrut(5));
 
-        lblRating = new JLabel("Valoración equipo: " + String.format("%.1f / 5", equipo.getValoracion()));
+        lblRating = new JLabel("Media equipo: " + LeagueData.toMedia(equipo.getValoracion()) + " / 100");
         lblRating.setAlignmentX(Component.CENTER_ALIGNMENT);
         leftMenu.add(lblRating);
         leftMenu.add(Box.createVerticalStrut(5));
@@ -275,7 +275,7 @@ public class MainGameWindow extends JFrame {
         sb.append("Ciudad: ").append(equipo.getCiudad()).append("\n");
         sb.append("Estadio: ").append(equipo.getEstadio()).append("\n");
         sb.append("Formación: ").append(equipo.getFormacion()).append("\n");
-        sb.append("Valoración global: ").append(String.format("%.1f / 5", equipo.getValoracion())).append("\n");
+        sb.append("Media global: ").append(LeagueData.toMedia(equipo.getValoracion())).append(" / 100\n");
         sb.append("Media del once: ").append(calcularMediaOnce(equipo.getOnceTitular())).append(" / 99\n");
         sb.append("Presupuesto: ").append(LeagueData.formatMoney(equipo.getBudget())).append("\n\n");
         sb.append("Usa el menú para ver clasificación, mercado, plantilla/tácticas y calendario.");
@@ -285,7 +285,7 @@ public class MainGameWindow extends JFrame {
     private int calcularMediaOnce(List<Jugador> once) {
         if (once == null || once.isEmpty()) return 0;
         int sum = 0;
-        for (Jugador j : once) sum += j.getValoracion();
+        for (Jugador j : once) sum += LeagueData.toMedia(j.getValoracion());
         return Math.round((float) sum / once.size());
     }
 }

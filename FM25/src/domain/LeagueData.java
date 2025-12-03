@@ -152,4 +152,9 @@ public class LeagueData {
             return String.format("%.1fM€", amount / 1_000_000).replace('.', ',');
         return ((int) amount) + "€";
     }
+    
+    public static int toMedia(double val) {
+        return (int) Math.round(12.5 * val + 37.5);
+    }
+
 }

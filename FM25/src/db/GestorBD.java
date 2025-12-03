@@ -96,6 +96,20 @@ public class GestorBD {
                     dg INTEGER
                 );
             """);
+            
+         // Tabla de mercado (jugadores generados)
+            st.execute("""
+                CREATE TABLE IF NOT EXISTS Mercado (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    nombre TEXT,
+                    posicion TEXT,
+                    edad INTEGER,
+                    valoracion REAL,
+                    clubOrigen TEXT,
+                    precio REAL
+                );
+            """);
+
 
             System.out.println("[BD] Tablas inicializadas");
 

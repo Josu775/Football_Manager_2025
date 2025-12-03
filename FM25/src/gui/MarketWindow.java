@@ -26,12 +26,15 @@ public class MarketWindow extends JFrame {
         init(targetTeam);
         setVisible(true);
     }
+    
+    private int convertirValoracion(double val) {
+        return (int) Math.round(12.5 * val + 37.5);
+    }
 
     private void init(Equipo targetTeam) {
-        String[] cols = {"Nombre", "Club origen", "Posición", "Edad", "Valoración", "Precio", "Acción"};
-        DefaultTableModel model = new DefaultTableModel(cols, 0) {
-            private static final long serialVersionUID = 1L;
+        String[] cols = {"Nombre", "Club origen", "Posición", "Edad", "Media", "Precio", "Acción"};
 
+        DefaultTableModel model = new DefaultTableModel(cols, 0) {
             @Override public boolean isCellEditable(int r, int c) { return c == 6; }
         };
 
@@ -40,66 +43,67 @@ public class MarketWindow extends JFrame {
         add(new JScrollPane(table), BorderLayout.CENTER);
 
         JLabel lblBudget = new JLabel("Presupuesto: " + formatMoney(targetTeam.getBudget()));
-        lblBudget.setBorder(BorderFactory.createEmptyBorder(4,6,4,6));
+        lblBudget.setBorder(BorderFactory.createEmptyBorder(4, 6, 4, 6));
         add(lblBudget, BorderLayout.NORTH);
 
-        generateManyOffers(targetTeam.getValoracion(), 120);
+        // ================================
+        // 1) CARGAR MERCADO DESDE BD
+        // ================================
+        List<Object[]> desdeBD = DataManager.getMercadoDAO().cargarMercado();
 
+        if (desdeBD.isEmpty()) {
+            // BD vacía -> generar mercado nuevo
+            generateManyOffers(targetTeam.getValoracion(), 120);
+
+            // Guardar ofertas generadas en la BD
+            for (Offer of : offers) {
+                DataManager.getMercadoDAO().insertarJugadorMercado(
+                        of.jugador, of.clubOrigen, of.precio
+                );
+            }
+        } else {
+            // BD tiene jugadores -> reconstruimos offers desde BD
+            for (Object[] o : desdeBD) {
+                Jugador j = new Jugador(
+                        (String) o[1],   // nombre
+                        (String) o[2],   // posicion
+                        (int) o[3],      // edad
+                        (double) o[4]    // valoracion
+                );
+
+                offers.add(new Offer(j, (String) o[5], (double) o[6]));
+            }
+        }
+
+        // ================================
+        // 2) MOSTRAR OFERTAS EN LA TABLA
+        // ================================
         for (Offer of : offers) {
             model.addRow(new Object[]{
                     of.jugador.getNombre(),
                     of.clubOrigen,
                     of.jugador.getPosicion(),
                     of.jugador.getEdad(),
-                    String.format("%.1f", of.jugador.getValoracion()),
+                    convertirValoracion(of.jugador.getValoracion()),   // MEDIA 50-100
                     formatMoney(of.precio),
                     "Fichar"
             });
         }
 
+        // Render y editor del botón
         TableColumn actionCol = table.getColumnModel().getColumn(6);
         actionCol.setCellRenderer(new ButtonRenderer());
         actionCol.setCellEditor(new ButtonEditor(table, model, offers, targetTeam, lblBudget));
 
+        // Botón cerrar
         JPanel south = new JPanel();
         JButton btnClose = new JButton("Cerrar");
         south.add(btnClose);
         add(south, BorderLayout.SOUTH);
 
         btnClose.addActionListener(e -> dispose());
-
-        JRootPane root = getRootPane();
-        InputMap im = root.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        ActionMap am = root.getActionMap();
-
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "cerrar");
-        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "fichar");
-
-        am.put("cerrar", new AbstractAction() {
-            private static final long serialVersionUID = 1L;
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btnClose.doClick();
-            }
-        });
-        am.put("fichar", new AbstractAction() {
-            private static final long serialVersionUID = 1L;
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int row = table.getSelectedRow();
-                if (row >= 0) {
-                    int col = 6;
-                    if (!table.isEditing()) {
-                        table.editCellAt(row, col);
-                    }
-                    Component editor = table.getEditorComponent();
-                    if (editor instanceof JButton b) {
-                        b.doClick();
-                    }
-                }
-            }
-        });
     }
+
 
     private static String formatMoney(double amount) {
         if (amount >= 1_000_000_000) return String.format("%.1fB€", amount / 1_000_000_000.0).replace('.', ',');

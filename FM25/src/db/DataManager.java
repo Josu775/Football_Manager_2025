@@ -10,6 +10,7 @@ public class DataManager {
     private static GestorBD gestor;
     private static EquipoDAO equipoDAO;
     private static JugadorDAO jugadorDAO;
+    private static MercadoDAO mercadoDAO;
     private static ClasificacionDAO clasificacionDAO;
 
 
@@ -22,6 +23,7 @@ public class DataManager {
         equipoDAO = new EquipoDAO(gestor);
         jugadorDAO = new JugadorDAO(gestor);
         clasificacionDAO = new ClasificacionDAO(gestor);
+        mercadoDAO = new MercadoDAO(gestor);
 
         // Cerrar la BD correctamente al salir del programa
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -82,6 +84,10 @@ public class DataManager {
     
     public static ClasificacionDAO getClasificacionDAO() {
         return clasificacionDAO;
+    }
+    
+    public static MercadoDAO getMercadoDAO() { 
+    	return mercadoDAO;
     }
 
 }

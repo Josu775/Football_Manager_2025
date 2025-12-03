@@ -33,7 +33,7 @@ public class SquadTacticsWindow extends JFrame {
 
         add(top, BorderLayout.NORTH);
 
-        String[] cols = {"#", "Nombre", "Posición", "Edad", "Valoración"};
+        String[] cols = {"#", "Nombre", "Posición", "Edad", "Media"};
         DefaultTableModel model = new DefaultTableModel(cols, 0) {
             private static final long serialVersionUID = 1L;
             @Override public boolean isCellEditable(int r, int c) { return false; }
@@ -41,7 +41,15 @@ public class SquadTacticsWindow extends JFrame {
         JTable table = new JTable(model);
         for (int i = 0; i < equipo.getOnceTitular().size(); i++) {
             Jugador j = equipo.getOnceTitular().get(i);
-            model.addRow(new Object[]{i + 1, j.getNombre(), j.getPosicion(), j.getEdad(), j.getValoracion()});
+            int media = domain.LeagueData.toMedia(j.getValoracion());
+
+            model.addRow(new Object[]{
+                    i + 1,
+                    j.getNombre(),
+                    j.getPosicion(),
+                    j.getEdad(),
+                    media
+            });
         }
         add(new JScrollPane(table), BorderLayout.CENTER);
 
