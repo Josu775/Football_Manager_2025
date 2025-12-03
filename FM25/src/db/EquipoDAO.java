@@ -6,9 +6,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * DAO de Equipos — ahora totalmente implementado para SQLite.
- */
+//DAO de Equipos--------Completamente implementado para SQLite.
+
 public class EquipoDAO {
 
     private GestorBD gestor;
