@@ -1,8 +1,12 @@
 package domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import java.util.Map;
+import java.util.HashMap;
 
 public class GameSession implements Serializable {
 
@@ -11,7 +15,16 @@ public class GameSession implements Serializable {
     private Equipo jugadorEquipo;
     private LocalDateTime inicio;
     private List<Equipo> liga;
-    
+
+    private Map<Integer, LocalDate> fechasJornadas = new HashMap<>();
+
+    public Map<Integer, LocalDate> getFechasJornadas() {
+        return fechasJornadas;
+    }
+
+    public void setFechasJornadas(Map<Integer, LocalDate> fechasJornadas) {
+        this.fechasJornadas = fechasJornadas;
+    }
 
     // Manager
     private String managerName;

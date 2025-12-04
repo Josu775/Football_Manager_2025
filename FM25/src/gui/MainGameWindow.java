@@ -16,7 +16,9 @@ import db.DataManager;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class MainGameWindow extends JFrame {
 
@@ -77,18 +79,21 @@ public class MainGameWindow extends JFrame {
         JButton btnMercado            = new JButton("Mercado");
         JButton btnPlantilla          = new JButton("Plantilla / Tácticas");
         JButton btnCalendario         = new JButton("Calendario");
+        JButton btnCalendarioMensual  = new JButton("Calendario mensual");
         JButton btnSimularPartido     = new JButton("Simular siguiente partido");
         JButton btnSimularTemporada   = new JButton("Simular temporada");
         JButton btnGuardar            = new JButton("Guardar partida");
 
         Dimension btnSize = new Dimension(200, 36);
         for (JButton b : new JButton[]{btnClasificacion, btnMercado, btnPlantilla,
-                btnCalendario, btnSimularPartido, btnSimularTemporada, btnGuardar}) {
+                btnCalendario, btnCalendarioMensual, btnSimularPartido, btnSimularTemporada, btnGuardar}) 
+        {
             b.setMaximumSize(btnSize);
             b.setAlignmentX(Component.CENTER_ALIGNMENT);
             leftMenu.add(b);
             leftMenu.add(Box.createVerticalStrut(8));
         }
+
 
         JPanel center = new JPanel(new BorderLayout(10,10));
         center.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
@@ -148,6 +153,30 @@ public class MainGameWindow extends JFrame {
         btnCalendario.addActionListener(e ->
                 new CalendarWindow(this, equipo, session.getLiga(), session)
         );
+        
+        btnCalendarioMensual.addActionListener(e -> 
+        new MonthlyCalendarWindow(this, equipo, session.getLiga(), session)
+        );
+     // Si el calendario no tiene fechas asignadas todavía, las generamos
+        if (session.getFechasJornadas() == null || session.getFechasJornadas().isEmpty()) {
+
+            // 1️⃣ Asegurar que existe el calendario
+            if (session.getCalendario() == null || session.getCalendario().isEmpty()) {
+                List<List<LeagueCalendar.Match>> cal = LeagueCalendar.generarCalendario(session.getLiga());
+                session.setCalendario(cal);
+            }
+
+            // 2️⃣ Generar fechas reales para cada jornada
+            Map<Integer, LocalDate> fechas =
+                    LeagueCalendar.generarFechas(
+                            session.getCalendario().size(),
+                            LocalDate.of(2025, 12, 1)  // INICIO TEMPORADA
+                    );
+
+            // 3️⃣ Guardarlas en la partida
+            session.setFechasJornadas(fechas);
+        }
+
 
         btnGuardar.addActionListener(e -> {
             SaveManager.guardarPartida(session);
