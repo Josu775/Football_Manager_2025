@@ -77,8 +77,10 @@ public class ClasificacionDAO {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
+            System.out.println("asd");
+
         }
-    }
+    }//Prueba2
 
     private Equipo buscarEquipo(List<Equipo> liga, String nombre) {
         for (Equipo e : liga)
