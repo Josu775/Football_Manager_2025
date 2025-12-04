@@ -86,6 +86,7 @@ public class ClassificationWindow extends JFrame {
         };
 
         table = new JTable(model);
+        table.setAutoCreateRowSorter(true);
         table.setRowHeight(36);
         table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         table.setForeground(Color.WHITE);
