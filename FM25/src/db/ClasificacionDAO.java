@@ -77,7 +77,7 @@ public class ClasificacionDAO {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
-            System.out.println("asd");
+            System.out.println("asdasdasd");
 
         }
     }//Prueba2
