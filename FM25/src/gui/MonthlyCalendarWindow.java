@@ -7,9 +7,11 @@ import domain.LeagueCalendar;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
+import java.time.format.TextStyle;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class MonthlyCalendarWindow extends JFrame {
 
@@ -19,14 +21,13 @@ public class MonthlyCalendarWindow extends JFrame {
     private final GameSession session;
     private final Equipo equipoJugador;
 
-    private List<List<LeagueCalendar.Match>> calendario;
+    // calendario[jornada] -> lista de partidos
+    private final List<List<LeagueCalendar.Match>> calendario;
 
     private LocalDate fechaActual = LocalDate.now();
 
     private JPanel gridPanel;
     private JLabel lblMes;
-    
-    private final Map<String, ImageIcon> cacheEscudos = new HashMap<>();
 
     // === Escudos ===
     private static final Map<String, String> ESCUDOS = new HashMap<>();
@@ -57,7 +58,7 @@ public class MonthlyCalendarWindow extends JFrame {
         this.session = session;
         this.equipoJugador = equipoJugador;
 
-        this.calendario = session.getCalendario();
+        this.calendario = session.getCalendario();   // ya generado al iniciar partida
 
         setSize(1000, 700);
         setLocationRelativeTo(parent);
@@ -97,57 +98,20 @@ public class MonthlyCalendarWindow extends JFrame {
         add(top, BorderLayout.NORTH);
 
         // ======= Panel de cuadrícula =======
-        gridPanel = new JPanel(new GridLayout(7, 7)); // fila de días + 6 semanas
+        gridPanel = new JPanel(new GridLayout(7, 7)); // cabecera + 6 semanas
         add(gridPanel, BorderLayout.CENTER);
     }
-
-
-    private void pintarPartidosEnCelda(JPanel panel, LocalDate fecha) {
-
-        int jornada = obtenerJornadaPorDia(fecha);
-
-        if (jornada == -1) return;
-
-        List<LeagueCalendar.Match> partidos = calendario.get(jornada - 1);
-
-        for (LeagueCalendar.Match m : partidos) {
-
-            // Solo mostrar SI JUEGA TU EQUIPO
-            boolean esMiPartido = m.local().equals(equipoJugador.getNombre()) ||
-                                  m.visitante().equals(equipoJugador.getNombre());
-
-            if (!esMiPartido) continue;   // IGNORAR EL RESTO
-
-            JPanel partidoPanel = new JPanel();
-            partidoPanel.setOpaque(false);
-
-            if (esMiPartido) {
-                partidoPanel.setBackground(new Color(40, 90, 180));
-                partidoPanel.setOpaque(true);
-            }
-
-            ImageIcon iconLocal = getEscudoIcon(m.local());
-            ImageIcon iconVisit = getEscudoIcon(m.visitante());
-
-            JLabel lblLocal = new JLabel(iconLocal != null ? iconLocal : new ImageIcon());
-            JLabel lblVisit = new JLabel(iconVisit != null ? iconVisit : new ImageIcon());
-
-            partidoPanel.add(lblLocal);
-            partidoPanel.add(new JLabel("vs"));
-            partidoPanel.add(lblVisit);
-
-            panel.add(partidoPanel);
-        }
-    }
-
 
     private void generarVista() {
         gridPanel.removeAll();
 
-        // Título del mes
-        lblMes.setText(fechaActual.getMonth().toString() + " " + fechaActual.getYear());
+        // Título del mes en bonito
+        String nombreMes = fechaActual.getMonth()
+                .getDisplayName(TextStyle.FULL, new Locale("es", "ES"))
+                .toUpperCase();
+        lblMes.setText(nombreMes + " " + fechaActual.getYear());
 
-        // Cabecera de días
+        // Cabecera días semana
         String[] dias = {"L", "M", "X", "J", "V", "S", "D"};
         for (String d : dias) {
             JLabel l = new JLabel(d, SwingConstants.CENTER);
@@ -158,29 +122,27 @@ public class MonthlyCalendarWindow extends JFrame {
         // Primer día del mes
         LocalDate primero = fechaActual.withDayOfMonth(1);
         int diaSemana = primero.getDayOfWeek().getValue(); // 1 = lunes
-
         int offset = diaSemana - 1;
         int diasMes = fechaActual.lengthOfMonth();
 
-        // === Celdas ===
+        // Celdas del calendario
         for (int i = 0; i < 42; i++) {
             JPanel diaPanel = new JPanel();
-            diaPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            diaPanel.setBorder(BorderFactory.createLineBorder(new Color(40, 50, 90)));
             diaPanel.setLayout(new BoxLayout(diaPanel, BoxLayout.Y_AXIS));
-            diaPanel.setBackground(new Color(22, 30, 60));
+            diaPanel.setBackground(new Color(10, 16, 36));
 
             int diaMes = i - offset + 1;
 
             if (diaMes >= 1 && diaMes <= diasMes) {
+                LocalDate fechaDia = fechaActual.withDayOfMonth(diaMes);
+
                 JLabel lbl = new JLabel(String.valueOf(diaMes));
                 lbl.setForeground(Color.WHITE);
                 lbl.setAlignmentX(Component.CENTER_ALIGNMENT);
                 diaPanel.add(lbl);
 
-                // Fecha completa del día
-                LocalDate fechaDia = fechaActual.withDayOfMonth(diaMes);
-
-                // Pintar partidos para esa fecha
+                // Partidos de TU equipo este día
                 pintarPartidosEnCelda(diaPanel, fechaDia);
             }
 
@@ -191,45 +153,58 @@ public class MonthlyCalendarWindow extends JFrame {
         gridPanel.repaint();
     }
 
+    // Solo pinta el partido de TU equipo en esa fecha (si lo hay)
+    private void pintarPartidosEnCelda(JPanel panel, LocalDate fecha) {
+        if (calendario == null) return;
+
+        for (List<LeagueCalendar.Match> jornada : calendario) {
+            for (LeagueCalendar.Match m : jornada) {
+
+                // Fecha distinta → siguiente
+                if (!m.fecha().equals(fecha)) continue;
+
+                boolean esMiPartido =
+                        m.local().equals(equipoJugador.getNombre()) ||
+                        m.visitante().equals(equipoJugador.getNombre());
+
+                // Solo mostramos partidos de tu equipo
+                if (!esMiPartido) continue;
+
+                JPanel partidoPanel = new JPanel();
+                partidoPanel.setOpaque(true);
+                partidoPanel.setBackground(new Color(40, 90, 180));
+                partidoPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                ImageIcon iconLocal  = getEscudoIcon(m.local());
+                ImageIcon iconVisit  = getEscudoIcon(m.visitante());
+
+                JLabel lblLocal = new JLabel(iconLocal);
+                JLabel lblVs    = new JLabel("vs");
+                lblVs.setForeground(Color.WHITE);
+                JLabel lblVisit = new JLabel(iconVisit);
+
+                partidoPanel.add(lblLocal);
+                partidoPanel.add(lblVs);
+                partidoPanel.add(lblVisit);
+
+                panel.add(Box.createVerticalStrut(4));
+                panel.add(partidoPanel);
+
+                // Solo habrá 1 partido de tu equipo por día → podemos salir
+                return;
+            }
+        }
+    }
+
     private ImageIcon getEscudoIcon(String equipo) {
-        // Cache: si ya está cargado, usarlo
-        if (cacheEscudos.containsKey(equipo)) {
-            return cacheEscudos.get(equipo);
-        }
-
         String file = ESCUDOS.get(equipo);
-
-        if (file == null) {
-            cacheEscudos.put(equipo, null);
-            return null;
-        }
+        if (file == null) return new ImageIcon(); // vacío
 
         String path = "resources/images/escudos/" + file;
         ImageIcon icon = new ImageIcon(path);
-
-        // Imagen no encontrada → guardamos null para no intentar cargar otra vez
-        if (icon.getIconWidth() <= 0) {
-            cacheEscudos.put(equipo, null);
-            return null;
-        }
+        if (icon.getIconWidth() <= 0) return new ImageIcon();
 
         Image img = icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        ImageIcon scaled = new ImageIcon(img);
-
-        cacheEscudos.put(equipo, scaled);
-        return scaled;
+        return new ImageIcon(img);
     }
-
-
-
-    private int obtenerJornadaPorDia(LocalDate fecha) {
-        Map<Integer, LocalDate> fechas = session.getFechasJornadas();
-
-        for (int j = 1; j <= fechas.size(); j++) {
-            if (fechas.get(j).equals(fecha)) return j;
-        }
-
-        return -1;
-    }
-
 }

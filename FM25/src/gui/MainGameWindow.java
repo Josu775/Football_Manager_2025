@@ -157,25 +157,6 @@ public class MainGameWindow extends JFrame {
         btnCalendarioMensual.addActionListener(e -> 
         new MonthlyCalendarWindow(this, equipo, session.getLiga(), session)
         );
-     // Si el calendario no tiene fechas asignadas todavía, las generamos
-        if (session.getFechasJornadas() == null || session.getFechasJornadas().isEmpty()) {
-
-            // 1️⃣ Asegurar que existe el calendario
-            if (session.getCalendario() == null || session.getCalendario().isEmpty()) {
-                List<List<LeagueCalendar.Match>> cal = LeagueCalendar.generarCalendario(session.getLiga());
-                session.setCalendario(cal);
-            }
-
-            // 2️⃣ Generar fechas reales para cada jornada
-            Map<Integer, LocalDate> fechas =
-                    LeagueCalendar.generarFechas(
-                            session.getCalendario().size(),
-                            LocalDate.of(2025, 12, 1)  // INICIO TEMPORADA
-                    );
-
-            // 3️⃣ Guardarlas en la partida
-            session.setFechasJornadas(fechas);
-        }
 
 
         btnGuardar.addActionListener(e -> {
