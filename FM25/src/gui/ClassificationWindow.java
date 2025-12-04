@@ -33,7 +33,7 @@ public class ClassificationWindow extends JFrame {
         ESCUDOS.put("Valencia CF", "valencia.png");
         ESCUDOS.put("RCD Mallorca", "mallorca.png");
         ESCUDOS.put("CA Osasuna", "osasuna.png");
-        ESCUDOS.put("RC Celta", "celta.png");
+        ESCUDOS.put("Real Club Celta de Vigo", "celta.png");
         ESCUDOS.put("Getafe CF", "getafe.png");
         ESCUDOS.put("Rayo Vallecano", "rayovallecano.png");
         ESCUDOS.put("Deportivo Alavés", "alaves.png");
@@ -86,7 +86,6 @@ public class ClassificationWindow extends JFrame {
         };
 
         table = new JTable(model);
-        table.setAutoCreateRowSorter(true);
         table.setRowHeight(36);
         table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         table.setForeground(Color.WHITE);
@@ -226,22 +225,30 @@ public class ClassificationWindow extends JFrame {
 
             String equipo = (String) value;
             JLabel label = new JLabel();
-
             label.setOpaque(false);
-            label.setFont(new Font("Segoe UI", Font.BOLD, 14));
-            label.setForeground(Color.WHITE);
+            label.setHorizontalAlignment(CENTER);
 
+            // 🔍 Buscar archivo del escudo
             String file = ESCUDOS.get(equipo);
             if (file != null) {
+
+                // 📌 Tamaño dinámico según el alto de la fila
+                int size = table.getRowHeight(row) - 6;
+                if (size < 16) size = 16;   // tamaño mínimo
+
                 ImageIcon icon = new ImageIcon("resources/images/escudos/" + file);
-                Image img = icon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
-                label.setIcon(new ImageIcon(img));
-                label.setText(" " + equipo);
-            } else {
-                label.setText(equipo);
+
+                // ❗ Evitar que falle si el archivo no existe
+                if (icon.getIconWidth() > 0) {
+                    Image scaled = icon.getImage().getScaledInstance(
+                            size, size, Image.SCALE_SMOOTH
+                    );
+                    label.setIcon(new ImageIcon(scaled));
+                }
             }
 
             return label;
         }
     }
+
 }

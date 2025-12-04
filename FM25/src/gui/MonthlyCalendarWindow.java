@@ -43,7 +43,7 @@ public class MonthlyCalendarWindow extends JFrame {
         ESCUDOS.put("Valencia CF", "valencia.png");
         ESCUDOS.put("RCD Mallorca", "mallorca.png");
         ESCUDOS.put("CA Osasuna", "osasuna.png");
-        ESCUDOS.put("RC Celta", "celta.png");
+        ESCUDOS.put("Real Club Celta de Vigo", "celta.png");
         ESCUDOS.put("Getafe CF", "getafe.png");
         ESCUDOS.put("Rayo Vallecano", "rayovallecano.png");
         ESCUDOS.put("Deportivo Alavés", "alaves.png");
