@@ -6,6 +6,7 @@ import domain.GameSession;
 import domain.Equipo;
 import domain.LeagueData;
 import domain.Jugador;
+import domain.LeagueCalendar;
 
 import javax.swing.*;
 
@@ -100,7 +101,6 @@ public class MainGameWindow extends JFrame {
         JButton btnAtras = new JButton("Atrás");
         bottom.add(btnAtras);
 
-        // PANEL MANAGER (arriba a la derecha)      
         JPanel managerPanel = new JPanel();
         managerPanel.setLayout(new BoxLayout(managerPanel, BoxLayout.Y_AXIS));
         managerPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
@@ -123,25 +123,15 @@ public class MainGameWindow extends JFrame {
         add(center, BorderLayout.CENTER);
         add(bottom, BorderLayout.SOUTH);
 
-        // === BOTONES ===
-
-        // Clasificación ( lee TeamStats de cada equipo)
+        // === BOTÓN CLASIFICACIÓN ===
         btnClasificacion.addActionListener(e -> {
-
-            // 1. Cargar equipos desde BD (equipo + plantilla)
             List<Equipo> liga = DataManager.cargarLigaDeBD();
-
-            // 2. Cargar estadísticas reales desde tabla Clasificacion
             ClasificacionDAO cdao = new ClasificacionDAO(DataManager.getGestor());
             cdao.cargarClasificacion(liga);
-
-            // 3. Mostrar la ventana con datos REALES
             new ClassificationWindow(this, equipo, liga);
         });
 
-
-
-        // Mercado
+        // === BOTÓN MERCADO ===
         btnMercado.addActionListener(e -> {
             MarketWindow mw = new MarketWindow(this, equipo);
             mw.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -153,27 +143,23 @@ public class MainGameWindow extends JFrame {
             });
         });
 
-        // Plantilla / Tácticas
         btnPlantilla.addActionListener(e -> new SquadTacticsWindow(this, equipo));
 
-        // Calendario ( pasa también la sesión para guardar / reutilizar calendario)
         btnCalendario.addActionListener(e ->
                 new CalendarWindow(this, equipo, session.getLiga(), session)
         );
 
-        // Guardar partida
         btnGuardar.addActionListener(e -> {
             SaveManager.guardarPartida(session);
             JOptionPane.showMessageDialog(this, "Partida guardada.");
         });
 
-        // Volver al menú principal
         btnAtras.addActionListener(e -> {
             dispose();
             new WelcomeWindow().setVisible(true);
         });
 
-        // === SIMULAR TEMPORADA COMPLETA ( HILO) ===
+        // === SIMULAR TEMPORADA ENTERA ===
         btnSimularTemporada.addActionListener(e -> {
             btnSimularTemporada.setEnabled(false);
 
@@ -182,74 +168,73 @@ public class MainGameWindow extends JFrame {
 
                 SwingUtilities.invokeLater(() -> {
                     btnSimularTemporada.setEnabled(true);
-                    session.reiniciarJornada();  // volvemos a 1 por si queremos luego simular jornada a jornada
+                    session.reiniciarJornada();
                     JOptionPane.showMessageDialog(this,
                             "La temporada completa ha sido simulada.\n" +
-                            "Abre la Clasificación para ver los resultados.");
+                                    "Abre la Clasificación para ver los resultados.");
                 });
             }, "SimulacionLigaThread");
 
             t.start();
         });
 
-        // ===  SIMULAR SIGUIENTE PARTIDO (HILO) ===
+        // === SIMULAR SIGUIENTE PARTIDO ===
         btnSimularPartido.addActionListener(e -> {
 
-            List<Object[]> calendario = session.getCalendario();
+            List<List<LeagueCalendar.Match>> calendario = session.getCalendario();
+
             if (calendario == null || calendario.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
-                        "Primero abre el Calendario para generar el calendario de partidos.");
+                        "Primero abre el Calendario para generar los partidos.");
                 return;
             }
 
             int jornada = session.getJornadaActual();
             if (jornada < 1) jornada = 1;
-
             if (jornada > calendario.size()) {
                 JOptionPane.showMessageDialog(this,
-                        "La temporada ya ha terminado. No hay más partidos por simular.");
+                        "La temporada ya ha terminado.");
                 return;
             }
 
-            Object[] datos = calendario.get(jornada - 1);
-            String nombreRival = (String) datos[1];
-            boolean local = (Boolean) datos[5];
+            // Partidos de esa jornada
+            List<LeagueCalendar.Match> jornadaPartidos = calendario.get(jornada - 1);
 
-            //  Buscar rival en la lista de equipos de la liga
-            Equipo rival = null;
-            for (Equipo eq : session.getLiga()) {
-                if (eq.getNombre().equals(nombreRival)) {
-                    rival = eq;
+            // Buscar tu partido
+            LeagueCalendar.Match miPartido = null;
+
+            for (LeagueCalendar.Match m : jornadaPartidos) {
+                if (m.local().equals(equipo.getNombre()) ||
+                    m.visitante().equals(equipo.getNombre())) {
+                    miPartido = m;
                     break;
                 }
             }
 
-            if (rival == null) {
-                JOptionPane.showMessageDialog(this,
-                        "No se ha encontrado el rival " + nombreRival + " en la liga.");
+            if (miPartido == null) {
+                JOptionPane.showMessageDialog(this, "Tu equipo no juega esta jornada.");
+                session.avanzarJornada();
                 return;
             }
 
-            //  Variables finales para usarlas dentro del hilo
-            final Equipo rivalFinal          = rival;
-            final int jornadaFinal          = jornada;
-            final String nombreRivalFinal   = nombreRival;
-            final boolean localFinal        = local;
-
             btnSimularPartido.setEnabled(false);
 
+            final int jornadaFinal = jornada;
+
             Thread t = new Thread(() -> {
-                MatchSimulator.simularPartidoDirecto(equipo, rivalFinal, localFinal);
+
+                // 1️⃣ Simular toda la jornada
+                MatchSimulator.simularJornadaCompleta(jornadaPartidos, session.getLiga());
 
                 SwingUtilities.invokeLater(() -> {
                     btnSimularPartido.setEnabled(true);
                     JOptionPane.showMessageDialog(this,
                             "Jornada " + jornadaFinal + " simulada.\n" +
-                            "Rival: " + nombreRivalFinal + "\n" +
-                            "Consulta la Clasificación para ver los cambios.");
+                            "Consulta la Clasificación para ver los resultados.");
+
                     session.avanzarJornada();
                 });
-            }, "SimularPartidoThread");
+            });
 
             t.start();
         });
@@ -289,3 +274,4 @@ public class MainGameWindow extends JFrame {
         return Math.round((float) sum / once.size());
     }
 }
+

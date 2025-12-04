@@ -109,5 +109,26 @@ public class MatchSimulator {
         DataManager.getClasificacionDAO().guardarStats(equipo);
         DataManager.getClasificacionDAO().guardarStats(rival);
     }
+    
+    public static void simularJornadaCompleta(List<LeagueCalendar.Match> jornada, List<Equipo> liga) {
+
+        for (LeagueCalendar.Match m : jornada) {
+
+            // Buscar objetos Equipo
+            Equipo local = null;
+            Equipo visitante = null;
+
+            for (Equipo e : liga) {
+                if (e.getNombre().equals(m.local())) local = e;
+                if (e.getNombre().equals(m.visitante())) visitante = e;
+            }
+
+            if (local == null || visitante == null) continue;
+
+            // Simular el partido (usa tu lógica global)
+            simularPartido(local, visitante);
+        }
+    }
+
 
 }
