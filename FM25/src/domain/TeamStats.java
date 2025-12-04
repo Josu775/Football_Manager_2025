@@ -9,9 +9,11 @@ public class TeamStats implements Serializable {
     private int puntos;
     private int gf;
     private int gc;
+    private int victorias;
+    private int empates;
+    private int derrotas;
 
-
-    public TeamStats() {
+	public TeamStats() {
         this.puntos = 0;
         this.gf = 0;
         this.gc = 0;
@@ -29,20 +31,28 @@ public class TeamStats implements Serializable {
     public void addPartido(int gf, int gc) {
         this.gf += gf;
         this.gc += gc;
+
         if (gf > gc) {
+            victorias++;
             puntos += 3;
         } else if (gf == gc) {
+            empates++;
             puntos += 1;
+        } else {
+            derrotas++;
         }
     }
 
     //reiniciar la temporada
     public void reset() {
-        this.puntos = 0;
-        this.gf = 0;
-        this.gc = 0;
+        puntos = 0;
+        gf = 0;
+        gc = 0;
+        victorias = 0;
+        empates = 0;
+        derrotas = 0;
     }
-    
+
     public void setPuntos(int puntos) {
         this.puntos = puntos;
     }
@@ -54,5 +64,30 @@ public class TeamStats implements Serializable {
     public void setGc(int gc) {
         this.gc = gc;
     }
+
+	public int getVictorias() {
+		return victorias;
+	}
+
+	public int getEmpates() {
+		return empates;
+	}
+
+	public int getDerrotas() {
+		return derrotas;
+	}
+
+	public void setVictorias(int victorias) {
+		this.victorias = victorias;
+	}
+
+	public void setEmpates(int empates) {
+		this.empates = empates;
+	}
+
+	public void setDerrotas(int derrotas) {
+		this.derrotas = derrotas;
+	}
+    
 
 }

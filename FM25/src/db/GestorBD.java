@@ -88,13 +88,16 @@ public class GestorBD {
             
          // Tabla de clasificación (TeamStats)
             st.execute("""
-                CREATE TABLE IF NOT EXISTS Clasificacion (
-                    equipo TEXT PRIMARY KEY REFERENCES Equipo(nombre),
-                    puntos INTEGER,
-                    gf INTEGER,
-                    gc INTEGER,
-                    dg INTEGER
-                );
+				CREATE TABLE IF NOT EXISTS Clasificacion (
+				    equipo TEXT PRIMARY KEY REFERENCES Equipo(nombre),
+				    puntos INTEGER,
+				    victorias INTEGER,
+				    empates INTEGER,
+				    derrotas INTEGER,
+				    gf INTEGER,
+				    gc INTEGER,
+				    dg INTEGER
+				);
             """);
             
          // Tabla de mercado (jugadores generados)

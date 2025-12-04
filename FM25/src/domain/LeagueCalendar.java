@@ -1,12 +1,17 @@
 package domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class LeagueCalendar {
 
-    public record Match(String local, String visitante) {}
+    // ======= CAMBIO IMPORTANTE =======
+    public record Match(String local, String visitante) implements Serializable {
+        private static final long serialVersionUID = 1L;
+    }
+    // ==================================
 
     public static List<List<Match>> generarCalendario(List<Equipo> equipos) {
         int n = equipos.size();
@@ -52,7 +57,7 @@ public class LeagueCalendar {
             Collections.rotate(rota, 1);
         }
 
-        // VUELTA
+        // VUELTA (cambiamos local/visitante)
         List<List<Match>> vuelta = new ArrayList<>();
         for (List<Match> j : calendario) {
             List<Match> j2 = new ArrayList<>();

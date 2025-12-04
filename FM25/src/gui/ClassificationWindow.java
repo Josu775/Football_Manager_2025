@@ -74,7 +74,8 @@ public class ClassificationWindow extends JFrame {
         title.setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
         main.add(title, BorderLayout.NORTH);
 
-        String[] cols = {"Pos", "", "Equipo", "Pts", "GF", "GC", "DG"};
+        String[] cols = {"Pos", "", "Equipo", "Pts", "V", "E", "D", "GF", "GC", "DG"};
+
         model = new DefaultTableModel(cols, 0) {
             private static final long serialVersionUID = 1L;
             @Override public boolean isCellEditable(int row, int col) { return false; }
@@ -150,14 +151,18 @@ public class ClassificationWindow extends JFrame {
         for (Equipo e : equipos) {
             TeamStats s = e.getStats();
             Object[] row = {
-                    pos++,
-                    e.getNombre(),       // en la col 1 guardo el nombre, el renderer pondrá el escudo
-                    e.getNombre(),
-                    s.getPuntos(),
-                    s.getGf(),
-                    s.getGc(),
-                    s.getDg()
-            };
+            	    pos++,
+            	    e.getNombre(),
+            	    e.getNombre(),
+            	    s.getPuntos(),
+            	    s.getVictorias(),
+            	    s.getEmpates(),
+            	    s.getDerrotas(),
+            	    s.getGf(),
+            	    s.getGc(),
+            	    s.getDg()
+            	};
+
             model.addRow(row);
         }
     }
