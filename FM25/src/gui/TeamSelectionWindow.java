@@ -4,6 +4,7 @@ package gui;
 import domain.Equipo;
 import domain.LeagueData;
 import domain.GameSession;
+import domain.Jugador;
 
 import javax.swing.*;
 import java.awt.*;
@@ -287,7 +288,7 @@ public class TeamSelectionWindow extends JFrame {
             lblEscudo.setIcon(null);
         }
 
-        int valor100 = Math.max(75, (int)(sel.getValoracion() * 20));
+        int valor100 = calcularMediaEquipo(sel);
         int ataque  = Math.max(75, Math.min(99, valor100 + (int)(Math.random()*6 - 3)));
         int defensa = Math.max(75, Math.min(99, valor100 + (int)(Math.random()*6 - 3)));
 
@@ -314,4 +315,16 @@ public class TeamSelectionWindow extends JFrame {
         detalleTextRight.setText(right.toString());
         detalleTextRight.setCaretPosition(0);
     }
+    
+    private int calcularMediaEquipo(Equipo e) {
+        if (e.getPlantilla().isEmpty()) return 0;
+
+        double sum = 0;
+        for (Jugador j : e.getPlantilla()) {
+            sum += j.getValoracion();
+        }
+
+        return (int)Math.round(sum / e.getPlantilla().size());
+    }
+
 }

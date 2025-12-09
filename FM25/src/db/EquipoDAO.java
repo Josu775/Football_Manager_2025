@@ -115,4 +115,6 @@ public class EquipoDAO {
             ex.printStackTrace();
         }
     }
+    
+    
 }

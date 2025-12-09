@@ -216,7 +216,7 @@ public class MarketWindow extends JFrame {
             //  Actualizar en memoria
             targetTeam.setBudget(targetTeam.getBudget() - precio);
             of.jugador.setEquipo(targetTeam.getNombre());
-            targetTeam.getOnceTitular().add(of.jugador);
+            targetTeam.getPlantilla().add(of.jugador);
 
             //  Actualizar en BD
             try {

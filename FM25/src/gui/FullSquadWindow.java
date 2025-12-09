@@ -31,9 +31,9 @@ public class FullSquadWindow extends JFrame {
         StringBuilder sb = new StringBuilder();
 
         int i = 1;
-        for (Jugador j : equipo.getOnceTitular()) {
+        for (Jugador j : equipo.getPlantilla()) {
 
-            int media = LeagueData.toMedia(j.getValoracion());
+            int media = (int) j.getValoracion();
 
             sb.append(i++)
               .append(". ")

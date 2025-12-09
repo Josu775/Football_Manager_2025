@@ -32,18 +32,6 @@ public class Jugador implements Serializable {
         setValoracion(valoracion);
     }
 
-    // Constructor para CSV (nombre, posición, equipo) — edad y valoración aleatorias
-    public Jugador(String nombre, String posicion, String equipo) {
-        this.nombre = nombre;
-        this.posicion = posicion;
-        this.equipo = equipo;
-
-        this.edad = 18 + RNG.nextInt(17);  // 18-34
-
-        double base = 1.5 + RNG.nextDouble() * 3.5; // 1.5 - 5.0
-        setValoracion(base);
-    }
-
     public String getNombre() { return nombre; }
     public String getPosicion() { return posicion; }
     public int getEdad() { return edad; }
@@ -53,8 +41,8 @@ public class Jugador implements Serializable {
     public double getValoracion() { return valoracion; }
 
     public void setValoracion(double nueva) {
-        double v = Math.max(0.0, Math.min(5.0, nueva));
-        this.valoracion = Math.round(v * 10.0) / 10.0;
+    	this.valoracion = nueva;
+
     }
 
     @Override

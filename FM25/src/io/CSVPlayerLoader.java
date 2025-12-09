@@ -65,15 +65,18 @@ public class CSVPlayerLoader {
 
                 String[] partes = linea.split(",");
 
-                if (partes.length < 3) continue;
+                if (partes.length < 4) continue;
 
                 String equipoCSV = partes[0].trim();
                 String nombre = partes[1].trim();
                 String posicion = partes[2].trim();
+                double media = Double.parseDouble(partes[3].trim());
 
                 String equipo = normalizarEquipo(equipoCSV);
 
-                lista.add(new Jugador(nombre, posicion, equipo));
+                int edad = 20 + new Random().nextInt(15);
+
+                lista.add(new Jugador(nombre, posicion, edad, media, equipo));
             }
 
         } catch (Exception e) {

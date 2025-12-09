@@ -71,16 +71,17 @@ public class LeagueData {
                 String estadio = info != null ? info[1] : canonical + " Stadium";
 
                 //  Valoración realista según tamaño de club
-                double valoracion = generarValoracion(canonical);
+                double valoracion = 0;
                 double budget = generarPresupuesto(canonical);
 
                 mapa.put(canonical, new Equipo(
-                        canonical, ciudad, estadio,
-                        "4-3-3", valoracion, budget
+                    canonical, ciudad, estadio,
+                    "4-3-3", valoracion, budget
                 ));
+
             }
 
-            mapa.get(canonical).getOnceTitular().add(j);
+            mapa.get(canonical).getPlantilla().add(j);
         }
 
         List<Equipo> liga = new ArrayList<>(mapa.values());
@@ -151,10 +152,6 @@ public class LeagueData {
         if (amount >= 1_000_000)
             return String.format("%.1fM€", amount / 1_000_000).replace('.', ',');
         return ((int) amount) + "€";
-    }
-    
-    public static int toMedia(double val) {
-        return (int) Math.round(12.5 * val + 37.5);
     }
 
 }

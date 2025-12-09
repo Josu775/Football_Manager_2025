@@ -36,6 +36,18 @@ public class MainGameWindow extends JFrame {
         super("Partida - " + session.getJugadorEquipo().getNombre());
         this.session = session;
         this.equipo = session.getJugadorEquipo();
+        
+        // --------------- DEBUG MEDIAS -----------------
+        System.out.println("=== DEBUG: " + equipo.getNombre() + " ===");
+        System.out.println("Media real del equipo: " + equipo.calcularValoracionReal());
+
+        for (Jugador j : equipo.getPlantilla()) {
+            System.out.println("   " + j.getNombre() + " → " + j.getValoracion());
+        }
+        System.out.println("========================================");
+        // ----------------------------------------------
+
+        
         setSize(1100, 700);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -60,12 +72,12 @@ public class MainGameWindow extends JFrame {
         leftMenu.add(lblFormation);
         leftMenu.add(Box.createVerticalStrut(5));
 
-        lblRating = new JLabel("Media equipo: " + LeagueData.toMedia(equipo.getValoracion()) + " / 100");
+        lblRating = new JLabel("Media equipo: " + (int)equipo.getValoracion() + " / 100");
         lblRating.setAlignmentX(Component.CENTER_ALIGNMENT);
         leftMenu.add(lblRating);
         leftMenu.add(Box.createVerticalStrut(5));
 
-        lblAvgRating = new JLabel("Media once: " + calcularMediaOnce(equipo.getOnceTitular()) + " / 99");
+        lblAvgRating = new JLabel("Media once: " + calcularMediaOnce(equipo) + " / 99");
         lblAvgRating.setAlignmentX(Component.CENTER_ALIGNMENT);
         leftMenu.add(lblAvgRating);
         leftMenu.add(Box.createVerticalStrut(5));
@@ -143,7 +155,7 @@ public class MainGameWindow extends JFrame {
                 @Override
                 public void windowClosed(java.awt.event.WindowEvent e) {
                     lblBudget.setText("Presupuesto: " + LeagueData.formatMoney(equipo.getBudget()));
-                    lblAvgRating.setText("Media once: " + calcularMediaOnce(equipo.getOnceTitular()) + " / 99");
+                    lblAvgRating.setText("Media once: " + calcularMediaOnce(equipo) + " / 99");
                 }
             });
         });
@@ -270,18 +282,35 @@ public class MainGameWindow extends JFrame {
         sb.append("Ciudad: ").append(equipo.getCiudad()).append("\n");
         sb.append("Estadio: ").append(equipo.getEstadio()).append("\n");
         sb.append("Formación: ").append(equipo.getFormacion()).append("\n");
-        sb.append("Media global: ").append(LeagueData.toMedia(equipo.getValoracion())).append(" / 100\n");
-        sb.append("Media del once: ").append(calcularMediaOnce(equipo.getOnceTitular())).append(" / 99\n");
+        int mediaEquipo = calcularMediaEquipo(equipo);
+        lblRating.setText("Media equipo: " + mediaEquipo + " / 100");
+        lblAvgRating.setText("Media once: " + calcularMediaOnce(equipo) + " / 99");
+        sb.append("Media del once: ").append(calcularMediaOnce(equipo)).append(" / 99\n");
         sb.append("Presupuesto: ").append(LeagueData.formatMoney(equipo.getBudget())).append("\n\n");
         sb.append("Usa el menú para ver clasificación, mercado, plantilla/tácticas y calendario.");
         area.setText(sb.toString());
     }
 
-    private int calcularMediaOnce(List<Jugador> once) {
-        if (once == null || once.isEmpty()) return 0;
-        int sum = 0;
-        for (Jugador j : once) sum += LeagueData.toMedia(j.getValoracion());
-        return Math.round((float) sum / once.size());
+    public static int calcularMediaOnce(Equipo e) {
+        List<Jugador> once = e.getOnceTitularReal();
+        if (once.isEmpty()) return 0;
+
+        double sum = 0;
+        for (Jugador j : once) sum += j.getValoracion();
+
+        return (int) Math.round(sum / once.size());
     }
+    
+    public static int calcularMediaEquipo(Equipo e) {
+        if (e.getPlantilla().isEmpty()) return 0;
+        
+        double sum = 0;
+        for (Jugador j : e.getPlantilla()) {
+            sum += j.getValoracion();   // AHORA directa, porque ya es 60-90
+        }
+
+        return (int) Math.round(sum / e.getPlantilla().size());
+    }
+
 }
 

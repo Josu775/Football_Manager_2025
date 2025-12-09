@@ -6,115 +6,106 @@ import java.util.Random;
 import db.ClasificacionDAO;
 import db.DataManager;
 
-//Simula el partido/temporada
 public class MatchSimulator {
 
     private static final Random RNG = new Random();
 
-    //Simula una temporada entera (ida y vuelta)
-    //Lo actualiza en la clasificacion
+    private static final double HOME_ADV = 3.5; // ventaja casa
+
+    // ============================
+    //  SIMULAR TEMPORADA ENTERA
+    // ============================
     public static void simularTemporada(List<Equipo> equipos) {
         if (equipos == null || equipos.size() < 2) return;
 
-        //  1) Reiniciar estadísticas
         for (Equipo e : equipos) {
-            if (e.getStats() != null) {
-                e.getStats().reset();
-            }
+            if (e.getStats() != null) e.getStats().reset();
         }
 
         int n = equipos.size();
 
-        //  2) Ida y vuelta: cada pareja de equipos juega dos veces
         for (int vuelta = 0; vuelta < 2; vuelta++) {
             for (int i = 0; i < n; i++) {
                 for (int j = i + 1; j < n; j++) {
-                    Equipo local      = (vuelta == 0 ? equipos.get(i) : equipos.get(j));
-                    Equipo visitante  = (vuelta == 0 ? equipos.get(j) : equipos.get(i));
+
+                    Equipo local     = (vuelta == 0 ? equipos.get(i) : equipos.get(j));
+                    Equipo visitante = (vuelta == 0 ? equipos.get(j) : equipos.get(i));
+
                     simularPartido(local, visitante);
 
-                    // Pequeña pausa para que el hilo tarde un poco
-                    try {
-                        Thread.sleep(5); // 5 ms
-                    } catch (InterruptedException ignored) {
-                        return;
-                    }
+                    try { Thread.sleep(5); } catch (InterruptedException ignored) {}
                 }
             }
         }
+
         ClasificacionDAO cdao = new ClasificacionDAO(DataManager.getGestor());
-        for (Equipo e : equipos) {
-            cdao.guardarStats(e);
-        }
+        for (Equipo e : equipos) cdao.guardarStats(e);
     }
 
+    // ============================
+    //  SIMULAR PARTIDO NORMAL
+    // ============================
     private static void simularPartido(Equipo local, Equipo visitante) {
-        double rLocal = local.getValoracion();    // 1.0 - 5.0
-        double rVisit = visitante.getValoracion();
-        double total  = rLocal + rVisit;
+        
+        double rLocal = local.calcularValoracionReal() + getClubBonus(local.getNombre()+ HOME_ADV);
+        double rVisit = visitante.calcularValoracionReal() + getClubBonus(visitante.getNombre());
 
-        double probLocal = (total <= 0.0) ? 0.5 : (rLocal / total);
 
-        int golesLocal  = RNG.nextInt(4);
-        int golesVisit  = RNG.nextInt(4);
+        double diff = (rLocal - rVisit) / 10.0;
 
-        if (golesLocal == golesVisit) {
-            double r = RNG.nextDouble();
-            if (r < probLocal - 0.1) {
-                golesLocal++;
-            } else if (r > probLocal + 0.1) {
-                golesVisit++;
-            }
-        }
+        // Expected goals
+        double expLocal = 1.2 + 1.0 / (1.0 + Math.exp(-diff));
+        double expVisit = 1.2 + 1.0 / (1.0 + Math.exp(diff));
 
-        // Actualizar estadísticas de equipos
+        int golesLocal = generarPoisson(expLocal);
+        int golesVisit = generarPoisson(expVisit);
+
         local.getStats().addPartido(golesLocal, golesVisit);
         visitante.getStats().addPartido(golesVisit, golesLocal);
+
         ClasificacionDAO cdao = new ClasificacionDAO(DataManager.getGestor());
         cdao.guardarStats(local);
         cdao.guardarStats(visitante);
     }
 
-    
-    public static void simularPartidoDirecto(Equipo equipo, Equipo rival, boolean local) {
+    // ============================
+    //  SIMULAR PARTIDO DIRECTO
+    // ============================
+    public static void simularPartidoDirecto(Equipo e1, Equipo e2, boolean local) {
 
-        double r1 = equipo.getValoracion();
-        double r2 = rival.getValoracion();
-        double total = r1 + r2;
-        if (total <= 0) total = 1.0;
+        double r1 = e1.calcularValoracionReal();
+        double r2 = e2.calcularValoracionReal();
 
-        double probEquipo = r1 / total;
+        if (local) r1 += HOME_ADV;
+        else       r2 += HOME_ADV;
 
-        int goles1 = RNG.nextInt(4);
-        int goles2 = RNG.nextInt(4);
+        double diff = (r1 - r2) / 10.0;
 
-        if (goles1 == goles2) {
-            double r = RNG.nextDouble();
-            if (r < probEquipo - 0.1) {
-                goles1++;
-            } else if (r > probEquipo + 0.1) {
-                goles2++;
-            }
-        }
+        double exp1 = 1.2 + 1.0 / (1.0 + Math.exp(-diff));
+        double exp2 = 1.2 + 1.0 / (1.0 + Math.exp(diff));
+
+        int goles1 = generarPoisson(exp1);
+        int goles2 = generarPoisson(exp2);
 
         if (local) {
-            equipo.getStats().addPartido(goles1, goles2);
-            rival.getStats().addPartido(goles2, goles1);
+            e1.getStats().addPartido(goles1, goles2);
+            e2.getStats().addPartido(goles2, goles1);
         } else {
-            equipo.getStats().addPartido(goles2, goles1);
-            rival.getStats().addPartido(goles1, goles2);
+            e1.getStats().addPartido(goles2, goles1);
+            e2.getStats().addPartido(goles1, goles2);
         }
 
-        // === GUARDAR CLASIFICACIÓN EN BD ===
-        DataManager.getClasificacionDAO().guardarStats(equipo);
-        DataManager.getClasificacionDAO().guardarStats(rival);
+        DataManager.getClasificacionDAO().guardarStats(e1);
+        DataManager.getClasificacionDAO().guardarStats(e2);
     }
-    
+
+    // ============================
+    //  SIMULAR JORNADA COMPLETA
+    // ============================
     public static void simularJornadaCompleta(List<LeagueCalendar.Match> jornada, List<Equipo> liga) {
 
         for (LeagueCalendar.Match m : jornada) {
 
-            // Buscar objetos Equipo
             Equipo local = null;
             Equipo visitante = null;
 
@@ -125,10 +116,46 @@ public class MatchSimulator {
 
             if (local == null || visitante == null) continue;
 
-            // Simular el partido (usa tu lógica global)
             simularPartido(local, visitante);
         }
     }
 
+    // ============================
+    //  POISSON DISTRIBUTION
+    // ============================
+    private static int generarPoisson(double lambda) {
+        double L = Math.exp(-lambda);
+        double p = 1.0;
+        int k = 0;
+
+        do {
+            k++;
+            p *= RNG.nextDouble();
+        } while (p > L);
+
+        return k - 1;
+    }
+    
+    private static double getClubBonus(String equipo) {
+
+        return switch (equipo) {
+
+            case "Real Madrid" -> 6.0;
+            case "FC Barcelona" -> 6.0;
+            case "Athletic Club" -> 3.0;
+            
+            case "Atlético de Madrid" -> 4.0;
+            case "Valencia CF" -> 2.5;
+            case "Sevilla FC" -> 2.0;
+
+            case "RCD Espanyol" -> 1.5;
+            case "Real Sociedad" -> 1.5;
+
+            case "Real Betis" -> 1.0;
+            case "Real Club Celta de Vigo" -> 1.0;
+
+            default -> 0.0;
+        };
+    }
 
 }

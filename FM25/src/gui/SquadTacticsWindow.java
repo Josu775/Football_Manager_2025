@@ -39,9 +39,9 @@ public class SquadTacticsWindow extends JFrame {
             @Override public boolean isCellEditable(int r, int c) { return false; }
         };
         JTable table = new JTable(model);
-        for (int i = 0; i < equipo.getOnceTitular().size(); i++) {
-            Jugador j = equipo.getOnceTitular().get(i);
-            int media = domain.LeagueData.toMedia(j.getValoracion());
+        for (int i = 0; i < equipo.getPlantilla().size(); i++) {
+            Jugador j = equipo.getPlantilla().get(i);
+            int media = (int) j.getValoracion();
 
             model.addRow(new Object[]{
                     i + 1,

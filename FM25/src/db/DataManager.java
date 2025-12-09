@@ -42,7 +42,7 @@ public class DataManager {
         for (Equipo e : liga) {
             equipoDAO.insertarEquipo(e);
 
-            for (Jugador j : e.getOnceTitular()) {
+            for (Jugador j : e.getPlantilla()) {
                 jugadorDAO.insertarJugador(j);
             }
         }
@@ -58,7 +58,7 @@ public class DataManager {
         List<Equipo> liga = equipoDAO.obtenerTodos();
         for (Equipo e : liga) {
             List<Jugador> jugadores = jugadorDAO.obtenerJugadores(e.getNombre());
-            e.setOnceTitular(jugadores);
+            e.getPlantilla().addAll(jugadores);
         }
         
      // Cargar clasificación desde BD
