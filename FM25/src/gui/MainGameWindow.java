@@ -37,17 +37,6 @@ public class MainGameWindow extends JFrame {
         this.session = session;
         this.equipo = session.getJugadorEquipo();
         
-        // --------------- DEBUG MEDIAS -----------------
-        System.out.println("=== DEBUG: " + equipo.getNombre() + " ===");
-        System.out.println("Media real del equipo: " + equipo.calcularValoracionReal());
-
-        for (Jugador j : equipo.getPlantilla()) {
-            System.out.println("   " + j.getNombre() + " → " + j.getValoracion());
-        }
-        System.out.println("========================================");
-        // ----------------------------------------------
-
-        
         setSize(1100, 700);
         setLocationRelativeTo(parent);
         setDefaultCloseOperation(EXIT_ON_CLOSE);

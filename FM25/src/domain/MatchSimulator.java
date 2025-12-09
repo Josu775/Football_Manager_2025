@@ -47,7 +47,7 @@ public class MatchSimulator {
     // ============================
     private static void simularPartido(Equipo local, Equipo visitante) {
         
-        double rLocal = local.calcularValoracionReal() + getClubBonus(local.getNombre()+ HOME_ADV);
+        double rLocal = local.calcularValoracionReal() + getClubBonus(local.getNombre()+ HOME_ADV + getLocaliaBonus(local.getNombre()));
         double rVisit = visitante.calcularValoracionReal() + getClubBonus(visitante.getNombre());
 
 
@@ -157,5 +157,19 @@ public class MatchSimulator {
             default -> 0.0;
         };
     }
+    
+    private static double getLocaliaBonus(String equipo) {
+        return switch(equipo) {
+
+            case "Real Madrid", "FC Barcelona" -> 2.5;
+            case "Atlético de Madrid" -> 2.0;
+            case "Athletic Club", "Sevilla FC", "Valencia CF" -> 1.5;
+            case "Real Sociedad", "Real Betis" -> 1.0;
+            case "RCD Espanyol", "Real Club Celta de Vigo" -> 0.5;
+
+            default -> 0.25; // Bonus normal para equipos pequeños
+        };
+    }
+
 
 }
