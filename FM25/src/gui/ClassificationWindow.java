@@ -93,6 +93,8 @@ public class ClassificationWindow extends JFrame {
         table.setSelectionBackground(new Color(100, 120, 210));
         table.setSelectionForeground(Color.WHITE);
         table.setFillsViewportHeight(true);
+        table.setAutoCreateRowSorter(true);
+
 
         JTableHeader header = table.getTableHeader();
         header.setBackground(new Color(70, 30, 120));
