@@ -16,7 +16,7 @@ public class TeamSelectionWindow extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-    // Manager
+    // 
     private final String managerName;
     private final String managerAvatar;
 
