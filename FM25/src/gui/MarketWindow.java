@@ -43,9 +43,7 @@ public class MarketWindow extends JFrame {
         lblBudget.setBorder(BorderFactory.createEmptyBorder(4, 6, 4, 6));
         add(lblBudget, BorderLayout.NORTH);
 
-        // ================================
-        // 1) CARGAR MERCADO DESDE BD
-        // ================================
+        // CARGAR MERCADO DESDE BD
         List<Object[]> desdeBD = DataManager.getMercadoDAO().cargarMercado();
 
         if (desdeBD.isEmpty()) {
@@ -59,7 +57,6 @@ public class MarketWindow extends JFrame {
                 );
             }
         } else {
-            // BD tiene jugadores -> reconstruimos offers desde BD
             for (Object[] o : desdeBD) {
                 Jugador j = new Jugador(
                         (String) o[1],   // nombre
@@ -72,9 +69,7 @@ public class MarketWindow extends JFrame {
             }
         }
 
-        // ================================
         // 2) MOSTRAR OFERTAS EN LA TABLA
-        // ================================
         for (Offer of : offers) {
             model.addRow(new Object[]{
                     of.jugador.getNombre(),
