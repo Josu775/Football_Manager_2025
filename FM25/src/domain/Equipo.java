@@ -14,7 +14,10 @@ public class Equipo implements Serializable {
     private String formacion;
     private double valoracion;
     private double budget;
-
+    private double forma = 0.0;
+    private double fatiga = 0.0;
+    private double ratingElo = 1200;
+    
     private List<Jugador> plantilla = new ArrayList<>();
 
     private TeamStats stats = new TeamStats();
@@ -28,7 +31,55 @@ public class Equipo implements Serializable {
         this.budget = budget;
     }
 
-    public String getNombre() { return nombre; }
+    public double getForma() {
+		return forma;
+	}
+
+	public void setForma(double forma) {
+		this.forma = forma;
+	}
+
+	public double getFatiga() {
+		return fatiga;
+	}
+
+	public void setFatiga(double fatiga) {
+		this.fatiga = fatiga;
+	}
+
+	public double getRatingElo() {
+		return ratingElo;
+	}
+
+	public void setRatingElo(double ratingElo) {
+		this.ratingElo = ratingElo;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setCiudad(String ciudad) {
+		this.ciudad = ciudad;
+	}
+
+	public void setEstadio(String estadio) {
+		this.estadio = estadio;
+	}
+
+	public void setPlantilla(List<Jugador> plantilla) {
+		this.plantilla = plantilla;
+	}
+
+	public void setStats(TeamStats stats) {
+		this.stats = stats;
+	}
+
+	public String getNombre() { return nombre; }
     public String getCiudad() { return ciudad; }
     public String getEstadio() { return estadio; }
 
