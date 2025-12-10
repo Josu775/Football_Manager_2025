@@ -74,10 +74,15 @@ public class LeagueData {
                 double valoracion = 0;
                 double budget = generarPresupuesto(canonical);
 
-                mapa.put(canonical, new Equipo(
-                    canonical, ciudad, estadio,
-                    "4-3-3", valoracion, budget
-                ));
+                Equipo eq = new Equipo(
+                	    canonical, ciudad, estadio,
+                	    "4-3-3", valoracion, budget
+                	);
+
+                	// asignamos bonus según histórico
+                	eq.setReputacionBonus(reputacion(canonical));
+
+                	mapa.put(canonical, eq);
 
             }
 
@@ -153,5 +158,18 @@ public class LeagueData {
             return String.format("%.1fM€", amount / 1_000_000).replace('.', ',');
         return ((int) amount) + "€";
     }
+    
+    private static int reputacion(String equipo) {
+        return switch (equipo) {
+            case "Real Madrid" -> 10;
+            case "FC Barcelona" -> 9;
+            case "Atlético de Madrid" -> 8;
+            case "Athletic Club" -> 7;
+            case "Sevilla FC", "Valencia CF" -> 6;
+            case "Real Sociedad", "Villarreal CF", "Real Betis" -> 5;
+            default -> 2; // por defecto para equipos pequeños
+        };
+    }
+
 
 }

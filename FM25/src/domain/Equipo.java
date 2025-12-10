@@ -17,6 +17,7 @@ public class Equipo implements Serializable {
     private double forma = 0.0;
     private double fatiga = 0.0;
     private double ratingElo = 1200;
+    private int reputacionBonus;
     
     private List<Jugador> plantilla = new ArrayList<>();
 
@@ -37,6 +38,14 @@ public class Equipo implements Serializable {
 
 	public void setForma(double forma) {
 		this.forma = forma;
+	}
+
+	public int getReputacionBonus() {
+		return reputacionBonus;
+	}
+
+	public void setReputacionBonus(int reputacionBonus) {
+		this.reputacionBonus = reputacionBonus;
 	}
 
 	public double getFatiga() {

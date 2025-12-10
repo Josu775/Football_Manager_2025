@@ -170,7 +170,7 @@ public class MainGameWindow extends JFrame {
             new WelcomeWindow().setVisible(true);
         });
 
-        // === SIMULAR TEMPORADA COMPLETA ===
+        //SIMULAR TEMPORADA COMPLETA
         btnSimularTemporada.addActionListener(e -> {
             btnSimularTemporada.setEnabled(false);
 
@@ -189,7 +189,7 @@ public class MainGameWindow extends JFrame {
             t.start();
         });
 
-        // === SIMULAR SIGUIENTE PARTIDO ===
+        // SIMULAR SIGUIENTE PARTIDO
         btnSimularPartido.addActionListener(e -> {
 
             List<List<LeagueCalendar.Match>> calendario = session.getCalendario();
@@ -234,7 +234,7 @@ public class MainGameWindow extends JFrame {
 
             Thread t = new Thread(() -> {
 
-                // 1️º Simular toda la jornada
+                // Simular toda la jornada
                 MatchSimulator.simularJornadaCompleta(jornadaPartidos, session.getLiga());
 
                 SwingUtilities.invokeLater(() -> {
@@ -295,7 +295,7 @@ public class MainGameWindow extends JFrame {
         
         double sum = 0;
         for (Jugador j : e.getPlantilla()) {
-            sum += j.getValoracion();   // AHORA directa, porque ya es 60-90
+            sum += j.getValoracion();
         }
 
         return (int) Math.round(sum / e.getPlantilla().size());

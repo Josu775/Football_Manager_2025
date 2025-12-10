@@ -43,8 +43,8 @@ public class MatchSimulator {
     //  SIMULAR PARTIDO NORMAL
     private static void simularPartido(Equipo local, Equipo visitante) {
 
-        double rLocal = local.calcularValoracionReal() + 3.0; // ventaja casa
-        double rVisit = visitante.calcularValoracionReal();
+        double rLocal = local.calcularValoracionReal() + 3.0 + local.getReputacionBonus();; // ventaja casa
+        double rVisit = visitante.calcularValoracionReal() + visitante.getReputacionBonus();;
 
         double probLocal = 1.0 / (1.0 + Math.pow(10, (rVisit - rLocal) / 10.0));
 
@@ -84,8 +84,8 @@ public class MatchSimulator {
     //  SIMULAR PARTIDO DIRECTO
     public static void simularPartidoDirecto(Equipo e1, Equipo e2, boolean local) {
 
-        double r1 = e1.calcularValoracionReal();
-        double r2 = e2.calcularValoracionReal();
+        double r1 = e1.calcularValoracionReal() + e1.getReputacionBonus();;
+        double r2 = e2.calcularValoracionReal() + e2.getReputacionBonus();;
 
         if (local) r1 += HOME_ADV;
         else       r2 += HOME_ADV;
