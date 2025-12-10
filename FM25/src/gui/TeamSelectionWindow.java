@@ -58,7 +58,7 @@ public class TeamSelectionWindow extends JFrame {
         ESCUDOS.put("Levante UD", "levante.png");
     }
 
-    // == TEXTOS ANTIGUOS RESTAURADOS ==
+    // ==  ==
 
     private static final Map<String, String> HISTORIA = new HashMap<>();
     static {
