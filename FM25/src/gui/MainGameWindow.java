@@ -170,7 +170,7 @@ public class MainGameWindow extends JFrame {
             new WelcomeWindow().setVisible(true);
         });
 
-        // === SIMULAR TEMPORADA ENTERA ===
+        // === SIMULAR TEMPORADA COMPLETA ===
         btnSimularTemporada.addActionListener(e -> {
             btnSimularTemporada.setEnabled(false);
 
