@@ -107,16 +107,21 @@ public class Equipo implements Serializable {
 
     // Valoración real según los 11 mejores
     public double calcularValoracionReal() {
-        List<Jugador> once = getOnceTitularReal();
+        double base = 0;
 
-        double sum = 0;
-        for (Jugador j : once)
-            sum += j.getValoracion();
+        for (Jugador j : plantilla) base += j.getValoracion();
+        base /= plantilla.size(); // media pura de plantilla
 
-        return sum / once.size();
+        base += forma;
+
+        base -= (fatiga * 0.6);
+
+        base = base * 0.9 + (ratingElo - 1200) / 50.0 * 0.1;
+
+        return base;
     }
 
-    // — Elegir los 11 jugadores mejores
+    // Elegir los 11 jugadores mejores
     public List<Jugador> getOnceTitularReal() {
 
         if (plantilla.size() <= 11)
