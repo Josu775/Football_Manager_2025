@@ -38,7 +38,7 @@ public class AppearanceWindow extends JFrame {
         title.setForeground(Color.WHITE);
         panel.add(title, BorderLayout.NORTH);
 
-        // 🔥 FlowLayout evita que las imágenes se estiren
+        // FlowLayout evita que las imágenes se estiren
         JPanel avatarPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 25, 10));
         avatarPanel.setBackground(new Color(5,10,30));
         panel.add(avatarPanel, BorderLayout.CENTER);
@@ -57,7 +57,7 @@ public class AppearanceWindow extends JFrame {
             JLabel lbl = new JLabel(new ImageIcon(scaled));
             lbl.setHorizontalAlignment(SwingConstants.CENTER);
 
-            // 🔥 Borde pegado
+            //  Borde pegado
             lbl.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 
             lbl.setPreferredSize(new Dimension(130,130));
@@ -77,7 +77,7 @@ public class AppearanceWindow extends JFrame {
             avatarPanel.add(lbl);
         }
 
-        // ⭐ BOTÓN NORMAL DE TODA LA VIDA (sin colores raros)
+        //  BOTÓN NORMAL
         JButton btn = new JButton("Confirmar");
         btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
 

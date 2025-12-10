@@ -98,7 +98,7 @@ public class WelcomeWindow extends JFrame {
                 if (confirm != JOptionPane.YES_OPTION) return;
             }
 
-            // <= AQUÍ SIEMPRE SE REINICIA LA CLASIFICACIÓN
+            //  AQUÍ SIEMPRE SE REINICIA LA CLASIFICACIÓN
             DataManager.getGestor().limpiarClasificacion();
             SaveManager.borrarPartida();
 

@@ -105,7 +105,7 @@ public class MonthlyCalendarWindow extends JFrame {
     private void generarVista() {
         gridPanel.removeAll();
 
-        // Título del mes en bonito
+        // Título del mes 
         String nombreMes = fechaActual.getMonth()
                 .getDisplayName(TextStyle.FULL, new Locale("es", "ES"))
                 .toUpperCase();
@@ -190,7 +190,7 @@ public class MonthlyCalendarWindow extends JFrame {
                 panel.add(Box.createVerticalStrut(4));
                 panel.add(partidoPanel);
 
-                // Solo habrá 1 partido de tu equipo por día → podemos salir
+                // Solo habrá 1 partido de tu equipo por día -> podemos salir
                 return;
             }
         }

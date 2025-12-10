@@ -234,7 +234,7 @@ public class MainGameWindow extends JFrame {
 
             Thread t = new Thread(() -> {
 
-                // 1️⃣ Simular toda la jornada
+                // 1️º Simular toda la jornada
                 MatchSimulator.simularJornadaCompleta(jornadaPartidos, session.getLiga());
 
                 SwingUtilities.invokeLater(() -> {

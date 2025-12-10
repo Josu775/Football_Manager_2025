@@ -63,4 +63,29 @@ public class FullSquadWindow extends JFrame {
 
         add(south, BorderLayout.SOUTH);
     }
-}
+}     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
