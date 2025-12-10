@@ -27,10 +27,6 @@ public class MarketWindow extends JFrame {
         setVisible(true);
     }
     
-    private int convertirValoracion(double val) {
-        return (int) Math.round(12.5 * val + 37.5);
-    }
-
     private void init(Equipo targetTeam) {
         String[] cols = {"Nombre", "Club origen", "Posición", "Edad", "Media", "Precio", "Acción"};
 
@@ -85,7 +81,7 @@ public class MarketWindow extends JFrame {
                     of.clubOrigen,
                     of.jugador.getPosicion(),
                     of.jugador.getEdad(),
-                    convertirValoracion(of.jugador.getValoracion()),   // MEDIA 50-100
+                    (int) Math.round(of.jugador.getValoracion()),
                     formatMoney(of.precio),
                     "Fichar"
             });
@@ -145,8 +141,7 @@ public class MarketWindow extends JFrame {
                     : foreignClubs[RNG.nextInt(foreignClubs.length)];
             String position = pos[RNG.nextInt(pos.length)];
             int age = 18 + RNG.nextInt(16);
-            double val = Math.max(1.5, Math.min(5.0, teamRating + (RNG.nextDouble() * 1.4 - 0.7)));
-            val = Math.round(val * 10.0) / 10.0;
+            double val = 60 + RNG.nextInt(31);  // genera entre 60 y 90
             double base = val * 2_000_000;
             double factor = (age < 22 ? 1.6 : 1.0) * (position.equals("POR") ? 0.9 : 1.0);
             double precio = Math.round((base * factor + RNG.nextInt(15_000_000)) / 1000.0) * 1000.0;
