@@ -54,7 +54,7 @@ public class Equipo implements Serializable {
         return nombre;
     }
 
-    // NUEVO — Valoración real según los 11 mejores
+    // Valoración real según los 11 mejores
     public double calcularValoracionReal() {
         List<Jugador> once = getOnceTitularReal();
 

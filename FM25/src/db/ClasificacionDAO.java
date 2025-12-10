@@ -72,7 +72,7 @@ public class ClasificacionDAO {
                 s.setDerrotas(rs.getInt("derrotas"));
                 s.setGf(rs.getInt("gf"));
                 s.setGc(rs.getInt("gc"));
-                // dg se calcula solo → no se carga
+                // dg se calcula solo -> no se carga
             }
 
         } catch (SQLException ex) {
