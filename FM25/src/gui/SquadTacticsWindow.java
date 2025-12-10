@@ -64,7 +64,7 @@ public class SquadTacticsWindow extends JFrame {
             String sel = (String) cb.getSelectedItem();
             equipo.setFormacion(sel);
 
-            // Actualizar en BD
+            //Actualizar base de datos
             try {
                 DataManager.getEquipoDAO().actualizarFormacion(equipo.getNombre(), sel);
             } catch (Exception ex) {
