@@ -39,6 +39,7 @@ public class MarketWindow extends JFrame {
         };
 
         JTable table = new JTable(model);
+        table.setAutoCreateRowSorter(true);
         table.setRowHeight(28);
         add(new JScrollPane(table), BorderLayout.CENTER);
 
