@@ -58,8 +58,6 @@ public class TeamSelectionWindow extends JFrame {
         ESCUDOS.put("Levante UD", "levante.png");
     }
 
-    // == TEXTOS ANTIGUOS RESTAURADOS ==
-
     private static final Map<String, String> HISTORIA = new HashMap<>();
     static {
         HISTORIA.put("Real Madrid", "Historia que tú hiciste, historia por hacer.");
@@ -156,7 +154,6 @@ public class TeamSelectionWindow extends JFrame {
         fondo.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
         add(fondo);
 
-        // ⚽️ Liga creada UNA vez para esta ventana
         liga = LeagueData.getLaLiga20();
 
         DefaultListModel<Equipo> model = new DefaultListModel<>();
@@ -174,7 +171,7 @@ public class TeamSelectionWindow extends JFrame {
 
         fondo.add(new JScrollPane(list), BorderLayout.WEST);
 
-        // === PANEL DERECHO ===
+        // PANEL DERECHO
         JPanel right = new JPanel(null);
         right.setBackground(new Color(8,16,45));
         fondo.add(right, BorderLayout.CENTER);
@@ -206,9 +203,7 @@ public class TeamSelectionWindow extends JFrame {
         });
         right.add(btnVerPlantilla);
 
-        // ============================
         //   PANEL INFERIOR 2 COLUMNAS
-        // ============================
         JPanel infoPanel = new JPanel(null);
         infoPanel.setBackground(new Color(8,16,45));
         infoPanel.setBounds(120, 330, 630, 230);

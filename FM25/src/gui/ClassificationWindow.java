@@ -74,7 +74,7 @@ public class ClassificationWindow extends JFrame {
         title.setBorder(BorderFactory.createEmptyBorder(10, 0, 15, 0));
         main.add(title, BorderLayout.NORTH);
 
-        String[] cols = {"Pos", "", "Equipo", "Pts", "V", "E", "D", "GF", "GC", "DG"};
+        String[] cols = {"Pos", "", "Equipo", "Pts", "V", "E", "D", "GF", "GC", "DG", "Forma"};
 
         model = new DefaultTableModel(cols, 0) {
             private static final long serialVersionUID = 1L;
@@ -135,6 +135,7 @@ public class ClassificationWindow extends JFrame {
     private void cargarDatos() {
         model.setRowCount(0);
 
+        // Ordenar clasificación
         equipos.sort((a, b) -> {
             TeamStats sa = a.getStats();
             TeamStats sb = b.getStats();
@@ -146,29 +147,36 @@ public class ClassificationWindow extends JFrame {
             if (cmp != 0) return cmp;
             cmp = Integer.compare(sb.getGf(), sa.getGf());
             if (cmp != 0) return cmp;
+
             return a.getNombre().compareToIgnoreCase(b.getNombre());
         });
 
         int pos = 1;
+
         for (Equipo e : equipos) {
             TeamStats s = e.getStats();
+
+            // Nueva columna forma
+            String forma = getForma(s);
+
             Object[] row = {
-            	    pos++,
-            	    e.getNombre(),
-            	    e.getNombre(),
-            	    s.getPuntos(),
-            	    s.getVictorias(),
-            	    s.getEmpates(),
-            	    s.getDerrotas(),
-            	    s.getGf(),
-            	    s.getGc(),
-            	    s.getDg()
-            	};
+                pos++,               // Posición
+                e.getNombre(),       // Escudo (columna 1, renderer)
+                e.getNombre(),       // Nombre equipo
+                s.getPuntos(),
+                s.getVictorias(),
+                s.getEmpates(),
+                s.getDerrotas(),
+                s.getGf(),
+                s.getGc(),
+                s.getDg(),
+                forma                // NUEVA COLUMNA
+            };
 
             model.addRow(row);
         }
     }
-    
+
     //Renderer de filas : alterna colores y resalta el equipo seleccionado por el jugador en azul clarito.
 
     
@@ -252,5 +260,15 @@ public class ClassificationWindow extends JFrame {
             return label;
         }
     }
+    
+    private String getForma(TeamStats stats) {
+        List<Character> h = stats.getHistorial();
+        if (h.isEmpty()) return "";
+
+        StringBuilder sb = new StringBuilder();
+        for (char c : h) sb.append(c).append(" ");
+        return sb.toString().trim();
+    }
+
 
 }

@@ -1,6 +1,8 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TeamStats implements Serializable {
 
@@ -12,6 +14,8 @@ public class TeamStats implements Serializable {
     private int victorias;
     private int empates;
     private int derrotas;
+    private List<Character> historial = new ArrayList<>();
+
 
 	public TeamStats() {
         this.puntos = 0;
@@ -35,13 +39,21 @@ public class TeamStats implements Serializable {
         if (gf > gc) {
             victorias++;
             puntos += 3;
+            historial.addFirst('V');
         } else if (gf == gc) {
             empates++;
             puntos += 1;
+            historial.addFirst('E');
         } else {
             derrotas++;
+            historial.addFirst('D');
         }
+
+        // Guardar solo los últimos 5 resultados
+        while (historial.size() > 5) historial.removeLast();
     }
+
+
 
     //reiniciar la temporada
     public void reset() {
@@ -51,6 +63,7 @@ public class TeamStats implements Serializable {
         victorias = 0;
         empates = 0;
         derrotas = 0;
+        historial.clear();
     }
 
     public void setPuntos(int puntos) {
@@ -88,6 +101,11 @@ public class TeamStats implements Serializable {
 	public void setDerrotas(int derrotas) {
 		this.derrotas = derrotas;
 	}
+
+	public List<Character> getHistorial() {
+	    return historial;
+	}
+
     
 
 }
