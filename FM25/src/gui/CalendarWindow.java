@@ -29,9 +29,7 @@ public class CalendarWindow extends JFrame {
     private static final Color FONDO = new Color(10, 16, 36);
     private static final Color TEXTO = Color.WHITE;
 
-    // ================================
     // ESCUDOS
-    // ================================
     private static final Map<String, String> ESCUDOS = new HashMap<>();
     static {
         ESCUDOS.put("Real Madrid", "realmadrid.png");
