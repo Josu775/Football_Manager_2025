@@ -133,4 +133,16 @@ public class Equipo implements Serializable {
                 .toList();
     }
     
+    public void addForma(double f) {
+        forma += f;
+        if (forma > 5) forma = 5;
+        if (forma < -5) forma = -5;
+    }
+
+    public void addFatiga(double f) {
+        fatiga += f;
+        if (fatiga > 10) fatiga = 10;
+        if (fatiga < 0) fatiga = 0;
+    }
+
 }

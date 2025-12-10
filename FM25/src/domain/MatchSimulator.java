@@ -12,9 +12,7 @@ public class MatchSimulator {
 
     private static final double HOME_ADV = 3.5; // ventaja casa
 
-    // ============================
     //  SIMULAR TEMPORADA ENTERA
-    // ============================
     public static void simularTemporada(List<Equipo> equipos) {
         if (equipos == null || equipos.size() < 2) return;
 
@@ -42,35 +40,48 @@ public class MatchSimulator {
         for (Equipo e : equipos) cdao.guardarStats(e);
     }
 
-    // ============================
     //  SIMULAR PARTIDO NORMAL
-    // ============================
     private static void simularPartido(Equipo local, Equipo visitante) {
-        
-        double rLocal = local.calcularValoracionReal() + getClubBonus(local.getNombre()+ HOME_ADV + getLocaliaBonus(local.getNombre()));
-        double rVisit = visitante.calcularValoracionReal() + getClubBonus(visitante.getNombre());
 
+        double rLocal = local.calcularValoracionReal() + 3.0; // ventaja casa
+        double rVisit = visitante.calcularValoracionReal();
 
-        double diff = (rLocal - rVisit) / 10.0;
+        double probLocal = 1.0 / (1.0 + Math.pow(10, (rVisit - rLocal) / 10.0));
 
-        // Expected goals
-        double expLocal = 1.2 + 1.0 / (1.0 + Math.exp(-diff));
-        double expVisit = 1.2 + 1.0 / (1.0 + Math.exp(diff));
+        double diff = Math.abs(rLocal - rVisit);
 
-        int golesLocal = generarPoisson(expLocal);
-        int golesVisit = generarPoisson(expVisit);
+        double volatilidad = Math.max(0.15, 1 - diff / 25.0);
+
+        double baseLocal = 0.9 + probLocal * 2.0;
+        double baseVisit = 0.9 + (1 - probLocal) * 2.0;
+
+        baseLocal *= volatilidad;
+        baseVisit *= volatilidad;
+
+        int golesLocal = generarPoisson(baseLocal);
+        int golesVisit = generarPoisson(baseVisit);
 
         local.getStats().addPartido(golesLocal, golesVisit);
         visitante.getStats().addPartido(golesVisit, golesLocal);
 
-        ClasificacionDAO cdao = new ClasificacionDAO(DataManager.getGestor());
-        cdao.guardarStats(local);
-        cdao.guardarStats(visitante);
+        if (golesLocal > golesVisit) {
+            local.addForma(1.0);
+            visitante.addForma(-1.0);
+        } else if (golesLocal < golesVisit) {
+            local.addForma(-1.0);
+            visitante.addForma(1.0);
+        } else {
+            local.addForma(0.3);
+            visitante.addForma(0.3);
+        }
+
+        local.addFatiga(0.5);
+        visitante.addFatiga(0.5);
+
+        actualizarElo(local, visitante, golesLocal, golesVisit);
     }
 
-    // ============================
     //  SIMULAR PARTIDO DIRECTO
-    // ============================
     public static void simularPartidoDirecto(Equipo e1, Equipo e2, boolean local) {
 
         double r1 = e1.calcularValoracionReal();
@@ -99,9 +110,7 @@ public class MatchSimulator {
         DataManager.getClasificacionDAO().guardarStats(e2);
     }
 
-    // ============================
     //  SIMULAR JORNADA COMPLETA
-    // ============================
     public static void simularJornadaCompleta(List<LeagueCalendar.Match> jornada, List<Equipo> liga) {
 
         for (LeagueCalendar.Match m : jornada) {
@@ -120,9 +129,7 @@ public class MatchSimulator {
         }
     }
 
-    // ============================
     //  POISSON DISTRIBUTION
-    // ============================
     private static int generarPoisson(double lambda) {
         double L = Math.exp(-lambda);
         double p = 1.0;
@@ -172,7 +179,25 @@ public class MatchSimulator {
     }
 
     
-    
+    private static void actualizarElo(Equipo local, Equipo visitante, int gl, int gv) {
+
+        int k = 20;
+
+        double expectedLocal =
+                1.0 / (1.0 + Math.pow(10, (visitante.getRatingElo() - local.getRatingElo()) / 400.0));
+
+        double scoreLocal;
+        if (gl > gv) scoreLocal = 1;
+        else if (gl == gv) scoreLocal = 0.5;
+        else scoreLocal = 0;
+
+        double newLocal = local.getRatingElo() + k * (scoreLocal - expectedLocal);
+        double newVisit = visitante.getRatingElo() + k * ((1 - scoreLocal) - (1 - expectedLocal));
+
+        local.setRatingElo(newLocal);
+        visitante.setRatingElo(newVisit);
+    }
+
     
     
     
