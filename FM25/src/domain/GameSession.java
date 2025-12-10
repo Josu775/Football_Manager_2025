@@ -38,13 +38,15 @@ public class GameSession implements Serializable {
 
     public GameSession(Equipo jugadorEquipoOriginal, List<Equipo> ligaOriginal) {
 
-        // 1️⃣ Copia profunda de la liga
+        // 1º Copia profunda de la liga
+    	
         this.liga = new java.util.ArrayList<>();
         for (Equipo e : ligaOriginal) {
             this.liga.add(e); // (si Equipo es mutable, pero serializable, esto vale)
         }
 
-        // 2️⃣ Copia del equipo del jugador (importante)
+        // 2️º Copia del equipo del jugador (importante)
+        
         this.jugadorEquipo = null;
         for (Equipo e : this.liga) {
             if (e.getNombre().equals(jugadorEquipoOriginal.getNombre())) {
@@ -55,13 +57,16 @@ public class GameSession implements Serializable {
 
         this.inicio = LocalDateTime.now();
 
-        // 3️⃣ Generar calendario SOLO con la copia de liga, nunca la original
+        // 3️º Generar calendario SOLO con la copia de liga, nunca la original
+        
         this.calendario = LeagueCalendar.generarCalendario(this.liga);
 
-        // 4️⃣ Jornada inicial
+        // 4️º Jornada inicial
+        
         this.jornadaActual = 1;
 
         // 5️⃣ Inicializamos fechas por defecto (vacías)
+        
         this.fechasJornadas = new HashMap<>();
     }
 

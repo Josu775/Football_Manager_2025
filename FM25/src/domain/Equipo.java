@@ -65,7 +65,7 @@ public class Equipo implements Serializable {
         return sum / once.size();
     }
 
-    // NUEVO — Elegir 11 jugadores mejores
+    // — Elegir los 11 jugadores mejores
     public List<Jugador> getOnceTitularReal() {
 
         if (plantilla.size() <= 11)
