@@ -108,7 +108,7 @@ public class TeamSelectionWindow extends JFrame {
         OBJETIVO.put("Levante UD", "Permanencia");
     }
 
-    private static final Map<String, String> REPUTACION = new HashMap<>();
+    
     static {
         REPUTACION.put("Real Madrid", "Muy Alta");
         REPUTACION.put("FC Barcelona", "Muy Alta");
