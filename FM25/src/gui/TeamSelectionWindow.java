@@ -20,7 +20,7 @@ public class TeamSelectionWindow extends JFrame {
     private final String managerName;
     private final String managerAvatar;
 
-    // Datos de la liga
+    // 
     private List<Equipo> liga;
 
     private JList<Equipo> list;
