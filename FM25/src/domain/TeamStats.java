@@ -16,7 +16,6 @@ public class TeamStats implements Serializable {
     private int derrotas;
     private List<Character> historial = new ArrayList<>();
 
-
 	public TeamStats() {
         this.puntos = 0;
         this.gf = 0;
@@ -36,22 +35,30 @@ public class TeamStats implements Serializable {
         this.gf += gf;
         this.gc += gc;
 
+        char resultado;
+
         if (gf > gc) {
             victorias++;
             puntos += 3;
-            historial.addFirst('V');
+            resultado = 'V';
         } else if (gf == gc) {
             empates++;
             puntos += 1;
-            historial.addFirst('E');
+            resultado = 'E';
         } else {
             derrotas++;
-            historial.addFirst('D');
+            resultado = 'D';
         }
 
-        // Guardar solo los últimos 5 resultados
-        while (historial.size() > 5) historial.removeLast();
+        // Añadir al inicio de la lista (equivalente a addFirst)
+        historial.add(0, resultado);
+
+        // Mantener solo 5 resultados
+        if (historial.size() > 5) {
+            historial.remove(historial.size() - 1); // equivalente a removeLast
+        }
     }
+
 
 
 
@@ -109,40 +116,3 @@ public class TeamStats implements Serializable {
     
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
