@@ -1,11 +1,7 @@
 package gui;
 
-import java.awt.GridLayout;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-
+import java.awt.*;
+import javax.swing.*;
 import domain.GameSession;
 import io.SaveManager;
 
@@ -13,12 +9,28 @@ public class NewGameSlotWindow extends JFrame {
 
     public NewGameSlotWindow(JFrame parent, String nombre, String avatar) {
 
-        super("Seleccionar slot");
-        setSize(400, 300);
+        super("Guardar nueva partida");
+        setSize(420, 360);
         setLocationRelativeTo(parent);
-        setLayout(new GridLayout(3, 1, 10, 10));
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        for (int i = 1; i <= 3; i++) {
+        // ===== Fondo =====
+        JPanel fondo = new JPanel(new BorderLayout(10,10));
+        fondo.setBackground(new Color(8,16,40));
+        fondo.setBorder(BorderFactory.createEmptyBorder(15,15,15,15));
+        add(fondo);
+
+        // ===== Título =====
+        JLabel title = new JLabel("Selecciona un Slot para Guardar", SwingConstants.CENTER);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        title.setForeground(Color.WHITE);
+        fondo.add(title, BorderLayout.NORTH);
+
+        // ===== Panel de slots =====
+        JPanel slotsPanel = new JPanel(new GridLayout(3,1,10,10));
+        slotsPanel.setBackground(new Color(8,16,40));
+
+        for (int i=1; i<=3; i++) {
 
             int slot = i;
             GameSession s = SaveManager.cargarPartida(slot);
@@ -27,27 +39,59 @@ public class NewGameSlotWindow extends JFrame {
                     ? "Slot " + slot + " — VACÍO"
                     : "Slot " + slot + " — Sobrescribir partida existente";
 
-            JButton b = new JButton(texto);
+            JButton btn = new JButton(texto);
+            btn.setFont(new Font("Segoe UI", Font.BOLD, 16));
+            btn.setBackground(new Color(30,45,90));
+            btn.setForeground(Color.WHITE);
+            btn.setFocusPainted(false);
+            btn.setBorder(BorderFactory.createLineBorder(new Color(90,110,200)));
 
-            b.addActionListener(e -> {
+            // Hover
+            btn.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override public void mouseEntered(java.awt.event.MouseEvent e) {
+                    btn.setBackground(new Color(50,70,140));
+                }
+                @Override public void mouseExited(java.awt.event.MouseEvent e) {
+                    btn.setBackground(new Color(30,45,90));
+                }
+            });
+
+            btn.addActionListener(e -> {
 
                 if (s != null) {
                     int conf = JOptionPane.showConfirmDialog(
                             this,
-                            "Este slot ya tiene una partida.\n¿Deseas sobrescribirlo?",
-                            "Confirmar",
+                            "Este slot ya contiene una partida.\n¿Deseas sobrescribirla?",
+                            "Confirmar sobrescritura",
                             JOptionPane.YES_NO_OPTION
                     );
                     if (conf != JOptionPane.YES_OPTION) return;
                 }
 
-                // Ahora vas a elegir el equipo
+                // Ir a selección de equipo
                 new TeamSelectionWindow(this, nombre, avatar, slot);
                 dispose();
             });
 
-            add(b);
+            slotsPanel.add(btn);
         }
+
+        fondo.add(slotsPanel, BorderLayout.CENTER);
+
+        // ===== Botón cerrar =====
+        JButton btnClose = new JButton("Cancelar");
+        btnClose.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnClose.setBackground(new Color(100,30,30));
+        btnClose.setForeground(Color.WHITE);
+        btnClose.setFocusPainted(false);
+
+        btnClose.addActionListener(e -> dispose());
+
+        JPanel south = new JPanel();
+        south.setBackground(new Color(8,16,40));
+        south.add(btnClose);
+
+        fondo.add(south, BorderLayout.SOUTH);
 
         setVisible(true);
     }
