@@ -14,9 +14,19 @@ public class GameSession implements Serializable {
     private Equipo jugadorEquipo;
     private LocalDateTime inicio;
     private List<Equipo> liga;
+    private int slot;
+
     
     
-    private Map<Integer, LocalDate> fechasJornadas = new HashMap<>();
+    public int getSlot() {
+		return slot;
+	}
+
+	public void setSlot(int slot) {
+		this.slot = slot;
+	}
+
+	private Map<Integer, LocalDate> fechasJornadas = new HashMap<>();
 
     public Map<Integer, LocalDate> getFechasJornadas() {
         return fechasJornadas;
@@ -71,7 +81,27 @@ public class GameSession implements Serializable {
     }
 
 
-    public Equipo getJugadorEquipo() {
+    public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public void setJugadorEquipo(Equipo jugadorEquipo) {
+		this.jugadorEquipo = jugadorEquipo;
+	}
+
+	public void setInicio(LocalDateTime inicio) {
+		this.inicio = inicio;
+	}
+
+	public void setLiga(List<Equipo> liga) {
+		this.liga = liga;
+	}
+
+	public void setJornadaActual(int jornadaActual) {
+		this.jornadaActual = jornadaActual;
+	}
+
+	public Equipo getJugadorEquipo() {
         return jugadorEquipo;
     }
 

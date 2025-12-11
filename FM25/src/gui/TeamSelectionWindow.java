@@ -3,6 +3,7 @@ package gui;
 
 import domain.Equipo;
 import domain.LeagueData;
+import io.SaveManager;
 import domain.GameSession;
 import domain.Jugador;
 
@@ -32,6 +33,8 @@ public class TeamSelectionWindow extends JFrame {
 
     private JButton btnVerPlantilla;
     private JLabel lblMensajeInicial;
+    
+    private final int slot;
 
     private static final Map<String, String> ESCUDOS = new HashMap<>();
 
@@ -135,9 +138,14 @@ public class TeamSelectionWindow extends JFrame {
             "Juego directo", "Defensa sólida", "Creatividad ofensiva"
     };
 
-    public TeamSelectionWindow(JFrame parent, String managerName, String managerAvatar) {
+    public int getSlot() {
+		return slot;
+	}
+
+	public TeamSelectionWindow(JFrame parent, String managerName, String managerAvatar, int slot) {
         this.managerName = managerName;
         this.managerAvatar = managerAvatar;
+        this.slot = slot;
 
         setTitle("Elegir equipo - " + managerName);
         setSize(1000, 600);
@@ -252,6 +260,9 @@ public class TeamSelectionWindow extends JFrame {
             GameSession session = new GameSession(sel, liga);
             session.setManagerName(managerName);
             session.setManagerAvatar(managerAvatar);
+
+            // GUARDAR en el slot elegido (vacío o sobrescrito)
+            SaveManager.guardarPartida(session, slot);
 
             new MainGameWindow(this, session);
             dispose();

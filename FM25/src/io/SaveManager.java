@@ -1,65 +1,55 @@
 package io;
 
 import domain.GameSession;
-
 import java.io.*;
 
 public class SaveManager {
 
-    private static final String SAVE_PATH = "resources/saves/savegame.dat";
+    private static final String SAVE_DIR = "resources/saves/";
+    private static final String FILE_PREFIX = "slot";
+    private static final String EXT = ".dat";
 
-    // Guarda una sesion del juego completa. 
-    public static void guardarPartida(GameSession session) {
+    // Devuelve ruta del slot
+    private static String getPath(int slot) {
+        return SAVE_DIR + FILE_PREFIX + slot + EXT;
+    }
+
+    // === GUARDAR SLOT ===
+    public static void guardarPartida(GameSession session, int slot) {
+
         try {
-            // === 1. GUARDAR CLASIFICACIÓN ACTUAL EN BD ===
-            db.ClasificacionDAO cdao = new db.ClasificacionDAO(db.DataManager.getGestor());
-            for (domain.Equipo e : session.getLiga()) {
-                cdao.guardarStats(e);
-            }
+            File folder = new File(SAVE_DIR);
+            if (!folder.exists()) folder.mkdirs();
 
-            // === 2. GUARDAR ARCHIVO SAVEGAME ===
-            File f = new File(SAVE_PATH);
-            File parent = f.getParentFile();
-            if (parent != null && !parent.exists()) {
-                parent.mkdirs();
-            }
-
+            File f = new File(getPath(slot));
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(f))) {
                 out.writeObject(session);
             }
 
-            System.out.println("[SAVE] Partida guardada correctamente.");
+            System.out.println("[SAVE] Guardado en slot " + slot);
+
         } catch (Exception e) {
-            System.err.println("[SAVE] Error al guardar la partida");
+            System.err.println("[SAVE] Error al guardar slot " + slot);
             e.printStackTrace();
         }
     }
 
-    // Carga la última partida guardada
-    public static GameSession cargarPartida() {
-        File f = new File(SAVE_PATH);
-        if (!f.exists() || f.length() == 0) {
-            System.out.println("[SAVE] No hay partida guardada.");
-            return null;
-        }
+    // === CARGAR SLOT ===
+    public static GameSession cargarPartida(int slot) {
+        File f = new File(getPath(slot));
+        if (!f.exists()) return null;
 
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(f))) {
-            GameSession session = (GameSession) in.readObject();
-            System.out.println("[SAVE] Partida cargada.");
-            return session;
+            return (GameSession) in.readObject();
         } catch (Exception e) {
-            System.err.println("[SAVE] Error al cargar la partida");
-            e.printStackTrace();
+            System.err.println("[SAVE] Error al cargar slot " + slot);
             return null;
         }
     }
-    
-    public static void borrarPartida() {
-        File f = new File(SAVE_PATH);
-        if (f.exists()) {
-            f.delete();
-            System.out.println("[SAVE] Partida eliminada.");
-        }
-    }
 
+    // === BORRAR SLOT ===
+    public static void borrarSlot(int slot) {
+        File f = new File(getPath(slot));
+        if (f.exists()) f.delete();
+    }
 }

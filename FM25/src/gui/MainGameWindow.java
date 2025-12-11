@@ -433,7 +433,7 @@ public class MainGameWindow extends JFrame {
 
         // GUARDAR
         btnGuardar.addActionListener(e -> {
-            SaveManager.guardarPartida(session);
+        	SaveManager.guardarPartida(session, session.getSlot());
             JOptionPane.showMessageDialog(this, "Partida guardada correctamente.");
         });
 
