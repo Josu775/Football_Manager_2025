@@ -20,44 +20,80 @@ public class MarketWindow extends JFrame {
 
     public MarketWindow(JFrame parent, Equipo targetTeam) {
         super("Mercado - " + targetTeam.getNombre());
-        setSize(900, 520);
+        setSize(950, 580);
         setLocationRelativeTo(parent);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         init(targetTeam);
         setVisible(true);
     }
 
     private void init(Equipo targetTeam) {
 
-        // TABLA Y MODELO
+        JPanel main = new JPanel(new BorderLayout(10, 10));
+        main.setBackground(new Color(10, 16, 36));
+        main.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        add(main);
+
+        JLabel title = new JLabel("Mercado de fichajes", SwingConstants.CENTER);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        title.setForeground(new Color(230, 240, 255));
+        title.setBorder(BorderFactory.createEmptyBorder(6, 0, 8, 0));
+        main.add(title, BorderLayout.NORTH);
+
+        JPanel topPanel = new JPanel(new BorderLayout(10, 10));
+        topPanel.setBackground(new Color(10, 16, 36));
+
+        JLabel lblBudget = new JLabel("Presupuesto: " + formatMoney(targetTeam.getBudget()));
+        lblBudget.setForeground(new Color(140, 230, 140));
+        lblBudget.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblBudget.setBorder(BorderFactory.createEmptyBorder(0, 6, 0, 0));
+
+        JTextField txtSearch = new JTextField();
+        txtSearch.setPreferredSize(new Dimension(240, 30));
+        txtSearch.setToolTipText("Buscar jugador, posición o club...");
+        txtSearch.setBackground(new Color(20, 28, 60));
+        txtSearch.setForeground(Color.WHITE);
+        txtSearch.setCaretColor(Color.WHITE);
+        txtSearch.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        txtSearch.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(90, 110, 200)),
+                BorderFactory.createEmptyBorder(6, 10, 6, 10)
+        ));
+
+        topPanel.add(lblBudget, BorderLayout.WEST);
+        topPanel.add(txtSearch, BorderLayout.EAST);
+
+        main.add(topPanel, BorderLayout.SOUTH);
+
         String[] cols = {"Nombre", "Club origen", "Posición", "Edad", "Media", "Precio", "Acción"};
 
         DefaultTableModel model = new DefaultTableModel(cols, 0) {
-            @Override public boolean isCellEditable(int r, int c) {
-                return c == 6;
-            }
+            private static final long serialVersionUID = 1L;
+            @Override public boolean isCellEditable(int r, int c) { return c == 6; }
         };
 
         JTable table = new JTable(model);
         table.setAutoCreateRowSorter(true);
-        table.setRowHeight(28);
+        table.setRowHeight(32);
+        table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        table.setForeground(Color.WHITE);
+        table.setBackground(new Color(20, 28, 60));
+        table.setSelectionBackground(new Color(100, 120, 210));
+        table.setSelectionForeground(Color.WHITE);
+        table.setFillsViewportHeight(true);
+
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(70, 30, 120));
+        header.setForeground(Color.WHITE);
+        header.setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+        table.setDefaultRenderer(Object.class, new MarketRenderer());
+
         JScrollPane scroll = new JScrollPane(table);
-        add(scroll, BorderLayout.CENTER);
+        scroll.getViewport().setBackground(new Color(20, 28, 60));
+        scroll.setBorder(BorderFactory.createLineBorder(new Color(90, 110, 200)));
+        main.add(scroll, BorderLayout.CENTER);
 
-        // PANEL SUPERIOR: PRESUPUESTO + BUSQUEDA
-        JLabel lblBudget = new JLabel("Presupuesto: " + formatMoney(targetTeam.getBudget()));
-        lblBudget.setBorder(BorderFactory.createEmptyBorder(4, 6, 4, 6));
-
-        JTextField txtSearch = new JTextField();
-        txtSearch.setPreferredSize(new Dimension(200, 28));
-        txtSearch.setToolTipText("Buscar jugador, posición o club...");
-
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.add(lblBudget, BorderLayout.WEST);
-        topPanel.add(txtSearch, BorderLayout.EAST);
-
-        add(topPanel, BorderLayout.NORTH);
-
-        // SORTER PARA ORDENAR + FILTRAR
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
         table.setRowSorter(sorter);
 
@@ -65,7 +101,6 @@ public class MarketWindow extends JFrame {
 
             private void filtrar() {
                 String texto = txtSearch.getText().trim().toLowerCase();
-
                 if (texto.isEmpty()) {
                     sorter.setRowFilter(null);
                     return;
@@ -76,9 +111,7 @@ public class MarketWindow extends JFrame {
                     public boolean include(Entry<? extends DefaultTableModel, ? extends Integer> entry) {
                         for (int i = 0; i < entry.getValueCount(); i++) {
                             Object val = entry.getValue(i);
-                            if (val != null && val.toString().toLowerCase().contains(texto)) {
-                                return true;
-                            }
+                            if (val != null && val.toString().toLowerCase().contains(texto)) return true;
                         }
                         return false;
                     }
@@ -90,11 +123,9 @@ public class MarketWindow extends JFrame {
             @Override public void changedUpdate(javax.swing.event.DocumentEvent e) { filtrar(); }
         });
 
-        // 1) CARGAR MERCADO DESDE BD
         List<Object[]> desdeBD = DataManager.getMercadoDAO().cargarMercado();
 
         if (desdeBD.isEmpty()) {
-            // BD vacía → generar mercado nuevo
             generateManyOffers(75, 120);
 
             for (Offer of : offers) {
@@ -106,44 +137,45 @@ public class MarketWindow extends JFrame {
         } else {
             for (Object[] o : desdeBD) {
                 Jugador j = new Jugador(
-                        (String) o[1],    // nombre
-                        (String) o[2],    // posicion
-                        (int) o[3],       // edad
-                        (double) o[4]     // valoracion (60–90)
+                        (String) o[1],
+                        (String) o[2],
+                        (int) o[3],
+                        (double) o[4]
                 );
-
                 offers.add(new Offer(j, (String) o[5], (double) o[6]));
             }
         }
 
-        // 2) MOSTRAR OFERTAS EN LA TABLA
         for (Offer of : offers) {
             model.addRow(new Object[]{
                     of.jugador.getNombre(),
                     of.clubOrigen,
                     of.jugador.getPosicion(),
                     of.jugador.getEdad(),
-                    (int) Math.round(of.jugador.getValoracion()),  // media correcta
+                    (int) Math.round(of.jugador.getValoracion()),
                     formatMoney(of.precio),
                     "Fichar"
             });
         }
 
-        // BOTÓN "FICHAR"
         TableColumn actionCol = table.getColumnModel().getColumn(6);
         actionCol.setCellRenderer(new ButtonRenderer());
         actionCol.setCellEditor(new ButtonEditor(table, model, offers, targetTeam, lblBudget));
+        actionCol.setMaxWidth(120);
 
-        // BOTÓN CERRAR ABAJO
-        JPanel south = new JPanel();
         JButton btnClose = new JButton("Cerrar");
-        south.add(btnClose);
-        add(south, BorderLayout.SOUTH);
-
+        btnClose.setPreferredSize(new Dimension(110, 36));
+        btnClose.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnClose.setBackground(new Color(90, 140, 230));
+        btnClose.setForeground(Color.WHITE);
         btnClose.addActionListener(e -> dispose());
+
+        JPanel south = new JPanel();
+        south.setBackground(new Color(10, 16, 36));
+        south.add(btnClose);
+        main.add(south, BorderLayout.PAGE_END);
     }
 
-    // FORMATEO DE DINERO
     private static String formatMoney(double amount) {
         if (amount >= 1_000_000_000) return String.format("%.1fB€", amount / 1_000_000_000.0).replace('.', ',');
         if (amount >= 1_000_000) return String.format("%.1fM€", amount / 1_000_000.0).replace('.', ',');
@@ -151,7 +183,6 @@ public class MarketWindow extends JFrame {
         return String.format("%.0f€", amount);
     }
 
-    // GENERAR JUGADORES ALEATORIOS REALISTAS
     private void generateManyOffers(double teamRating, int n) {
 
         String[] names = {
@@ -177,10 +208,8 @@ public class MarketWindow extends JFrame {
             String position = pos[RNG.nextInt(pos.length)];
             int age = 18 + RNG.nextInt(16);
 
-            // MEDIA REALISTA ENTRE 60 Y 90
             double val = 60 + RNG.nextInt(31);
 
-            // PRECIO
             double base = val * 2_000_000;
             double factor = (age < 22 ? 1.6 : 1.0) * (position.equals("POR") ? 0.9 : 1.0);
             double precio = Math.round((base * factor + RNG.nextInt(15_000_000)) / 1000.0) * 1000.0;
@@ -189,7 +218,6 @@ public class MarketWindow extends JFrame {
         }
     }
 
-    // CLASE OFFER
     private static class Offer {
         Jugador jugador;
         String clubOrigen;
@@ -201,18 +229,56 @@ public class MarketWindow extends JFrame {
         }
     }
 
-    // RENDER BOTÓN
+    private static class MarketRenderer extends DefaultTableCellRenderer {
+        private static final long serialVersionUID = 1L;
+
+        @Override
+        public Component getTableCellRendererComponent(
+                JTable table, Object value, boolean isSelected,
+                boolean hasFocus, int row, int column) {
+
+            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            if (isSelected) {
+                c.setBackground(new Color(110, 140, 230));
+                c.setForeground(Color.WHITE);
+            } else {
+                if (row % 2 == 0) c.setBackground(new Color(24, 32, 68));
+                else c.setBackground(new Color(30, 40, 80));
+                c.setForeground(Color.WHITE);
+            }
+
+            if (column >= 3 && column <= 5) setHorizontalAlignment(CENTER);
+            else setHorizontalAlignment(LEFT);
+
+            return c;
+        }
+    }
+
     private static class ButtonRenderer extends JButton implements TableCellRenderer {
-        public ButtonRenderer() { setOpaque(true); setBackground(new Color(230, 240, 255)); }
-        @Override public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int col) {
+        private static final long serialVersionUID = 1L;
+
+        public ButtonRenderer() {
+            setOpaque(true);
+            setBackground(new Color(90, 140, 230));
+            setForeground(Color.WHITE);
+            setFont(new Font("Segoe UI", Font.BOLD, 13));
+            setFocusPainted(false);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(
+                JTable table, Object value, boolean isSelected,
+                boolean hasFocus, int row, int col) {
+
             setText(value == null ? "" : value.toString());
-            setForeground(Color.BLACK);
             return this;
         }
     }
 
-    // EDITOR BOTÓN "FICHAR"
     private static class ButtonEditor extends AbstractCellEditor implements TableCellEditor, ActionListener {
+
+        private static final long serialVersionUID = 1L;
 
         private final JButton button = new JButton();
         private final JTable table;
@@ -231,17 +297,22 @@ public class MarketWindow extends JFrame {
             this.targetTeam = targetTeam;
             this.lblBudget = lblBudget;
 
-            button.setBackground(new Color(230, 240, 255));
+            button.setBackground(new Color(90, 140, 230));
+            button.setForeground(Color.WHITE);
+            button.setFont(new Font("Segoe UI", Font.BOLD, 13));
+            button.setFocusPainted(false);
             button.addActionListener(this);
         }
 
-        @Override public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int col) {
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int col) {
             editingRow = table.convertRowIndexToModel(row);
             button.setText(value == null ? "" : value.toString());
             return button;
         }
 
-        @Override public Object getCellEditorValue() { return button.getText(); }
+        @Override
+        public Object getCellEditorValue() { return button.getText(); }
 
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -257,12 +328,10 @@ public class MarketWindow extends JFrame {
                 return;
             }
 
-            // FICHAR
             targetTeam.setBudget(targetTeam.getBudget() - precio);
             of.jugador.setEquipo(targetTeam.getNombre());
             targetTeam.getPlantilla().add(of.jugador);
 
-            // BD
             try {
                 DataManager.getJugadorDAO().insertarJugador(of.jugador);
                 DataManager.getEquipoDAO().actualizarPresupuesto(targetTeam.getNombre(), targetTeam.getBudget());
@@ -270,7 +339,6 @@ public class MarketWindow extends JFrame {
                 ex.printStackTrace();
             }
 
-            // UI
             JOptionPane.showMessageDialog(table,
                     "Fichado: " + of.jugador.getNombre() + "\nPrecio: " + formatMoney(precio));
 
