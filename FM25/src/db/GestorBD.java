@@ -123,16 +123,6 @@ public class GestorBD {
             """);
 
 
-            System.out.println("[BD] Tablas inicializadas");
-
-        } catch (SQLException e) {
-            System.err.println("[ERROR] GestorBD.inicializarTablas");
-            System.err.println("Error al crear o verificar las tablas de la base de datos.");
-            System.err.println("Mensaje SQL: " + e.getMessage());
-        }
-        
-        
-    }
 
     // Getter de la conexión crear
     public Connection getConnection() {
