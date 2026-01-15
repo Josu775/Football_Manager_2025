@@ -56,23 +56,78 @@ public class MainGameWindow extends JFrame {
     private LeagueCalendar.Match nextMatch;
     private int nextMatchJornada;
     
-    // --- Noticias rotatorias ---
+    // Noticias rotatorias
     private Timer newsTimer;
     private final Random rng = new Random();
 
-    // Pool de noticias genéricas (sin depender del equipo)
+    // Noticias genéricas (sin depender del equipo)
     private static final String[] NEWS_POOL = {
-        "• Sondeos internos: el cuerpo técnico valora introducir rotaciones este mes.",
-        "• Mercado: varios agentes ofrecen jugadores libres con condiciones asequibles.",
-        "• Ojeadores: se han detectado oportunidades en ligas secundarias.",
-        "• Vestuario: el capitán insiste en mejorar la solidez defensiva.",
-        "• Finanzas: la directiva prioriza fichajes con salario sostenible.",
-        "• Lesiones: el staff médico recomienda dosificar cargas para evitar recaídas.",
-        "• Entrenamiento: se trabaja la salida de balón para reducir pérdidas en campo propio.",
-        "• Cantera: el club seguirá observando talentos sub-21 para el futuro.",
-        "• Rumores: se esperan movimientos de última hora cerca del cierre de mercado.",
-        "• Dirección deportiva: se estudian cesiones con opción de compra."
-    };
+
+    	    // ENTRENAMIENTOS / VESTUARIO
+    	    "• El cuerpo técnico insiste en mejorar la intensidad defensiva durante la semana.",
+    	    "• El vestuario muestra confianza en el plan de trabajo actual.",
+    	    "• El entrenador apuesta por sesiones más tácticas de cara a los próximos partidos.",
+    	    "• El equipo trabaja en corregir errores detectados en jornadas anteriores.",
+    	    "• El staff técnico valora ajustes en el sistema para ganar equilibrio.",
+    	    "• Buen ambiente en los entrenamientos previos al próximo compromiso.",
+    	    "• Se intensifican los trabajos físicos para mejorar el ritmo competitivo.",
+    	    "• El grupo mantiene una actitud positiva pese a los últimos resultados.",
+
+    	    // MERCADO / DIRECCIÓN DEPORTIVA
+    	    "• La dirección deportiva analiza el mercado en busca de refuerzos estratégicos.",
+    	    "• Varios agentes han ofrecido jugadores que encajan en el perfil del club.",
+    	    "• El club prioriza incorporaciones que no comprometan el equilibrio financiero.",
+    	    "• Se valoran posibles cesiones con opción de compra.",
+    	    "• El mercado de agentes libres sigue siendo una opción atractiva.",
+    	    "• La directiva descarta movimientos precipitados en este momento.",
+    	    "• Se estudian oportunidades de última hora antes del cierre de mercado.",
+    	    "• El club mantiene una política prudente en materia de fichajes.",
+
+    	    // JÓVENES / CANTERA
+    	    "• El cuerpo técnico sigue de cerca la evolución de varios jugadores jóvenes.",
+    	    "• La cantera continúa siendo una apuesta de futuro para el club.",
+    	    "• Algunos canteranos podrían entrar en convocatorias próximamente.",
+    	    "• Se valora dar minutos a jugadores jóvenes en partidos clave.",
+    	    "• El club refuerza su compromiso con el desarrollo de talento joven.",
+
+    	    // FORMA / RESULTADOS
+    	    "• El equipo busca mejorar su regularidad en las próximas jornadas.",
+    	    "• Los resultados recientes invitan a mantener la calma y el trabajo diario.",
+    	    "• El objetivo es consolidar una racha positiva de resultados.",
+    	    "• El cuerpo técnico confía en una reacción inmediata del equipo.",
+    	    "• El equipo sigue trabajando para corregir altibajos en su rendimiento.",
+    	    "• La plantilla es consciente de la importancia del próximo partido.",
+
+    	    // ASPECTOS TÁCTICOS
+    	    "• Se trabaja la salida de balón para reducir pérdidas innecesarias.",
+    	    "• El cuerpo técnico estudia variantes tácticas según el rival.",
+    	    "• El equipo busca ser más sólido en fases defensivas.",
+    	    "• Se insiste en mejorar la eficacia de cara a portería.",
+    	    "• El entrenador analiza cambios puntuales en el once titular.",
+    	    "• Se refuerzan conceptos tácticos clave durante la semana.",
+
+    	    // ENTORNO / CLUB
+    	    "• La afición mantiene su apoyo al equipo en este tramo de la temporada.",
+    	    "• El club destaca la importancia de mantener estabilidad institucional.",
+    	    "• La directiva muestra confianza en el proyecto deportivo.",
+    	    "• El entorno del club apuesta por un crecimiento progresivo.",
+    	    "• El objetivo es consolidar el proyecto a medio plazo.",
+
+    	    // SALUD / GESTIÓN
+    	    "• El staff médico recomienda gestionar bien las cargas de trabajo.",
+    	    "• Se vigila el estado físico de la plantilla para evitar lesiones.",
+    	    "• La rotación de jugadores podría aumentar en las próximas jornadas.",
+    	    "• El club prioriza la prevención de lesiones musculares.",
+    	    "• Se busca mantener a la plantilla fresca para el tramo decisivo.",
+
+    	    // GENÉRICAS DE CONTEXTO
+    	    "• El próximo partido se considera clave para marcar la tendencia.",
+    	    "• El cuerpo técnico insiste en centrarse partido a partido.",
+    	    "• El club evita distracciones externas y mantiene el foco competitivo.",
+    	    "• Se apuesta por la continuidad del trabajo realizado hasta ahora.",
+    	    "• El equipo confía en sus posibilidades para el siguiente encuentro."
+    	};
+
 
 
     public MainGameWindow(Window parent, GameSession session) {
