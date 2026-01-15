@@ -131,7 +131,7 @@ public class CalendarWindow extends JFrame {
         lblFecha.setAlignmentX(Component.CENTER_ALIGNMENT);
         center.add(lblFecha);
 
-        center.add(Box.createVerticalGlue()); // >>> ESTO evita que baje <<<
+        center.add(Box.createVerticalGlue()); // >> ESTO evita que baje <<
 
         // --- BOTONES ---
         JPanel bottom = new JPanel();
