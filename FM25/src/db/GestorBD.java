@@ -11,7 +11,7 @@ import java.sql.Statement;
 public class GestorBD {
 
     // Ruta a la base de datos (archivo .db dentro de resources/db)
-    private static final String URL = "jdbc:sqlite:resources/db/fm25.db";
+	private static final String URL = "jdbc:sqlite:fm25.db";
 
     private Connection conn;
 
