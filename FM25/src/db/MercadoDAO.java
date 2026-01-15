@@ -82,6 +82,18 @@ public class MercadoDAO {
         }
 
     }
+    
+    public void limpiarMercado() {
+        try (Statement st = gestor.getConnection().createStatement()) {
+            st.execute("DELETE FROM Mercado;");
+            System.out.println("[BD] Mercado reiniciado.");
+        } catch (SQLException e) {
+            System.err.println("[ERROR] MercadoDAO.limpiarMercado");
+            System.err.println("No se pudo reiniciar la tabla de mercado.");
+            System.err.println("Mensaje SQL: " + e.getMessage());
+        }
+    }
+
 }
 
 

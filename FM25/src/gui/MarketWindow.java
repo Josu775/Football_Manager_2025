@@ -210,9 +210,30 @@ public class MarketWindow extends JFrame {
 
             double val = 60 + RNG.nextInt(31);
 
-            double base = val * 2_000_000;
-            double factor = (age < 22 ? 1.6 : 1.0) * (position.equals("POR") ? 0.9 : 1.0);
-            double precio = Math.round((base * factor + RNG.nextInt(15_000_000)) / 1000.0) * 1000.0;
+            double base;
+
+            if (val < 65)       base = 1_500_000;
+            else if (val < 70)  base = 4_000_000;
+            else if (val < 75)  base = 8_000_000;
+            else if (val < 80)  base = 15_000_000;
+            else if (val < 85)  base = 30_000_000;
+            else                base = 60_000_000;
+
+            double ageFactor;
+            if (age <= 21)      ageFactor = 1.6;
+            else if (age <= 24) ageFactor = 1.3;
+            else if (age <= 27) ageFactor = 1.1;
+            else if (age <= 30) ageFactor = 0.9;
+            else                ageFactor = 0.7;
+
+            double posFactor = position.equals("POR") ? 0.75 : 1.0;
+
+            double randomFactor = 0.85 + RNG.nextDouble() * 0.3;
+
+            double precio = base * ageFactor * posFactor * randomFactor;
+
+            precio = Math.round(precio / 100_000.0) * 100_000.0;
+
 
             offers.add(new Offer(new Jugador(name, position, age, val), origen, precio));
         }
