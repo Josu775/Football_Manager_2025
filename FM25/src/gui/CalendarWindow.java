@@ -65,9 +65,9 @@ public class CalendarWindow extends JFrame {
         return new ImageIcon(scaled);
     }
 
-    // ==============================
+    // =============================
     // CONSTRUCTOR
-    // ==============================
+    // =============================
     public CalendarWindow(JFrame parent, Equipo equipo, List<Equipo> liga, GameSession session) {
         super("Calendario - " + equipo.getNombre());
         this.equipo = equipo;
@@ -131,7 +131,7 @@ public class CalendarWindow extends JFrame {
         lblFecha.setAlignmentX(Component.CENTER_ALIGNMENT);
         center.add(lblFecha);
 
-        center.add(Box.createVerticalGlue()); // >>> ESTO evita que baje <<<
+        center.add(Box.createVerticalGlue()); // >> ESTO evita que baje <<
 
         // --- BOTONES ---
         JPanel bottom = new JPanel();
