@@ -32,7 +32,10 @@ public class EquipoDAO {
             pst.setDouble(6, e.getBudget());
             pst.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.err.println("[ERROR] EquipoDAO.insertarEquipo");
+            System.err.println("No se pudo insertar el equipo en la base de datos.");
+            System.err.println("Equipo: " + e.getNombre());
+            System.err.println("Mensaje SQL: " + ex.getMessage());
         }
     }
 
@@ -56,8 +59,12 @@ public class EquipoDAO {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.err.println("[ERROR] EquipoDAO.obtenerEquipo");
+            System.err.println("Error al obtener el equipo desde la base de datos.");
+            System.err.println("Nombre buscado: " + nombre);
+            System.err.println("Mensaje SQL: " + ex.getMessage());
         }
+
 
         return null;
     }
@@ -84,8 +91,11 @@ public class EquipoDAO {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.err.println("[ERROR] EquipoDAO.obtenerTodos");
+            System.err.println("Error al obtener la lista completa de equipos.");
+            System.err.println("Mensaje SQL: " + ex.getMessage());
         }
+
 
         return lista;
     }
@@ -99,8 +109,13 @@ public class EquipoDAO {
             pst.setString(2, nombreEquipo);
             pst.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.err.println("[ERROR] EquipoDAO.actualizarPresupuesto");
+            System.err.println("No se pudo actualizar el presupuesto del equipo.");
+            System.err.println("Equipo: " + nombreEquipo);
+            System.err.println("Nuevo presupuesto: " + nuevoBudget);
+            System.err.println("Mensaje SQL: " + ex.getMessage());
         }
+
     }
 
     // --- ACTUALIZAR FORMACION ---
@@ -112,8 +127,13 @@ public class EquipoDAO {
             pst.setString(2, nombreEquipo);
             pst.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.err.println("[ERROR] EquipoDAO.actualizarFormacion");
+            System.err.println("No se pudo actualizar la formación del equipo.");
+            System.err.println("Equipo: " + nombreEquipo);
+            System.err.println("Nueva formación: " + nuevaFormacion);
+            System.err.println("Mensaje SQL: " + ex.getMessage());
         }
+
     }
     
     

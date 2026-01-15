@@ -29,8 +29,14 @@ public class MercadoDAO {
             pst.setDouble(6, precio);
             pst.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("[ERROR] MercadoDAO.insertarJugadorMercado");
+            System.err.println("No se pudo insertar el jugador en el mercado.");
+            System.err.println("Jugador: " + j.getNombre());
+            System.err.println("Club origen: " + origen);
+            System.err.println("Precio: " + precio);
+            System.err.println("Mensaje SQL: " + e.getMessage());
         }
+
     }
 
     public List<Object[]> cargarMercado() {
@@ -54,8 +60,11 @@ public class MercadoDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("[ERROR] MercadoDAO.cargarMercado");
+            System.err.println("Error al cargar los jugadores del mercado.");
+            System.err.println("Mensaje SQL: " + e.getMessage());
         }
+
 
         return lista;
     }
@@ -66,8 +75,12 @@ public class MercadoDAO {
             pst.setInt(1, id);
             pst.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("[ERROR] MercadoDAO.borrarDeMercado");
+            System.err.println("No se pudo eliminar el jugador del mercado.");
+            System.err.println("ID mercado: " + id);
+            System.err.println("Mensaje SQL: " + e.getMessage());
         }
+
     }
 }
 

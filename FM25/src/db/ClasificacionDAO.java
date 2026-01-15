@@ -46,7 +46,11 @@ public class ClasificacionDAO {
             pst.executeUpdate();
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.err.println("[ERROR] ClasificacionDAO.guardarStats");
+            System.err.println("No se pudieron guardar las estadísticas del equipo.");
+            System.err.println("Equipo: " + e.getNombre());
+            System.err.println("Puntos: " + e.getStats().getPuntos());
+            System.err.println("Mensaje SQL: " + ex.getMessage());
         }
     }
 
@@ -76,11 +80,13 @@ public class ClasificacionDAO {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
-            System.out.println("asdasdasd");
+            System.err.println("[ERROR] ClasificacionDAO.cargarClasificacion");
+            System.err.println("Error al cargar la clasificación desde la base de datos.");
+            System.err.println("Equipos en liga: " + liga.size());
+            System.err.println("Mensaje SQL: " + ex.getMessage());
 
         }
-    }//Prueba2
+    }
 
     private Equipo buscarEquipo(List<Equipo> liga, String nombre) {
         for (Equipo e : liga)

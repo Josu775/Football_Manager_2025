@@ -23,16 +23,20 @@ public class GestorBD {
             try {
                 Class.forName("org.sqlite.JDBC");
             } catch (ClassNotFoundException e) {
-                System.err.println("[BD] Driver SQLite no encontrado en el classpath.");
-                e.printStackTrace();
+                System.err.println("[ERROR] GestorBD.connect");
+                System.err.println("Driver SQLite no encontrado en el classpath.");
+                System.err.println("Asegúrate de que sqlite-jdbc está incluido en el proyecto.");
             }
 
             conn = DriverManager.getConnection(URL);
             System.out.println("[BD] Conexión abierta");
         } catch (SQLException e) {
-            System.err.println("[BD] Error al conectar con la BD");
-            e.printStackTrace();
+            System.err.println("[ERROR] GestorBD.connect");
+            System.err.println("No se pudo establecer conexión con la base de datos.");
+            System.err.println("Ruta BD: " + URL);
+            System.err.println("Mensaje SQL: " + e.getMessage());
         }
+
     }
 
     // Cerrar la conexión
@@ -43,9 +47,11 @@ public class GestorBD {
                 System.out.println("[BD] Conexión cerrada");
             }
         } catch (SQLException e) {
-            System.err.println("[BD] Error al cerrar la BD");
-            e.printStackTrace();
+            System.err.println("[ERROR] GestorBD.close");
+            System.err.println("Error al cerrar la conexión con la base de datos.");
+            System.err.println("Mensaje SQL: " + e.getMessage());
         }
+
     }
     
     public void limpiarClasificacion() {
@@ -53,8 +59,11 @@ public class GestorBD {
             st.execute("DELETE FROM Clasificacion;");
             System.out.println("[BD] Clasificación reiniciada.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("[ERROR] GestorBD.limpiarClasificacion");
+            System.err.println("No se pudo reiniciar la tabla de clasificación.");
+            System.err.println("Mensaje SQL: " + e.getMessage());
         }
+
     }
 
 
@@ -117,8 +126,9 @@ public class GestorBD {
             System.out.println("[BD] Tablas inicializadas");
 
         } catch (SQLException e) {
-            System.err.println("[BD] Error al crear tablas");
-            e.printStackTrace();
+            System.err.println("[ERROR] GestorBD.inicializarTablas");
+            System.err.println("Error al crear o verificar las tablas de la base de datos.");
+            System.err.println("Mensaje SQL: " + e.getMessage());
         }
         
         

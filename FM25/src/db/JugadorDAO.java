@@ -31,8 +31,13 @@ public class JugadorDAO {
             pst.setString(5, j.getEquipo());
             pst.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.err.println("[ERROR] JugadorDAO.insertarJugador");
+            System.err.println("No se pudo insertar el jugador en la base de datos.");
+            System.err.println("Jugador: " + j.getNombre());
+            System.err.println("Equipo: " + j.getEquipo());
+            System.err.println("Mensaje SQL: " + ex.getMessage());
         }
+
     }
 
     // --- OBTENER JUGADORES DE UN EQUIPO ---
@@ -55,8 +60,12 @@ public class JugadorDAO {
                 lista.add(j);
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.err.println("[ERROR] JugadorDAO.obtenerJugadores");
+            System.err.println("Error al obtener jugadores del equipo.");
+            System.err.println("Equipo: " + equipo);
+            System.err.println("Mensaje SQL: " + ex.getMessage());
         }
+
 
         return lista;
     }
@@ -70,8 +79,13 @@ public class JugadorDAO {
             pst.setString(2, nombre);
             pst.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.err.println("[ERROR] JugadorDAO.actualizarEquipoJugador");
+            System.err.println("No se pudo actualizar el equipo del jugador.");
+            System.err.println("Jugador: " + nombre);
+            System.err.println("Nuevo equipo: " + nuevoEquipo);
+            System.err.println("Mensaje SQL: " + ex.getMessage());
         }
+
     }
 
     // --- BORRAR JUGADOR ---
@@ -82,7 +96,11 @@ public class JugadorDAO {
             pst.setString(1, nombre);
             pst.executeUpdate();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            System.err.println("[ERROR] JugadorDAO.borrarJugador");
+            System.err.println("No se pudo borrar el jugador de la base de datos.");
+            System.err.println("Jugador: " + nombre);
+            System.err.println("Mensaje SQL: " + ex.getMessage());
         }
+
     }
 }
