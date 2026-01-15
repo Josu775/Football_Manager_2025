@@ -68,61 +68,7 @@ public class GestorBD {
 
 
     //Crear las tablas si no existen
-    public void inicializarTablas() {
-        try (Statement st = conn.createStatement()) {
-
-            // Tabla de equipos
-            st.execute("""
-                CREATE TABLE IF NOT EXISTS Equipo (
-                    nombre TEXT PRIMARY KEY,
-                    ciudad TEXT,
-                    estadio TEXT,
-                    formacion TEXT,
-                    valoracion REAL,
-                    presupuesto REAL
-                );
-            """);
-
-            // Tabla de jugadores
-            st.execute("""
-                CREATE TABLE IF NOT EXISTS Jugador (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    nombre TEXT,
-                    posicion TEXT,
-                    edad INTEGER,
-                    valoracion REAL,
-                    equipo TEXT REFERENCES Equipo(nombre)
-                );
-            """);
-            
-         // Tabla de clasificación (TeamStats)
-            st.execute("""
-				CREATE TABLE IF NOT EXISTS Clasificacion (
-				    equipo TEXT PRIMARY KEY REFERENCES Equipo(nombre),
-				    puntos INTEGER,
-				    victorias INTEGER,
-				    empates INTEGER,
-				    derrotas INTEGER,
-				    gf INTEGER,
-				    gc INTEGER,
-				    dg INTEGER
-				);
-            """);
-            
-         // Tabla de mercado (jugadores generados)
-            st.execute("""
-                CREATE TABLE IF NOT EXISTS Mercado (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    nombre TEXT,
-                    posicion TEXT,
-                    edad INTEGER,
-                    valoracion REAL,
-                    clubOrigen TEXT,
-                    precio REAL
-                );
-            """);
-
-
+    
             System.out.println("[BD] Tablas inicializadas");
 
         } catch (SQLException e) {
