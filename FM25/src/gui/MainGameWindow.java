@@ -20,6 +20,7 @@ import java.awt.event.KeyEvent;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 public class MainGameWindow extends JFrame {
 
@@ -54,6 +55,25 @@ public class MainGameWindow extends JFrame {
     // Cache del siguiente partido
     private LeagueCalendar.Match nextMatch;
     private int nextMatchJornada;
+    
+    // --- Noticias rotatorias ---
+    private Timer newsTimer;
+    private final Random rng = new Random();
+
+    // Pool de noticias genéricas (sin depender del equipo)
+    private static final String[] NEWS_POOL = {
+        "• Sondeos internos: el cuerpo técnico valora introducir rotaciones este mes.",
+        "• Mercado: varios agentes ofrecen jugadores libres con condiciones asequibles.",
+        "• Ojeadores: se han detectado oportunidades en ligas secundarias.",
+        "• Vestuario: el capitán insiste en mejorar la solidez defensiva.",
+        "• Finanzas: la directiva prioriza fichajes con salario sostenible.",
+        "• Lesiones: el staff médico recomienda dosificar cargas para evitar recaídas.",
+        "• Entrenamiento: se trabaja la salida de balón para reducir pérdidas en campo propio.",
+        "• Cantera: el club seguirá observando talentos sub-21 para el futuro.",
+        "• Rumores: se esperan movimientos de última hora cerca del cierre de mercado.",
+        "• Dirección deportiva: se estudian cesiones con opción de compra."
+    };
+
 
     public MainGameWindow(Window parent, GameSession session) {
         super("Partida - " + session.getJugadorEquipo().getNombre());
@@ -389,7 +409,7 @@ public class MainGameWindow extends JFrame {
         updateNextMatchCard();
         updateNewsCard();
         updateInsightCard();
-
+        startNewsRotation();
         // ============================
         //  LISTENERS DE BOTONES
         // ============================
@@ -414,6 +434,7 @@ public class MainGameWindow extends JFrame {
                     updateOverviewText(txtOverview);
                     updateNewsCard();
                     updateInsightCard();
+                    startNewsRotation();
                 }
             });
         });
@@ -673,42 +694,41 @@ public class MainGameWindow extends JFrame {
 
     private void updateNewsCard() {
         StringBuilder sb = new StringBuilder();
+        
+        java.util.List<String> pool = new java.util.ArrayList<>(java.util.List.of(NEWS_POOL));
+        java.util.Collections.shuffle(pool);
 
-        List<Jugador> plantilla = equipo.getPlantilla();
+        int nGenericas = 3;
+        for (int i = 0; i < Math.min(nGenericas, pool.size()); i++) {
+            sb.append(pool.get(i)).append("\n");
+        }
 
+        java.util.List<Jugador> plantilla = equipo.getPlantilla();
         if (!plantilla.isEmpty()) {
             Jugador mejor = plantilla.stream()
-                    .max(Comparator.comparingDouble(Jugador::getValoracion))
+                    .max(java.util.Comparator.comparingDouble(Jugador::getValoracion))
                     .orElse(null);
 
             Jugador joven = plantilla.stream()
-                    .min(Comparator.comparingInt(Jugador::getEdad))
+                    .min(java.util.Comparator.comparingInt(Jugador::getEdad))
                     .orElse(null);
 
-            if (mejor != null) {
-                sb.append("• Rumores: varios clubes siguen de cerca a ")
-                        .append(mejor.getNombre())
-                        .append(" tras su rendimiento reciente.\n");
-            }
-
-            if (joven != null) {
-                sb.append("• Cantera: ")
-                        .append(joven.getNombre())
-                        .append(" podría tener más minutos esta temporada.\n");
+            if (rng.nextBoolean() && mejor != null) {
+                sb.append(String.format("• Rumores: hay interés creciente por %s tras su último rendimiento.\n",
+                        mejor.getNombre()));
+            } else if (joven != null) {
+                sb.append(String.format("• Cantera: %s podría entrar en la rotación en las próximas jornadas.\n",
+                        joven.getNombre()));
             }
         }
 
-        sb.append("• Dirección deportiva de ")
-                .append(equipo.getNombre())
-                .append(" rastrea el mercado en busca de oportunidades.\n");
-
-        sb.append("• Presupuesto disponible: ")
-                .append(LeagueData.formatMoney(equipo.getBudget()))
-                .append(" para incorporaciones.\n");
+        sb.append(String.format("• Presupuesto disponible: %s para incorporaciones.\n",
+                LeagueData.formatMoney(equipo.getBudget())));
 
         txtNews.setText(sb.toString());
         txtNews.setCaretPosition(0);
     }
+
 
     private void updateInsightCard() {
         // Forma
@@ -773,6 +793,27 @@ public class MainGameWindow extends JFrame {
             lblWinProb.setText("Probabilidad estimada: sin partido programado.");
         }
     }
+    
+    private void startNewsRotation() {
+        if (newsTimer != null) newsTimer.stop();
+
+        newsTimer = new Timer(12_000, e -> updateNewsCard());
+
+        newsTimer.setInitialDelay(0);
+        newsTimer.start();
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                if (newsTimer != null) newsTimer.stop();
+            }
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                if (newsTimer != null) newsTimer.stop();
+            }
+        });
+    }
+
 
     private String generarTextoForma(TeamStats stats) {
         int v = stats.getVictorias();
