@@ -44,9 +44,9 @@ public class AppearanceWindow extends JFrame {
         panel.add(avatarPanel, BorderLayout.CENTER);
 
         String[] avatars = {
-                "manager3.png",
-                "manager1.png",
-                "manager1.png"
+                "descarga.jpg",
+                "descarga (1).jpg",
+                "bordalas.jpg"
         };
 
         for (String av : avatars) {
