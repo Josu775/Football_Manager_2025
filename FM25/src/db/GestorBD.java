@@ -67,7 +67,19 @@ public class GestorBD {
     }
 
 
+    //Crear las tablas si no existen
+    public void inicializarTablas() {
+        try (Statement st = conn.createStatement()) {
 
+            // Tabla de equipos
+            st.execute("""
+                CREATE TABLE IF NOT EXISTS Equipo (
+                    nombre TEXT PRIMARY KEY,
+                    ciudad TEXT,
+                    estadio TEXT,
+                    formacion TEXT,
+                    valoracion REAL,
+                    presupuesto REAL
                 );
             """);
 
