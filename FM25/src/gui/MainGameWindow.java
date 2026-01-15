@@ -56,6 +56,10 @@ public class MainGameWindow extends JFrame {
     private LeagueCalendar.Match nextMatch;
     private int nextMatchJornada;
     
+    private JButton btnNextSeason;
+    private JButton btnSimularPartido;
+    private JButton btnSimularTemporada;
+    
     // Noticias rotatorias
     private Timer newsTimer;
     private final Random rng = new Random();
@@ -144,6 +148,9 @@ public class MainGameWindow extends JFrame {
     }
 
     private void initComponents() {
+    	
+    	btnNextSeason = createMenuButton("Siguiente temporada");
+    	btnNextSeason.setVisible(false);
 
         // ============================
         //  FONDO PRINCIPAL GRADIENTE
@@ -210,16 +217,15 @@ public class MainGameWindow extends JFrame {
         JButton btnPlantilla          = createMenuButton("Plantilla / Tácticas");
         JButton btnCalendario         = createMenuButton("Calendario");
         JButton btnCalendarioMensual  = createMenuButton("Calendario mensual");
-        JButton btnSimularPartido     = createMenuButton("Simular siguiente partido");
-        JButton btnSimularTemporada   = createMenuButton("Simular temporada completa");
+        btnSimularPartido   = createMenuButton("Simular siguiente partido");
+        btnSimularTemporada = createMenuButton("Simular temporada completa");
         JButton btnGuardar            = createMenuButton("Guardar partida");
         JButton btnAtras              = createMenuButton("Salir al menú principal");
 
         Dimension btnSize = new Dimension(200, 34);
         for (JButton b : new JButton[]{btnClasificacion, btnMercado, btnPlantilla,
                 btnCalendario, btnCalendarioMensual, btnSimularPartido,
-                btnSimularTemporada, btnGuardar, btnAtras}) {
-
+                btnSimularTemporada, btnGuardar, btnNextSeason, btnAtras}) {
             b.setMaximumSize(btnSize);
             b.setAlignmentX(Component.CENTER_ALIGNMENT);
             leftMenu.add(b);
@@ -528,10 +534,16 @@ public class MainGameWindow extends JFrame {
 
                 SwingUtilities.invokeLater(() -> {
                     btnSimularTemporada.setEnabled(true);
-                    session.reiniciarJornada();
+
+                    // 🔥 marcar fin de temporada
+                    session.setJornadaActual(session.getCalendario().size() + 1);
+
                     JOptionPane.showMessageDialog(this,
                             "La temporada completa ha sido simulada.\n" +
-                                    "Abre la Clasificación para ver los resultados.");
+                            "Puedes iniciar la siguiente temporada.");
+
+                    mostrarFinTemporada();
+
                     updateOverviewText(txtOverview);
                     updateNextMatchCard();
                     updateNewsCard();
@@ -541,6 +553,7 @@ public class MainGameWindow extends JFrame {
 
             t.start();
         });
+
 
         // SIMULAR SIGUIENTE PARTIDO (JORNADA)
         btnSimularPartido.addActionListener(e -> {
@@ -556,10 +569,10 @@ public class MainGameWindow extends JFrame {
             int jornada = session.getJornadaActual();
             if (jornada < 1) jornada = 1;
             if (jornada > calendario.size()) {
-                JOptionPane.showMessageDialog(this,
-                        "La temporada ya ha terminado.");
+                mostrarFinTemporada();
                 return;
             }
+
 
             List<LeagueCalendar.Match> jornadaPartidos = calendario.get(jornada - 1);
 
@@ -604,6 +617,11 @@ public class MainGameWindow extends JFrame {
             }, "SimulacionJornadaThread");
 
             t.start();
+        });
+        
+        btnNextSeason.addActionListener(e -> {
+            iniciarNuevaTemporada();
+            btnNextSeason.setVisible(false);
         });
 
         // ESC → volver
@@ -1007,4 +1025,90 @@ public class MainGameWindow extends JFrame {
             super.paintComponent(g);
         }
     }
+    private void mostrarFinTemporada() {
+        JOptionPane.showMessageDialog(this,
+                "La temporada ha finalizado.\nPuedes iniciar la siguiente temporada.");
+
+        btnNextSeason.setVisible(true);
+        btnSimularPartido.setEnabled(false);
+        btnSimularTemporada.setEnabled(false);
+        btnNextSeason.setVisible(true);
+    }
+    
+    private void iniciarNuevaTemporada() {
+
+        List<Equipo> liga = session.getLiga();
+
+        liga.sort((a, b) -> {
+            TeamStats sa = a.getStats();
+            TeamStats sb = b.getStats();
+            int cmp = Integer.compare(sb.getPuntos(), sa.getPuntos());
+            if (cmp != 0) return cmp;
+            cmp = Integer.compare(sb.getDg(), sa.getDg());
+            if (cmp != 0) return cmp;
+            cmp = Integer.compare(sb.getGf(), sa.getGf());
+            if (cmp != 0) return cmp;
+            return a.getNombre().compareToIgnoreCase(b.getNombre());
+        });
+
+        DataManager.getGestor().limpiarClasificacion();
+        DataManager.getMercadoDAO().limpiarMercado();
+
+        for (int i = 0; i < liga.size(); i++) {
+            Equipo eq = liga.get(i);
+
+            if (eq.getStats() != null) eq.getStats().reset();
+
+            eq.setForma(0);
+            eq.setFatiga(0);
+
+            double nuevoBudget = calcularPresupuestoNuevaTemporada(eq, i + 1);
+            eq.setBudget(nuevoBudget);
+            DataManager.getEquipoDAO().actualizarPresupuesto(eq.getNombre(), nuevoBudget);
+        }
+
+        session.setCalendario(LeagueCalendar.generarCalendario(liga));
+        session.reiniciarJornada();
+
+        lblBudget.setText("Presupuesto: " + LeagueData.formatMoney(equipo.getBudget()));
+        lblAvgRating.setText("Media once: " + calcularMediaOnce(equipo) + " / 99");
+        lblRating.setText("Media equipo: " + calcularMediaEquipo(equipo) + " / 100");
+
+        updateOverviewText(txtOverview);
+        updateNextMatchCard();
+        updateNewsCard();
+        updateInsightCard();
+        startNewsRotation();
+
+        JOptionPane.showMessageDialog(this, "Nueva temporada iniciada.");
+        
+        btnSimularPartido.setEnabled(true);
+        btnSimularTemporada.setEnabled(true);
+        btnNextSeason.setVisible(false);
+    }
+    
+    private double calcularPresupuestoNuevaTemporada(Equipo eq, int posicionFinal) {
+
+        double base = eq.getBudget();
+
+        double factorTabla;
+        if (posicionFinal <= 4) factorTabla = 1.18;
+        else if (posicionFinal <= 6) factorTabla = 1.12;
+        else if (posicionFinal <= 10) factorTabla = 1.06;
+        else if (posicionFinal <= 15) factorTabla = 1.02;
+        else if (posicionFinal <= 17) factorTabla = 0.97;
+        else factorTabla = 0.90;
+
+        double factorReputacion = 1.0 + (eq.getReputacionBonus() * 0.01);
+
+        double nuevo = base * factorTabla * factorReputacion;
+
+        if (nuevo < 20_000_000) nuevo = 20_000_000;
+        if (nuevo > 900_000_000) nuevo = 900_000_000;
+
+        return Math.round(nuevo / 100_000.0) * 100_000.0;
+    }
+
+
+
 }
