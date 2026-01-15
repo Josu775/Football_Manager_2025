@@ -65,9 +65,9 @@ public class CalendarWindow extends JFrame {
         return new ImageIcon(scaled);
     }
 
-    // ===============================
+    // ==============================
     // CONSTRUCTOR
-    // ===============================
+    // ==============================
     public CalendarWindow(JFrame parent, Equipo equipo, List<Equipo> liga, GameSession session) {
         super("Calendario - " + equipo.getNombre());
         this.equipo = equipo;
