@@ -39,7 +39,17 @@ public class GestorBD {
 
     }
 
-   
+    // Cerrar la conexión
+    public void close() {
+        try {
+            if (conn != null) {
+                conn.close();
+                System.out.println("[BD] Conexión cerrada");
+            }
+        } catch (SQLException e) {
+            System.err.println("[ERROR] GestorBD.close");
+            System.err.println("Error al cerrar la conexión con la base de datos.");
+            System.err.println("Mensaje SQL: " + e.getMessage());
         }
 
     }
