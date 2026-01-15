@@ -126,6 +126,9 @@ public class MatchSimulator {
             if (local == null || visitante == null) continue;
 
             simularPartido(local, visitante);
+
+            DataManager.getClasificacionDAO().guardarStats(local);
+            DataManager.getClasificacionDAO().guardarStats(visitante);
         }
     }
 

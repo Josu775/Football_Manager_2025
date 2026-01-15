@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
+import domain.LeagueCalendar.Match;
+
 public class LeagueCalendar {
 
     public record Match(String local, String visitante, LocalDate fecha, LocalTime hora)
@@ -118,5 +120,23 @@ public class LeagueCalendar {
         calendario.addAll(calendarioVuelta);
 
         return calendario;
+    }
+    
+    public static Match buscarProximoPartido(
+            List<List<Match>> calendario,
+            String equipo,
+            int jornadaIndex) {
+
+        if (calendario == null || jornadaIndex >= calendario.size()) {
+            return null;
+        }
+
+        for (Match m : calendario.get(jornadaIndex)) {
+            if (m.local().equals(equipo) || m.visitante().equals(equipo)) {
+                return m;
+            }
+        }
+
+        return buscarProximoPartido(calendario, equipo, jornadaIndex + 1);
     }
 }

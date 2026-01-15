@@ -707,21 +707,20 @@ public class MainGameWindow extends JFrame {
         int jActual = session.getJornadaActual();
         if (jActual < 1) jActual = 1;
 
-        LeagueCalendar.Match siguiente = null;
-        int jornadaIndex = -1;
+        LeagueCalendar.Match siguiente = LeagueCalendar.buscarProximoPartido(
+                calendario,
+                equipo.getNombre(),
+                jActual - 1
+        );
 
-        // Buscar el próximo partido del equipo a partir de la jornada actual
-        for (int j = jActual - 1; j < calendario.size(); j++) {
-            List<LeagueCalendar.Match> jornada = calendario.get(j);
-            for (LeagueCalendar.Match m : jornada) {
-                if (m.local().equals(equipo.getNombre()) ||
-                        m.visitante().equals(equipo.getNombre())) {
-                    siguiente = m;
+        int jornadaIndex = -1;
+        if (siguiente != null) {
+            for (int j = jActual - 1; j < calendario.size(); j++) {
+                if (calendario.get(j).contains(siguiente)) {
                     jornadaIndex = j + 1;
                     break;
                 }
             }
-            if (siguiente != null) break;
         }
 
         if (siguiente == null) {
@@ -746,6 +745,7 @@ public class MainGameWindow extends JFrame {
         String donde = local ? "Juegas como LOCAL" : "Juegas como VISITANTE";
         lblNextMatchInfo.setText("LaLiga EA Sports  •  " + donde);
     }
+
 
     private void updateNewsCard() {
         StringBuilder sb = new StringBuilder();
