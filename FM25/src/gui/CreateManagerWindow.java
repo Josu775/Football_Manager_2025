@@ -38,7 +38,7 @@ public class CreateManagerWindow extends JFrame {
         txtName.setForeground(Color.WHITE);
         txtName.setCaretColor(Color.WHITE);
 
-        // límite 12 caracteres
+        // límite de 12 caracteres
         txtName.setDocument(new javax.swing.text.PlainDocument() {
             @Override
             public void insertString(int offs, String str, javax.swing.text.AttributeSet a)
